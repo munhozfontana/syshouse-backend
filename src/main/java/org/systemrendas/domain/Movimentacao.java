@@ -48,10 +48,9 @@ public class Movimentacao {
     public Movimentacao() {
     }
 
-    public Movimentacao(UUID id, Date createdAt, Patrimonio patrimonioOut, Patrimonio patrimonioIn, BigDecimal valor,
-            LocalDate data, String obs) {
+    public Movimentacao(UUID id, Patrimonio patrimonioOut, Patrimonio patrimonioIn, BigDecimal valor, LocalDate data,
+            String obs) {
         this.id = id;
-        this.createdAt = createdAt;
         this.patrimonioOut = patrimonioOut;
         this.patrimonioIn = patrimonioIn;
         this.valor = valor;
@@ -65,14 +64,6 @@ public class Movimentacao {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Patrimonio getPatrimonioOut() {
@@ -120,11 +111,6 @@ public class Movimentacao {
         return this;
     }
 
-    public Movimentacao createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Movimentacao patrimonioOut(Patrimonio patrimonioOut) {
         this.patrimonioOut = patrimonioOut;
         return this;
@@ -158,22 +144,21 @@ public class Movimentacao {
             return false;
         }
         Movimentacao movimentacao = (Movimentacao) o;
-        return Objects.equals(id, movimentacao.id) && Objects.equals(createdAt, movimentacao.createdAt)
-                && Objects.equals(patrimonioOut, movimentacao.patrimonioOut)
+        return Objects.equals(id, movimentacao.id) && Objects.equals(patrimonioOut, movimentacao.patrimonioOut)
                 && Objects.equals(patrimonioIn, movimentacao.patrimonioIn) && Objects.equals(valor, movimentacao.valor)
                 && Objects.equals(data, movimentacao.data) && Objects.equals(obs, movimentacao.obs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, patrimonioOut, patrimonioIn, valor, data, obs);
+        return Objects.hash(id, patrimonioOut, patrimonioIn, valor, data, obs);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", patrimonioOut='"
-                + getPatrimonioOut() + "'" + ", patrimonioIn='" + getPatrimonioIn() + "'" + ", valor='" + getValor()
-                + "'" + ", data='" + getData() + "'" + ", obs='" + getObs() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", patrimonioOut='" + getPatrimonioOut() + "'" + ", patrimonioIn='"
+                + getPatrimonioIn() + "'" + ", valor='" + getValor() + "'" + ", data='" + getData() + "'" + ", obs='"
+                + getObs() + "'" + "}";
     }
 
 }

@@ -45,9 +45,8 @@ public class Pagamento {
     public Pagamento() {
     }
 
-    public Pagamento(UUID id, Date createdAt, Despesa despesa, BigDecimal valor, LocalDate dataPagamento, String obs) {
+    public Pagamento(UUID id, Despesa despesa, BigDecimal valor, LocalDate dataPagamento, String obs) {
         this.id = id;
-        this.createdAt = createdAt;
         this.despesa = despesa;
         this.valor = valor;
         this.dataPagamento = dataPagamento;
@@ -60,14 +59,6 @@ public class Pagamento {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Despesa getDespesa() {
@@ -107,11 +98,6 @@ public class Pagamento {
         return this;
     }
 
-    public Pagamento createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Pagamento despesa(Despesa despesa) {
         this.despesa = despesa;
         return this;
@@ -140,21 +126,20 @@ public class Pagamento {
             return false;
         }
         Pagamento pagamento = (Pagamento) o;
-        return Objects.equals(id, pagamento.id) && Objects.equals(createdAt, pagamento.createdAt)
-                && Objects.equals(despesa, pagamento.despesa) && Objects.equals(valor, pagamento.valor)
-                && Objects.equals(dataPagamento, pagamento.dataPagamento) && Objects.equals(obs, pagamento.obs);
+        return Objects.equals(id, pagamento.id) && Objects.equals(despesa, pagamento.despesa)
+                && Objects.equals(valor, pagamento.valor) && Objects.equals(dataPagamento, pagamento.dataPagamento)
+                && Objects.equals(obs, pagamento.obs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, despesa, valor, dataPagamento, obs);
+        return Objects.hash(id, despesa, valor, dataPagamento, obs);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", despesa='" + getDespesa()
-                + "'" + ", valor='" + getValor() + "'" + ", dataPagamento='" + getDataPagamento() + "'" + ", obs='"
-                + getObs() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", despesa='" + getDespesa() + "'" + ", valor='" + getValor() + "'"
+                + ", dataPagamento='" + getDataPagamento() + "'" + ", obs='" + getObs() + "'" + "}";
     }
 
 }

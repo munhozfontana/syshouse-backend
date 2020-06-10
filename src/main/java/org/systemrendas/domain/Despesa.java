@@ -55,10 +55,9 @@ public class Despesa {
     public Despesa() {
     }
 
-    public Despesa(UUID id, Date createdAt, TipoDespesa tipoDespesa, Patrimonio patrimonio, String descricao,
-            BigDecimal valor, LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
+    public Despesa(UUID id, TipoDespesa tipoDespesa, Patrimonio patrimonio, String descricao, BigDecimal valor,
+            LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
         this.id = id;
-        this.createdAt = createdAt;
         this.tipoDespesa = tipoDespesa;
         this.patrimonio = patrimonio;
         this.descricao = descricao;
@@ -75,14 +74,6 @@ public class Despesa {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public TipoDespesa getTipoDespesa() {
@@ -154,11 +145,6 @@ public class Despesa {
         return this;
     }
 
-    public Despesa createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Despesa tipoDespesa(TipoDespesa tipoDespesa) {
         this.tipoDespesa = tipoDespesa;
         return this;
@@ -207,25 +193,24 @@ public class Despesa {
             return false;
         }
         Despesa despesa = (Despesa) o;
-        return Objects.equals(id, despesa.id) && Objects.equals(createdAt, despesa.createdAt)
-                && Objects.equals(tipoDespesa, despesa.tipoDespesa) && Objects.equals(patrimonio, despesa.patrimonio)
-                && Objects.equals(descricao, despesa.descricao) && Objects.equals(valor, despesa.valor)
-                && Objects.equals(vencimento, despesa.vencimento) && Objects.equals(dataInicio, despesa.dataInicio)
-                && Objects.equals(dataFim, despesa.dataFim) && Objects.equals(obs, despesa.obs);
+        return Objects.equals(id, despesa.id) && Objects.equals(tipoDespesa, despesa.tipoDespesa)
+                && Objects.equals(patrimonio, despesa.patrimonio) && Objects.equals(descricao, despesa.descricao)
+                && Objects.equals(valor, despesa.valor) && Objects.equals(vencimento, despesa.vencimento)
+                && Objects.equals(dataInicio, despesa.dataInicio) && Objects.equals(dataFim, despesa.dataFim)
+                && Objects.equals(obs, despesa.obs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, tipoDespesa, patrimonio, descricao, valor, vencimento, dataInicio, dataFim,
-                obs);
+        return Objects.hash(id, tipoDespesa, patrimonio, descricao, valor, vencimento, dataInicio, dataFim, obs);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", tipoDespesa='"
-                + getTipoDespesa() + "'" + ", patrimonio='" + getPatrimonio() + "'" + ", descricao='" + getDescricao()
-                + "'" + ", valor='" + getValor() + "'" + ", vencimento='" + getVencimento() + "'" + ", dataInicio='"
-                + getDataInicio() + "'" + ", dataFim='" + getDataFim() + "'" + ", obs='" + getObs() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", tipoDespesa='" + getTipoDespesa() + "'" + ", patrimonio='"
+                + getPatrimonio() + "'" + ", descricao='" + getDescricao() + "'" + ", valor='" + getValor() + "'"
+                + ", vencimento='" + getVencimento() + "'" + ", dataInicio='" + getDataInicio() + "'" + ", dataFim='"
+                + getDataFim() + "'" + ", obs='" + getObs() + "'" + "}";
     }
 
 }

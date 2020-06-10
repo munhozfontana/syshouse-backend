@@ -61,10 +61,9 @@ public class Pagador {
     public Pagador() {
     }
 
-    public Pagador(UUID id, Date createdAt, String nome, LocalDate nascimento, String cpf, String rg, String cnpj,
-            String nacionalidade, String estadoCivil, String profissao, String endereco) {
+    public Pagador(UUID id, String nome, LocalDate nascimento, String cpf, String rg, String cnpj, String nacionalidade,
+            String estadoCivil, String profissao, String endereco) {
         this.id = id;
-        this.createdAt = createdAt;
         this.nome = nome;
         this.nascimento = nascimento;
         this.cpf = cpf;
@@ -82,14 +81,6 @@ public class Pagador {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getNome() {
@@ -169,11 +160,6 @@ public class Pagador {
         return this;
     }
 
-    public Pagador createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Pagador nome(String nome) {
         this.nome = nome;
         return this;
@@ -227,27 +213,25 @@ public class Pagador {
             return false;
         }
         Pagador pagador = (Pagador) o;
-        return Objects.equals(id, pagador.id) && Objects.equals(createdAt, pagador.createdAt)
-                && Objects.equals(nome, pagador.nome) && Objects.equals(nascimento, pagador.nascimento)
-                && Objects.equals(cpf, pagador.cpf) && Objects.equals(rg, pagador.rg)
-                && Objects.equals(cnpj, pagador.cnpj) && Objects.equals(nacionalidade, pagador.nacionalidade)
+        return Objects.equals(id, pagador.id) && Objects.equals(nome, pagador.nome)
+                && Objects.equals(nascimento, pagador.nascimento) && Objects.equals(cpf, pagador.cpf)
+                && Objects.equals(rg, pagador.rg) && Objects.equals(cnpj, pagador.cnpj)
+                && Objects.equals(nacionalidade, pagador.nacionalidade)
                 && Objects.equals(estadoCivil, pagador.estadoCivil) && Objects.equals(profissao, pagador.profissao)
                 && Objects.equals(endereco, pagador.endereco);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, nome, nascimento, cpf, rg, cnpj, nacionalidade, estadoCivil, profissao,
-                endereco);
+        return Objects.hash(id, nome, nascimento, cpf, rg, cnpj, nacionalidade, estadoCivil, profissao, endereco);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", nome='" + getNome() + "'"
-                + ", nascimento='" + getNascimento() + "'" + ", cpf='" + getCpf() + "'" + ", rg='" + getRg() + "'"
-                + ", cnpj='" + getCnpj() + "'" + ", nacionalidade='" + getNacionalidade() + "'" + ", estadoCivil='"
-                + getEstadoCivil() + "'" + ", profissao='" + getProfissao() + "'" + ", endereco='" + getEndereco() + "'"
-                + "}";
+        return "{" + " id='" + getId() + "'" + ", nome='" + getNome() + "'" + ", nascimento='" + getNascimento() + "'"
+                + ", cpf='" + getCpf() + "'" + ", rg='" + getRg() + "'" + ", cnpj='" + getCnpj() + "'"
+                + ", nacionalidade='" + getNacionalidade() + "'" + ", estadoCivil='" + getEstadoCivil() + "'"
+                + ", profissao='" + getProfissao() + "'" + ", endereco='" + getEndereco() + "'" + "}";
     }
 
 }

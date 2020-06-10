@@ -53,10 +53,9 @@ public class Patrimonio {
     public Patrimonio() {
     }
 
-    public Patrimonio(UUID id, Date createdAt, String nome, BigDecimal valor, LocalDate dataInicio, LocalDate dataFim,
+    public Patrimonio(UUID id, String nome, BigDecimal valor, LocalDate dataInicio, LocalDate dataFim,
             TipoPatrimonio tipoPatrimonio, Localizacao localizacao) {
         this.id = id;
-        this.createdAt = createdAt;
         this.nome = nome;
         this.valor = valor;
         this.dataInicio = dataInicio;
@@ -71,14 +70,6 @@ public class Patrimonio {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getNome() {
@@ -134,11 +125,6 @@ public class Patrimonio {
         return this;
     }
 
-    public Patrimonio createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Patrimonio nome(String nome) {
         this.nome = nome;
         return this;
@@ -177,24 +163,23 @@ public class Patrimonio {
             return false;
         }
         Patrimonio patrimonio = (Patrimonio) o;
-        return Objects.equals(id, patrimonio.id) && Objects.equals(createdAt, patrimonio.createdAt)
-                && Objects.equals(nome, patrimonio.nome) && Objects.equals(valor, patrimonio.valor)
-                && Objects.equals(dataInicio, patrimonio.dataInicio) && Objects.equals(dataFim, patrimonio.dataFim)
+        return Objects.equals(id, patrimonio.id) && Objects.equals(nome, patrimonio.nome)
+                && Objects.equals(valor, patrimonio.valor) && Objects.equals(dataInicio, patrimonio.dataInicio)
+                && Objects.equals(dataFim, patrimonio.dataFim)
                 && Objects.equals(tipoPatrimonio, patrimonio.tipoPatrimonio)
                 && Objects.equals(localizacao, patrimonio.localizacao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, nome, valor, dataInicio, dataFim, tipoPatrimonio, localizacao);
+        return Objects.hash(id, nome, valor, dataInicio, dataFim, tipoPatrimonio, localizacao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", nome='" + getNome() + "'"
-                + ", valor='" + getValor() + "'" + ", dataInicio='" + getDataInicio() + "'" + ", dataFim='"
-                + getDataFim() + "'" + ", tipoPatrimonio='" + getTipoPatrimonio() + "'" + ", localizacao='"
-                + getLocalizacao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", nome='" + getNome() + "'" + ", valor='" + getValor() + "'"
+                + ", dataInicio='" + getDataInicio() + "'" + ", dataFim='" + getDataFim() + "'" + ", tipoPatrimonio='"
+                + getTipoPatrimonio() + "'" + ", localizacao='" + getLocalizacao() + "'" + "}";
     }
 
 }

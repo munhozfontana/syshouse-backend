@@ -42,10 +42,8 @@ public class PagamentoPatrimonio {
     public PagamentoPatrimonio() {
     }
 
-    public PagamentoPatrimonio(UUID id, Date createdAt, Pagamento pagamento, Patrimonio patrimonio,
-            BigDecimal valorCalculado) {
+    public PagamentoPatrimonio(UUID id, Pagamento pagamento, Patrimonio patrimonio, BigDecimal valorCalculado) {
         this.id = id;
-        this.createdAt = createdAt;
         this.pagamento = pagamento;
         this.patrimonio = patrimonio;
         this.valorCalculado = valorCalculado;
@@ -57,14 +55,6 @@ public class PagamentoPatrimonio {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Pagamento getPagamento() {
@@ -96,11 +86,6 @@ public class PagamentoPatrimonio {
         return this;
     }
 
-    public PagamentoPatrimonio createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public PagamentoPatrimonio pagamento(Pagamento pagamento) {
         this.pagamento = pagamento;
         return this;
@@ -124,22 +109,20 @@ public class PagamentoPatrimonio {
             return false;
         }
         PagamentoPatrimonio pagamentoPatrimonio = (PagamentoPatrimonio) o;
-        return Objects.equals(id, pagamentoPatrimonio.id) && Objects.equals(createdAt, pagamentoPatrimonio.createdAt)
-                && Objects.equals(pagamento, pagamentoPatrimonio.pagamento)
+        return Objects.equals(id, pagamentoPatrimonio.id) && Objects.equals(pagamento, pagamentoPatrimonio.pagamento)
                 && Objects.equals(patrimonio, pagamentoPatrimonio.patrimonio)
                 && Objects.equals(valorCalculado, pagamentoPatrimonio.valorCalculado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, pagamento, patrimonio, valorCalculado);
+        return Objects.hash(id, pagamento, patrimonio, valorCalculado);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", pagamento='" + getPagamento()
-                + "'" + ", patrimonio='" + getPatrimonio() + "'" + ", valorCalculado='" + getValorCalculado() + "'"
-                + "}";
+        return "{" + " id='" + getId() + "'" + ", pagamento='" + getPagamento() + "'" + ", patrimonio='"
+                + getPatrimonio() + "'" + ", valorCalculado='" + getValorCalculado() + "'" + "}";
     }
 
 }

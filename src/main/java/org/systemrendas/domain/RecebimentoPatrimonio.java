@@ -42,10 +42,8 @@ public class RecebimentoPatrimonio {
     public RecebimentoPatrimonio() {
     }
 
-    public RecebimentoPatrimonio(UUID id, Date createdAt, Recebimento recebimento, Patrimonio patrimonio,
-            BigDecimal valorCalculado) {
+    public RecebimentoPatrimonio(UUID id, Recebimento recebimento, Patrimonio patrimonio, BigDecimal valorCalculado) {
         this.id = id;
-        this.createdAt = createdAt;
         this.recebimento = recebimento;
         this.patrimonio = patrimonio;
         this.valorCalculado = valorCalculado;
@@ -57,14 +55,6 @@ public class RecebimentoPatrimonio {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Recebimento getRecebimento() {
@@ -96,11 +86,6 @@ public class RecebimentoPatrimonio {
         return this;
     }
 
-    public RecebimentoPatrimonio createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public RecebimentoPatrimonio recebimento(Recebimento recebimento) {
         this.recebimento = recebimento;
         return this;
@@ -125,7 +110,6 @@ public class RecebimentoPatrimonio {
         }
         RecebimentoPatrimonio recebimentoPatrimonio = (RecebimentoPatrimonio) o;
         return Objects.equals(id, recebimentoPatrimonio.id)
-                && Objects.equals(createdAt, recebimentoPatrimonio.createdAt)
                 && Objects.equals(recebimento, recebimentoPatrimonio.recebimento)
                 && Objects.equals(patrimonio, recebimentoPatrimonio.patrimonio)
                 && Objects.equals(valorCalculado, recebimentoPatrimonio.valorCalculado);
@@ -133,14 +117,13 @@ public class RecebimentoPatrimonio {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, recebimento, patrimonio, valorCalculado);
+        return Objects.hash(id, recebimento, patrimonio, valorCalculado);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", recebimento='"
-                + getRecebimento() + "'" + ", patrimonio='" + getPatrimonio() + "'" + ", valorCalculado='"
-                + getValorCalculado() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", recebimento='" + getRecebimento() + "'" + ", patrimonio='"
+                + getPatrimonio() + "'" + ", valorCalculado='" + getValorCalculado() + "'" + "}";
     }
 
 }

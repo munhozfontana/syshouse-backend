@@ -92,8 +92,9 @@ public class ContatoService {
     }
 
     public Contato fromDTO(final ContatoUpdateDTO objDto) {
+        Contato entidade = new Contato();
 
-        return new Contato();
+        return entidade;
     }
 
     private void updateData(final Contato newObj, final Contato obj) {

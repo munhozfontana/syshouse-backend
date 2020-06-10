@@ -45,9 +45,8 @@ public class Recebimento {
     public Recebimento() {
     }
 
-    public Recebimento(UUID id, Date createdAt, Renda renda, BigDecimal valor, LocalDate dataRecebimento, String obs) {
+    public Recebimento(UUID id, Renda renda, BigDecimal valor, LocalDate dataRecebimento, String obs) {
         this.id = id;
-        this.createdAt = createdAt;
         this.renda = renda;
         this.valor = valor;
         this.dataRecebimento = dataRecebimento;
@@ -60,14 +59,6 @@ public class Recebimento {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Renda getRenda() {
@@ -107,11 +98,6 @@ public class Recebimento {
         return this;
     }
 
-    public Recebimento createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Recebimento renda(Renda renda) {
         this.renda = renda;
         return this;
@@ -140,21 +126,20 @@ public class Recebimento {
             return false;
         }
         Recebimento recebimento = (Recebimento) o;
-        return Objects.equals(id, recebimento.id) && Objects.equals(createdAt, recebimento.createdAt)
-                && Objects.equals(renda, recebimento.renda) && Objects.equals(valor, recebimento.valor)
+        return Objects.equals(id, recebimento.id) && Objects.equals(renda, recebimento.renda)
+                && Objects.equals(valor, recebimento.valor)
                 && Objects.equals(dataRecebimento, recebimento.dataRecebimento) && Objects.equals(obs, recebimento.obs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, renda, valor, dataRecebimento, obs);
+        return Objects.hash(id, renda, valor, dataRecebimento, obs);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", renda='" + getRenda() + "'"
-                + ", valor='" + getValor() + "'" + ", dataRecebimento='" + getDataRecebimento() + "'" + ", obs='"
-                + getObs() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", renda='" + getRenda() + "'" + ", valor='" + getValor() + "'"
+                + ", dataRecebimento='" + getDataRecebimento() + "'" + ", obs='" + getObs() + "'" + "}";
     }
 
 }

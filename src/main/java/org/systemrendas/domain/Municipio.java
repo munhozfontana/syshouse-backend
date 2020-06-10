@@ -51,10 +51,9 @@ public class Municipio {
     public Municipio() {
     }
 
-    public Municipio(UUID id, Date createdAt, Integer ibge, String nome, String uf, String pais, Integer populacao,
+    public Municipio(UUID id, Integer ibge, String nome, String uf, String pais, Integer populacao,
             List<Localizacao> localizacao) {
         this.id = id;
-        this.createdAt = createdAt;
         this.ibge = ibge;
         this.nome = nome;
         this.uf = uf;
@@ -69,14 +68,6 @@ public class Municipio {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Date getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Integer getIbge() {
@@ -132,11 +123,6 @@ public class Municipio {
         return this;
     }
 
-    public Municipio createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
     public Municipio ibge(Integer ibge) {
         this.ibge = ibge;
         return this;
@@ -175,22 +161,22 @@ public class Municipio {
             return false;
         }
         Municipio municipio = (Municipio) o;
-        return Objects.equals(id, municipio.id) && Objects.equals(createdAt, municipio.createdAt)
-                && Objects.equals(ibge, municipio.ibge) && Objects.equals(nome, municipio.nome)
-                && Objects.equals(uf, municipio.uf) && Objects.equals(pais, municipio.pais)
-                && Objects.equals(populacao, municipio.populacao) && Objects.equals(localizacao, municipio.localizacao);
+        return Objects.equals(id, municipio.id) && Objects.equals(ibge, municipio.ibge)
+                && Objects.equals(nome, municipio.nome) && Objects.equals(uf, municipio.uf)
+                && Objects.equals(pais, municipio.pais) && Objects.equals(populacao, municipio.populacao)
+                && Objects.equals(localizacao, municipio.localizacao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createdAt, ibge, nome, uf, pais, populacao, localizacao);
+        return Objects.hash(id, ibge, nome, uf, pais, populacao, localizacao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", ibge='" + getIbge() + "'"
-                + ", nome='" + getNome() + "'" + ", uf='" + getUf() + "'" + ", pais='" + getPais() + "'"
-                + ", populacao='" + getPopulacao() + "'" + ", localizacao='" + getLocalizacao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", ibge='" + getIbge() + "'" + ", nome='" + getNome() + "'" + ", uf='"
+                + getUf() + "'" + ", pais='" + getPais() + "'" + ", populacao='" + getPopulacao() + "'"
+                + ", localizacao='" + getLocalizacao() + "'" + "}";
     }
 
 }
