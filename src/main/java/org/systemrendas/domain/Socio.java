@@ -50,9 +50,10 @@ public class Socio {
     public Socio() {
     }
 
-    public Socio(UUID id, String nome, String cpf, String rg, String nacionalidade, String estadoCivil,
+    public Socio(UUID id, Date createdAt, String nome, String cpf, String rg, String nacionalidade, String estadoCivil,
             String profissao) {
         this.id = id;
+        this.createdAt = createdAt;
         this.nome = nome;
         this.cpf = cpf;
         this.rg = rg;
@@ -67,6 +68,14 @@ public class Socio {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getNome() {
@@ -122,6 +131,11 @@ public class Socio {
         return this;
     }
 
+    public Socio createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public Socio nome(String nome) {
         this.nome = nome;
         return this;
@@ -160,21 +174,22 @@ public class Socio {
             return false;
         }
         Socio socio = (Socio) o;
-        return Objects.equals(id, socio.id) && Objects.equals(nome, socio.nome) && Objects.equals(cpf, socio.cpf)
-                && Objects.equals(rg, socio.rg) && Objects.equals(nacionalidade, socio.nacionalidade)
-                && Objects.equals(estadoCivil, socio.estadoCivil) && Objects.equals(profissao, socio.profissao);
+        return Objects.equals(id, socio.id) && Objects.equals(createdAt, socio.createdAt)
+                && Objects.equals(nome, socio.nome) && Objects.equals(cpf, socio.cpf) && Objects.equals(rg, socio.rg)
+                && Objects.equals(nacionalidade, socio.nacionalidade) && Objects.equals(estadoCivil, socio.estadoCivil)
+                && Objects.equals(profissao, socio.profissao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, cpf, rg, nacionalidade, estadoCivil, profissao);
+        return Objects.hash(id, createdAt, nome, cpf, rg, nacionalidade, estadoCivil, profissao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", nome='" + getNome() + "'" + ", cpf='" + getCpf() + "'" + ", rg='"
-                + getRg() + "'" + ", nacionalidade='" + getNacionalidade() + "'" + ", estadoCivil='" + getEstadoCivil()
-                + "'" + ", profissao='" + getProfissao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", nome='" + getNome() + "'"
+                + ", cpf='" + getCpf() + "'" + ", rg='" + getRg() + "'" + ", nacionalidade='" + getNacionalidade() + "'"
+                + ", estadoCivil='" + getEstadoCivil() + "'" + ", profissao='" + getProfissao() + "'" + "}";
     }
 
 }

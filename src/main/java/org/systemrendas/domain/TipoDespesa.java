@@ -35,8 +35,9 @@ public class TipoDespesa {
     public TipoDespesa() {
     }
 
-    public TipoDespesa(UUID id, String descricao) {
+    public TipoDespesa(UUID id, Date createdAt, String descricao) {
         this.id = id;
+        this.createdAt = createdAt;
         this.descricao = descricao;
     }
 
@@ -46,6 +47,14 @@ public class TipoDespesa {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getDescricao() {
@@ -58,6 +67,11 @@ public class TipoDespesa {
 
     public TipoDespesa id(UUID id) {
         this.id = id;
+        return this;
+    }
+
+    public TipoDespesa createdAt(Date createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
@@ -74,17 +88,19 @@ public class TipoDespesa {
             return false;
         }
         TipoDespesa tipoDespesa = (TipoDespesa) o;
-        return Objects.equals(id, tipoDespesa.id) && Objects.equals(descricao, tipoDespesa.descricao);
+        return Objects.equals(id, tipoDespesa.id) && Objects.equals(createdAt, tipoDespesa.createdAt)
+                && Objects.equals(descricao, tipoDespesa.descricao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao);
+        return Objects.hash(id, createdAt, descricao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", descricao='" + getDescricao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", descricao='" + getDescricao()
+                + "'" + "}";
     }
 
 }

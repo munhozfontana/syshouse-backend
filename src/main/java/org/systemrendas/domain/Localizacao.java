@@ -52,9 +52,10 @@ public class Localizacao {
     public Localizacao() {
     }
 
-    public Localizacao(UUID id, String endereco, String bairro, String cep, String complemento, BigDecimal latitude,
-            BigDecimal longitude, Municipio municipio) {
+    public Localizacao(UUID id, Date createdAt, String endereco, String bairro, String cep, String complemento,
+            BigDecimal latitude, BigDecimal longitude, Municipio municipio) {
         this.id = id;
+        this.createdAt = createdAt;
         this.endereco = endereco;
         this.bairro = bairro;
         this.cep = cep;
@@ -70,6 +71,14 @@ public class Localizacao {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getEndereco() {
@@ -133,6 +142,11 @@ public class Localizacao {
         return this;
     }
 
+    public Localizacao createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public Localizacao endereco(String endereco) {
         this.endereco = endereco;
         return this;
@@ -176,24 +190,24 @@ public class Localizacao {
             return false;
         }
         Localizacao localizacao = (Localizacao) o;
-        return Objects.equals(id, localizacao.id) && Objects.equals(endereco, localizacao.endereco)
-                && Objects.equals(bairro, localizacao.bairro) && Objects.equals(cep, localizacao.cep)
-                && Objects.equals(complemento, localizacao.complemento)
+        return Objects.equals(id, localizacao.id) && Objects.equals(createdAt, localizacao.createdAt)
+                && Objects.equals(endereco, localizacao.endereco) && Objects.equals(bairro, localizacao.bairro)
+                && Objects.equals(cep, localizacao.cep) && Objects.equals(complemento, localizacao.complemento)
                 && Objects.equals(latitude, localizacao.latitude) && Objects.equals(longitude, localizacao.longitude)
                 && Objects.equals(municipio, localizacao.municipio);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, endereco, bairro, cep, complemento, latitude, longitude, municipio);
+        return Objects.hash(id, createdAt, endereco, bairro, cep, complemento, latitude, longitude, municipio);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", endereco='" + getEndereco() + "'" + ", bairro='" + getBairro() + "'"
-                + ", cep='" + getCep() + "'" + ", complemento='" + getComplemento() + "'" + ", latitude='"
-                + getLatitude() + "'" + ", longitude='" + getLongitude() + "'" + ", municipio='" + getMunicipio() + "'"
-                + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", endereco='" + getEndereco()
+                + "'" + ", bairro='" + getBairro() + "'" + ", cep='" + getCep() + "'" + ", complemento='"
+                + getComplemento() + "'" + ", latitude='" + getLatitude() + "'" + ", longitude='" + getLongitude() + "'"
+                + ", municipio='" + getMunicipio() + "'" + "}";
     }
 
 }

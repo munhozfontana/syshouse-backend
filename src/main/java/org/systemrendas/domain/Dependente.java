@@ -36,16 +36,34 @@ public class Dependente {
     @Column(length = 100)
     private String nome;
 
+    public Dependente() {
+    }
+
+    public Dependente(UUID id, Date createdAt, Pagador pagador, String nome) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.pagador = pagador;
+        this.nome = nome;
+    }
+
     public UUID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(UUID id) {
         this.id = id;
     }
 
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Pagador getPagador() {
-        return pagador;
+        return this.pagador;
     }
 
     public void setPagador(Pagador pagador) {
@@ -53,11 +71,31 @@ public class Dependente {
     }
 
     public String getNome() {
-        return nome;
+        return this.nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Dependente id(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public Dependente createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Dependente pagador(Pagador pagador) {
+        this.pagador = pagador;
+        return this;
+    }
+
+    public Dependente nome(String nome) {
+        this.nome = nome;
+        return this;
     }
 
     @Override
@@ -75,6 +113,12 @@ public class Dependente {
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, pagador, nome);
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", pagador='" + getPagador()
+                + "'" + ", nome='" + getNome() + "'" + "}";
     }
 
 }

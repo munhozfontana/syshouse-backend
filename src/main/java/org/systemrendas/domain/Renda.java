@@ -58,9 +58,10 @@ public class Renda {
     public Renda() {
     }
 
-    public Renda(UUID id, Pagador pagador, Renda renda, Patrimonio patrimonio, String descricao, BigDecimal valor,
-            LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
+    public Renda(UUID id, Date createdAt, Pagador pagador, Renda renda, Patrimonio patrimonio, String descricao,
+            BigDecimal valor, LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
         this.id = id;
+        this.createdAt = createdAt;
         this.pagador = pagador;
         this.renda = renda;
         this.patrimonio = patrimonio;
@@ -78,6 +79,14 @@ public class Renda {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Pagador getPagador() {
@@ -157,6 +166,11 @@ public class Renda {
         return this;
     }
 
+    public Renda createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public Renda pagador(Pagador pagador) {
         this.pagador = pagador;
         return this;
@@ -210,24 +224,27 @@ public class Renda {
             return false;
         }
         Renda renda = (Renda) o;
-        return Objects.equals(id, renda.id) && Objects.equals(pagador, renda.pagador)
-                && Objects.equals(renda, renda.renda) && Objects.equals(patrimonio, renda.patrimonio)
-                && Objects.equals(descricao, renda.descricao) && Objects.equals(valor, renda.valor)
-                && Objects.equals(vencimento, renda.vencimento) && Objects.equals(dataInicio, renda.dataInicio)
-                && Objects.equals(dataFim, renda.dataFim) && Objects.equals(obs, renda.obs);
+        return Objects.equals(id, renda.id) && Objects.equals(createdAt, renda.createdAt)
+                && Objects.equals(pagador, renda.pagador) && Objects.equals(renda, renda.renda)
+                && Objects.equals(patrimonio, renda.patrimonio) && Objects.equals(descricao, renda.descricao)
+                && Objects.equals(valor, renda.valor) && Objects.equals(vencimento, renda.vencimento)
+                && Objects.equals(dataInicio, renda.dataInicio) && Objects.equals(dataFim, renda.dataFim)
+                && Objects.equals(obs, renda.obs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pagador, renda, patrimonio, descricao, valor, vencimento, dataInicio, dataFim, obs);
+        return Objects.hash(id, createdAt, pagador, renda, patrimonio, descricao, valor, vencimento, dataInicio,
+                dataFim, obs);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", pagador='" + getPagador() + "'" + ", renda='" + getRenda() + "'"
-                + ", patrimonio='" + getPatrimonio() + "'" + ", descricao='" + getDescricao() + "'" + ", valor='"
-                + getValor() + "'" + ", vencimento='" + getVencimento() + "'" + ", dataInicio='" + getDataInicio() + "'"
-                + ", dataFim='" + getDataFim() + "'" + ", obs='" + getObs() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", pagador='" + getPagador()
+                + "'" + ", renda='" + getRenda() + "'" + ", patrimonio='" + getPatrimonio() + "'" + ", descricao='"
+                + getDescricao() + "'" + ", valor='" + getValor() + "'" + ", vencimento='" + getVencimento() + "'"
+                + ", dataInicio='" + getDataInicio() + "'" + ", dataFim='" + getDataFim() + "'" + ", obs='" + getObs()
+                + "'" + "}";
     }
 
 }

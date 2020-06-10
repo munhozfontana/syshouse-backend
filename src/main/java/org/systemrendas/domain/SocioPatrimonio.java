@@ -44,8 +44,10 @@ public class SocioPatrimonio {
     public SocioPatrimonio() {
     }
 
-    public SocioPatrimonio(UUID id, Socio socio, Patrimonio patrimonio, BigDecimal porcentagem, Boolean proprietario) {
+    public SocioPatrimonio(UUID id, Date createdAt, Socio socio, Patrimonio patrimonio, BigDecimal porcentagem,
+            Boolean proprietario) {
         this.id = id;
+        this.createdAt = createdAt;
         this.socio = socio;
         this.patrimonio = patrimonio;
         this.porcentagem = porcentagem;
@@ -58,6 +60,14 @@ public class SocioPatrimonio {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Socio getSocio() {
@@ -101,6 +111,11 @@ public class SocioPatrimonio {
         return this;
     }
 
+    public SocioPatrimonio createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public SocioPatrimonio socio(Socio socio) {
         this.socio = socio;
         return this;
@@ -129,7 +144,8 @@ public class SocioPatrimonio {
             return false;
         }
         SocioPatrimonio socioPatrimonio = (SocioPatrimonio) o;
-        return Objects.equals(id, socioPatrimonio.id) && Objects.equals(socio, socioPatrimonio.socio)
+        return Objects.equals(id, socioPatrimonio.id) && Objects.equals(createdAt, socioPatrimonio.createdAt)
+                && Objects.equals(socio, socioPatrimonio.socio)
                 && Objects.equals(patrimonio, socioPatrimonio.patrimonio)
                 && Objects.equals(porcentagem, socioPatrimonio.porcentagem)
                 && Objects.equals(proprietario, socioPatrimonio.proprietario);
@@ -137,13 +153,14 @@ public class SocioPatrimonio {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, socio, patrimonio, porcentagem, proprietario);
+        return Objects.hash(id, createdAt, socio, patrimonio, porcentagem, proprietario);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", socio='" + getSocio() + "'" + ", patrimonio='" + getPatrimonio() + "'"
-                + ", porcentagem='" + getPorcentagem() + "'" + ", proprietario='" + isProprietario() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", socio='" + getSocio() + "'"
+                + ", patrimonio='" + getPatrimonio() + "'" + ", porcentagem='" + getPorcentagem() + "'"
+                + ", proprietario='" + isProprietario() + "'" + "}";
     }
 
 }

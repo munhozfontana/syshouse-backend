@@ -48,8 +48,9 @@ public class Midia {
     public Midia() {
     }
 
-    public Midia(UUID id, Patrimonio patrimonio, String nome, String caminho, String obs, String tipo) {
+    public Midia(UUID id, Date createdAt, Patrimonio patrimonio, String nome, String caminho, String obs, String tipo) {
         this.id = id;
+        this.createdAt = createdAt;
         this.patrimonio = patrimonio;
         this.nome = nome;
         this.caminho = caminho;
@@ -63,6 +64,14 @@ public class Midia {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Patrimonio getPatrimonio() {
@@ -110,6 +119,11 @@ public class Midia {
         return this;
     }
 
+    public Midia createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
     public Midia patrimonio(Patrimonio patrimonio) {
         this.patrimonio = patrimonio;
         return this;
@@ -143,20 +157,22 @@ public class Midia {
             return false;
         }
         Midia midia = (Midia) o;
-        return Objects.equals(id, midia.id) && Objects.equals(patrimonio, midia.patrimonio)
-                && Objects.equals(nome, midia.nome) && Objects.equals(caminho, midia.caminho)
-                && Objects.equals(obs, midia.obs) && Objects.equals(tipo, midia.tipo);
+        return Objects.equals(id, midia.id) && Objects.equals(createdAt, midia.createdAt)
+                && Objects.equals(patrimonio, midia.patrimonio) && Objects.equals(nome, midia.nome)
+                && Objects.equals(caminho, midia.caminho) && Objects.equals(obs, midia.obs)
+                && Objects.equals(tipo, midia.tipo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, patrimonio, nome, caminho, obs, tipo);
+        return Objects.hash(id, createdAt, patrimonio, nome, caminho, obs, tipo);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", patrimonio='" + getPatrimonio() + "'" + ", nome='" + getNome() + "'"
-                + ", caminho='" + getCaminho() + "'" + ", obs='" + getObs() + "'" + ", tipo='" + getTipo() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", patrimonio='"
+                + getPatrimonio() + "'" + ", nome='" + getNome() + "'" + ", caminho='" + getCaminho() + "'" + ", obs='"
+                + getObs() + "'" + ", tipo='" + getTipo() + "'" + "}";
     }
 
 }

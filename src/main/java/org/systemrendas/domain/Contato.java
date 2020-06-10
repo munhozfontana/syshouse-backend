@@ -44,24 +44,49 @@ public class Contato {
     @ManyToOne
     private Socio socio;
 
+    public Contato() {
+    }
+
+    public Contato(UUID id, Date createdAt, String fone, Boolean whatsapp, String email, Pagador pagador, Socio socio) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.fone = fone;
+        this.whatsapp = whatsapp;
+        this.email = email;
+        this.pagador = pagador;
+        this.socio = socio;
+    }
+
     public UUID getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(UUID id) {
         this.id = id;
     }
 
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public String getFone() {
-        return fone;
+        return this.fone;
     }
 
     public void setFone(String fone) {
         this.fone = fone;
     }
 
+    public Boolean isWhatsapp() {
+        return this.whatsapp;
+    }
+
     public Boolean getWhatsapp() {
-        return whatsapp;
+        return this.whatsapp;
     }
 
     public void setWhatsapp(Boolean whatsapp) {
@@ -69,7 +94,7 @@ public class Contato {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -77,7 +102,7 @@ public class Contato {
     }
 
     public Pagador getPagador() {
-        return pagador;
+        return this.pagador;
     }
 
     public void setPagador(Pagador pagador) {
@@ -85,11 +110,46 @@ public class Contato {
     }
 
     public Socio getSocio() {
-        return socio;
+        return this.socio;
     }
 
     public void setSocio(Socio socio) {
         this.socio = socio;
+    }
+
+    public Contato id(UUID id) {
+        this.id = id;
+        return this;
+    }
+
+    public Contato createdAt(Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Contato fone(String fone) {
+        this.fone = fone;
+        return this;
+    }
+
+    public Contato whatsapp(Boolean whatsapp) {
+        this.whatsapp = whatsapp;
+        return this;
+    }
+
+    public Contato email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public Contato pagador(Pagador pagador) {
+        this.pagador = pagador;
+        return this;
+    }
+
+    public Contato socio(Socio socio) {
+        this.socio = socio;
+        return this;
     }
 
     @Override
@@ -109,6 +169,13 @@ public class Contato {
     @Override
     public int hashCode() {
         return Objects.hash(id, createdAt, fone, whatsapp, email, pagador, socio);
+    }
+
+    @Override
+    public String toString() {
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", fone='" + getFone() + "'"
+                + ", whatsapp='" + isWhatsapp() + "'" + ", email='" + getEmail() + "'" + ", pagador='" + getPagador()
+                + "'" + ", socio='" + getSocio() + "'" + "}";
     }
 
 }

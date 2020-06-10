@@ -45,21 +45,17 @@ public class Municipio {
 
     private Integer populacao;
 
-    @OneToMany(mappedBy = "municipio")
-    private List<Localizacao> localizacao = new ArrayList<>();
-
     public Municipio() {
     }
 
-    public Municipio(UUID id, Integer ibge, String nome, String uf, String pais, Integer populacao,
-            List<Localizacao> localizacao) {
+    public Municipio(UUID id, Date createdAt, Integer ibge, String nome, String uf, String pais, Integer populacao) {
         this.id = id;
+        this.createdAt = createdAt;
         this.ibge = ibge;
         this.nome = nome;
         this.uf = uf;
         this.pais = pais;
         this.populacao = populacao;
-        this.localizacao = localizacao;
     }
 
     public UUID getId() {
@@ -68,6 +64,14 @@ public class Municipio {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Integer getIbge() {
@@ -110,16 +114,13 @@ public class Municipio {
         this.populacao = populacao;
     }
 
-    public List<Localizacao> getLocalizacao() {
-        return this.localizacao;
-    }
-
-    public void setLocalizacao(List<Localizacao> localizacao) {
-        this.localizacao = localizacao;
-    }
-
     public Municipio id(UUID id) {
         this.id = id;
+        return this;
+    }
+
+    public Municipio createdAt(Date createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
@@ -148,11 +149,6 @@ public class Municipio {
         return this;
     }
 
-    public Municipio localizacao(List<Localizacao> localizacao) {
-        this.localizacao = localizacao;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -161,22 +157,22 @@ public class Municipio {
             return false;
         }
         Municipio municipio = (Municipio) o;
-        return Objects.equals(id, municipio.id) && Objects.equals(ibge, municipio.ibge)
-                && Objects.equals(nome, municipio.nome) && Objects.equals(uf, municipio.uf)
-                && Objects.equals(pais, municipio.pais) && Objects.equals(populacao, municipio.populacao)
-                && Objects.equals(localizacao, municipio.localizacao);
+        return Objects.equals(id, municipio.id) && Objects.equals(createdAt, municipio.createdAt)
+                && Objects.equals(ibge, municipio.ibge) && Objects.equals(nome, municipio.nome)
+                && Objects.equals(uf, municipio.uf) && Objects.equals(pais, municipio.pais)
+                && Objects.equals(populacao, municipio.populacao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ibge, nome, uf, pais, populacao, localizacao);
+        return Objects.hash(id, createdAt, ibge, nome, uf, pais, populacao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", ibge='" + getIbge() + "'" + ", nome='" + getNome() + "'" + ", uf='"
-                + getUf() + "'" + ", pais='" + getPais() + "'" + ", populacao='" + getPopulacao() + "'"
-                + ", localizacao='" + getLocalizacao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", ibge='" + getIbge() + "'"
+                + ", nome='" + getNome() + "'" + ", uf='" + getUf() + "'" + ", pais='" + getPais() + "'"
+                + ", populacao='" + getPopulacao() + "'" + "}";
     }
 
 }
