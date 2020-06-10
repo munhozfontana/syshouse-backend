@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class Recebimento {
 
     private BigDecimal valor;
 
-    private Date dataRecebimento;
+    private LocalDate dataRecebimento;
 
     @Column(length = 500)
     private String obs;
@@ -44,7 +45,7 @@ public class Recebimento {
     public Recebimento() {
     }
 
-    public Recebimento(UUID id, Date createdAt, Renda renda, BigDecimal valor, Date dataRecebimento, String obs) {
+    public Recebimento(UUID id, Date createdAt, Renda renda, BigDecimal valor, LocalDate dataRecebimento, String obs) {
         this.id = id;
         this.createdAt = createdAt;
         this.renda = renda;
@@ -85,11 +86,11 @@ public class Recebimento {
         this.valor = valor;
     }
 
-    public Date getDataRecebimento() {
+    public LocalDate getDataRecebimento() {
         return this.dataRecebimento;
     }
 
-    public void setDataRecebimento(Date dataRecebimento) {
+    public void setDataRecebimento(LocalDate dataRecebimento) {
         this.dataRecebimento = dataRecebimento;
     }
 
@@ -121,7 +122,7 @@ public class Recebimento {
         return this;
     }
 
-    public Recebimento dataRecebimento(Date dataRecebimento) {
+    public Recebimento dataRecebimento(LocalDate dataRecebimento) {
         this.dataRecebimento = dataRecebimento;
         return this;
     }

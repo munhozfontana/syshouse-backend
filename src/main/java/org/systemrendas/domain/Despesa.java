@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -42,11 +43,11 @@ public class Despesa {
 
     private BigDecimal valor;
 
-    private Date vencimento;
+    private LocalDate vencimento;
 
-    private Date dataInicio;
+    private LocalDate dataInicio;
 
-    private Date dataFim;
+    private LocalDate dataFim;
 
     @Column(length = 500)
     private String obs;
@@ -55,7 +56,7 @@ public class Despesa {
     }
 
     public Despesa(UUID id, Date createdAt, TipoDespesa tipoDespesa, Patrimonio patrimonio, String descricao,
-            BigDecimal valor, Date vencimento, Date dataInicio, Date dataFim, String obs) {
+            BigDecimal valor, LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
         this.id = id;
         this.createdAt = createdAt;
         this.tipoDespesa = tipoDespesa;
@@ -116,27 +117,27 @@ public class Despesa {
         this.valor = valor;
     }
 
-    public Date getVencimento() {
+    public LocalDate getVencimento() {
         return this.vencimento;
     }
 
-    public void setVencimento(Date vencimento) {
+    public void setVencimento(LocalDate vencimento) {
         this.vencimento = vencimento;
     }
 
-    public Date getDataInicio() {
+    public LocalDate getDataInicio() {
         return this.dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public LocalDate getDataFim() {
         return this.dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
     }
 
@@ -178,17 +179,17 @@ public class Despesa {
         return this;
     }
 
-    public Despesa vencimento(Date vencimento) {
+    public Despesa vencimento(LocalDate vencimento) {
         this.vencimento = vencimento;
         return this;
     }
 
-    public Despesa dataInicio(Date dataInicio) {
+    public Despesa dataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
         return this;
     }
 
-    public Despesa dataFim(Date dataFim) {
+    public Despesa dataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
         return this;
     }

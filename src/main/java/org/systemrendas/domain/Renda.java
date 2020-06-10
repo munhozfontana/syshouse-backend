@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -45,11 +46,11 @@ public class Renda {
 
     private BigDecimal valor;
 
-    private Date vencimento;
+    private LocalDate vencimento;
 
-    private Date dataInicio;
+    private LocalDate dataInicio;
 
-    private Date dataFim;
+    private LocalDate dataFim;
 
     @Column(length = 500)
     private String obs;
@@ -58,7 +59,7 @@ public class Renda {
     }
 
     public Renda(UUID id, Date createdAt, Pagador pagador, Renda renda, Patrimonio patrimonio, String descricao,
-            BigDecimal valor, Date vencimento, Date dataInicio, Date dataFim, String obs) {
+            BigDecimal valor, LocalDate vencimento, LocalDate dataInicio, LocalDate dataFim, String obs) {
         this.id = id;
         this.createdAt = createdAt;
         this.pagador = pagador;
@@ -128,27 +129,27 @@ public class Renda {
         this.valor = valor;
     }
 
-    public Date getVencimento() {
+    public LocalDate getVencimento() {
         return this.vencimento;
     }
 
-    public void setVencimento(Date vencimento) {
+    public void setVencimento(LocalDate vencimento) {
         this.vencimento = vencimento;
     }
 
-    public Date getDataInicio() {
+    public LocalDate getDataInicio() {
         return this.dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public LocalDate getDataFim() {
         return this.dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
     }
 
@@ -195,17 +196,17 @@ public class Renda {
         return this;
     }
 
-    public Renda vencimento(Date vencimento) {
+    public Renda vencimento(LocalDate vencimento) {
         this.vencimento = vencimento;
         return this;
     }
 
-    public Renda dataInicio(Date dataInicio) {
+    public Renda dataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
         return this;
     }
 
-    public Renda dataFim(Date dataFim) {
+    public Renda dataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
         return this;
     }

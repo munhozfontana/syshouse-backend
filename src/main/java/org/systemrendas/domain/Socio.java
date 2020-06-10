@@ -47,21 +47,6 @@ public class Socio {
     @Column(length = 45)
     private String profissao;
 
-    public Socio() {
-    }
-
-    public Socio(UUID id, Date createdAt, String nome, String cpf, String rg, String nacionalidade, String estadoCivil,
-            String profissao) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.nacionalidade = nacionalidade;
-        this.estadoCivil = estadoCivil;
-        this.profissao = profissao;
-    }
-
     public UUID getId() {
         return this.id;
     }

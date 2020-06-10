@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -38,9 +39,9 @@ public class Patrimonio {
 
     private BigDecimal valor;
 
-    private Date dataInicio;
+    private LocalDate dataInicio;
 
-    private Date dataFim;
+    private LocalDate dataFim;
 
     @ManyToOne
     private TipoPatrimonio tipoPatrimonio;
@@ -52,7 +53,7 @@ public class Patrimonio {
     public Patrimonio() {
     }
 
-    public Patrimonio(UUID id, Date createdAt, String nome, BigDecimal valor, Date dataInicio, Date dataFim,
+    public Patrimonio(UUID id, Date createdAt, String nome, BigDecimal valor, LocalDate dataInicio, LocalDate dataFim,
             TipoPatrimonio tipoPatrimonio, Localizacao localizacao) {
         this.id = id;
         this.createdAt = createdAt;
@@ -96,19 +97,19 @@ public class Patrimonio {
         this.valor = valor;
     }
 
-    public Date getDataInicio() {
+    public LocalDate getDataInicio() {
         return this.dataInicio;
     }
 
-    public void setDataInicio(Date dataInicio) {
+    public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
     }
 
-    public Date getDataFim() {
+    public LocalDate getDataFim() {
         return this.dataFim;
     }
 
-    public void setDataFim(Date dataFim) {
+    public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
     }
 
@@ -148,12 +149,12 @@ public class Patrimonio {
         return this;
     }
 
-    public Patrimonio dataInicio(Date dataInicio) {
+    public Patrimonio dataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
         return this;
     }
 
-    public Patrimonio dataFim(Date dataFim) {
+    public Patrimonio dataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
         return this;
     }

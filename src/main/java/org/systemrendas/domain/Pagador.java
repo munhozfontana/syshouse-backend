@@ -1,9 +1,11 @@
 package org.systemrendas.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +34,8 @@ public class Pagador {
     @Column(length = 100)
     private String nome;
 
-    private Date nascimento;
+    @JsonbDateFormat(value = "dd-MM-yyyy")
+    private LocalDate nascimento;
 
     @Column(length = 11)
     private String cpf;
@@ -58,7 +61,7 @@ public class Pagador {
     public Pagador() {
     }
 
-    public Pagador(UUID id, Date createdAt, String nome, Date nascimento, String cpf, String rg, String cnpj,
+    public Pagador(UUID id, Date createdAt, String nome, LocalDate nascimento, String cpf, String rg, String cnpj,
             String nacionalidade, String estadoCivil, String profissao, String endereco) {
         this.id = id;
         this.createdAt = createdAt;
@@ -97,11 +100,11 @@ public class Pagador {
         this.nome = nome;
     }
 
-    public Date getNascimento() {
+    public LocalDate getNascimento() {
         return this.nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
 
@@ -176,7 +179,7 @@ public class Pagador {
         return this;
     }
 
-    public Pagador nascimento(Date nascimento) {
+    public Pagador nascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
         return this;
     }

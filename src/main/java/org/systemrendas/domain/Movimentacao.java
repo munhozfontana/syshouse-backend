@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class Movimentacao {
 
     private BigDecimal valor;
 
-    private Date data;
+    private LocalDate data;
 
     @Column(length = 500)
     private String obs;
@@ -48,7 +49,7 @@ public class Movimentacao {
     }
 
     public Movimentacao(UUID id, Date createdAt, Patrimonio patrimonioOut, Patrimonio patrimonioIn, BigDecimal valor,
-            Date data, String obs) {
+            LocalDate data, String obs) {
         this.id = id;
         this.createdAt = createdAt;
         this.patrimonioOut = patrimonioOut;
@@ -98,11 +99,11 @@ public class Movimentacao {
         this.valor = valor;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return this.data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -139,7 +140,7 @@ public class Movimentacao {
         return this;
     }
 
-    public Movimentacao data(Date data) {
+    public Movimentacao data(LocalDate data) {
         this.data = data;
         return this;
     }

@@ -1,6 +1,7 @@
 package org.systemrendas.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public class Pagamento {
 
     private BigDecimal valor;
 
-    private Date dataPagamento;
+    private LocalDate dataPagamento;
 
     @Column(length = 500)
     private String obs;
@@ -44,7 +45,7 @@ public class Pagamento {
     public Pagamento() {
     }
 
-    public Pagamento(UUID id, Date createdAt, Despesa despesa, BigDecimal valor, Date dataPagamento, String obs) {
+    public Pagamento(UUID id, Date createdAt, Despesa despesa, BigDecimal valor, LocalDate dataPagamento, String obs) {
         this.id = id;
         this.createdAt = createdAt;
         this.despesa = despesa;
@@ -85,11 +86,11 @@ public class Pagamento {
         this.valor = valor;
     }
 
-    public Date getDataPagamento() {
+    public LocalDate getDataPagamento() {
         return this.dataPagamento;
     }
 
-    public void setDataPagamento(Date dataPagamento) {
+    public void setDataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 
@@ -121,7 +122,7 @@ public class Pagamento {
         return this;
     }
 
-    public Pagamento dataPagamento(Date dataPagamento) {
+    public Pagamento dataPagamento(LocalDate dataPagamento) {
         this.dataPagamento = dataPagamento;
         return this;
     }

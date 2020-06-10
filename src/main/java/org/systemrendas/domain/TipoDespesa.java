@@ -1,7 +1,6 @@
 package org.systemrendas.domain;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -32,15 +31,6 @@ public class TipoDespesa {
     @Column(length = 100)
     private String descricao;
 
-    public TipoDespesa() {
-    }
-
-    public TipoDespesa(UUID id, Date createdAt, String descricao) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.descricao = descricao;
-    }
-
     public UUID getId() {
         return this.id;
     }
@@ -63,44 +53,6 @@ public class TipoDespesa {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public TipoDespesa id(UUID id) {
-        this.id = id;
-        return this;
-    }
-
-    public TipoDespesa createdAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public TipoDespesa descricao(String descricao) {
-        this.descricao = descricao;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof TipoDespesa)) {
-            return false;
-        }
-        TipoDespesa tipoDespesa = (TipoDespesa) o;
-        return Objects.equals(id, tipoDespesa.id) && Objects.equals(createdAt, tipoDespesa.createdAt)
-                && Objects.equals(descricao, tipoDespesa.descricao);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, createdAt, descricao);
-    }
-
-    @Override
-    public String toString() {
-        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", descricao='" + getDescricao()
-                + "'" + "}";
     }
 
 }
