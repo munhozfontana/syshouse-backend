@@ -10,15 +10,12 @@ import javax.validation.constraints.NotNull;
 
 public class RendaInsertDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID pagadorId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID rendaId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioId;
 
@@ -29,7 +26,6 @@ public class RendaInsertDTO {
 
     private LocalDate vencimento;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private LocalDate dataInicio;
 

@@ -9,15 +9,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class MovimentacaoUpdateDTO {
-    @NotEmpty(message = "Preenchimento obrigatório")
+
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioOut;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioIn;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private BigDecimal valor;
 

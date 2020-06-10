@@ -6,12 +6,10 @@ import javax.validation.constraints.NotNull;
 
 public class MidiaUpdateDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 255 caracters", max = 255)
     private String nome;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @Size(message = "Valor não deve ser acima de 255 caracters", max = 255)
     private String caminho;
 

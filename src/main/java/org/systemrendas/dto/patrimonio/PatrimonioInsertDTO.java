@@ -10,26 +10,21 @@ import javax.validation.constraints.NotNull;
 
 public class PatrimonioInsertDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private BigDecimal valor;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private LocalDate dataInicio;
 
     private LocalDate dataFim;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID tipoPatrimonioId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID localizacaoId;
 

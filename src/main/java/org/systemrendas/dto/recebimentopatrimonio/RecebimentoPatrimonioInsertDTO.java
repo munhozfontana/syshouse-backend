@@ -8,15 +8,12 @@ import javax.validation.constraints.NotNull;
 
 public class RecebimentoPatrimonioInsertDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID recebimentoId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private BigDecimal valorCalculado;
 

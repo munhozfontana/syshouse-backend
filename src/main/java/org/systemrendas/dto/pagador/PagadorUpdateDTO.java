@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 public class PagadorUpdateDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;

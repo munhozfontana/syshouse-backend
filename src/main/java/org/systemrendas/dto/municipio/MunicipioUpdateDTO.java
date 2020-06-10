@@ -8,7 +8,6 @@ public class MunicipioUpdateDTO {
 
     private Integer ibge;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 50 caracters", max = 50)
     private String nome;

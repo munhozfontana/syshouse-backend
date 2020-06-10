@@ -18,7 +18,6 @@ public class DespesaInsertDTO {
 
     private LocalDate vencimento;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private LocalDate dataInicio;
 
@@ -27,11 +26,9 @@ public class DespesaInsertDTO {
     @Column(length = 500)
     private String obs;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID tipoDespesaId;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioId;
 

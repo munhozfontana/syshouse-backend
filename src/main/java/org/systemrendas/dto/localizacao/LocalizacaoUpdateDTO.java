@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class LocalizacaoUpdateDTO {
-    @NotEmpty(message = "Preenchimento obrigatório")
+
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String endereco;

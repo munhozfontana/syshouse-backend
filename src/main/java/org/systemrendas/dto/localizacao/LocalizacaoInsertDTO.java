@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 public class LocalizacaoInsertDTO {
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String endereco;
