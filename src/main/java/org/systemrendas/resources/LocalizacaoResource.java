@@ -75,8 +75,15 @@ public class LocalizacaoResource {
     @POST
     @Operation(summary = "Insere Localizacao", description = "Insere um novo objeto Localizacao e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid LocalizacaoInsertDTO dto) throws URISyntaxException {
-        Localizacao localizacao = service.fromDTO(dto);
-        UUID id = service.insert(localizacao);
+        Localizacao entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("localizacao/" + id.toString())).build();
     }
 

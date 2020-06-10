@@ -75,8 +75,15 @@ public class MidiaResource {
     @POST
     @Operation(summary = "Insere Midia", description = "Insere um novo objeto Midia e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid MidiaInsertDTO dto) throws URISyntaxException {
-        Midia midia = service.fromDTO(dto);
-        UUID id = service.insert(midia);
+        Midia entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("midia/" + id.toString())).build();
     }
 

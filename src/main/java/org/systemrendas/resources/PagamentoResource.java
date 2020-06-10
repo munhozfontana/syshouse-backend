@@ -75,8 +75,15 @@ public class PagamentoResource {
     @POST
     @Operation(summary = "Insere Pagamento", description = "Insere um novo objeto Pagamento e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid PagamentoInsertDTO dto) throws URISyntaxException {
-        Pagamento pagamento = service.fromDTO(dto);
-        UUID id = service.insert(pagamento);
+        Pagamento entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("pagamento/" + id.toString())).build();
     }
 

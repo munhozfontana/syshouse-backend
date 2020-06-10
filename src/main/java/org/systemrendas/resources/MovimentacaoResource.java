@@ -75,8 +75,15 @@ public class MovimentacaoResource {
     @POST
     @Operation(summary = "Insere Movimentacao", description = "Insere um novo objeto Movimentacao e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid MovimentacaoInsertDTO dto) throws URISyntaxException {
-        Movimentacao movimentacao = service.fromDTO(dto);
-        UUID id = service.insert(movimentacao);
+        Movimentacao entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("movimentacao/" + id.toString())).build();
     }
 

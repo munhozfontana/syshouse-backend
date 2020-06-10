@@ -75,8 +75,15 @@ public class TipoDespesaResource {
     @POST
     @Operation(summary = "Insere TipoDespesa", description = "Insere um novo objeto TipoDespesa e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid TipoDespesaInsertDTO dto) throws URISyntaxException {
-        TipoDespesa tipodespesa = service.fromDTO(dto);
-        UUID id = service.insert(tipodespesa);
+        TipoDespesa entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("tipodespesa/" + id.toString())).build();
     }
 

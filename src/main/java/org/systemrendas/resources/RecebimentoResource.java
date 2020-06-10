@@ -75,8 +75,15 @@ public class RecebimentoResource {
     @POST
     @Operation(summary = "Insere Recebimento", description = "Insere um novo objeto Recebimento e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid RecebimentoInsertDTO dto) throws URISyntaxException {
-        Recebimento recebimento = service.fromDTO(dto);
-        UUID id = service.insert(recebimento);
+        Recebimento entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("recebimento/" + id.toString())).build();
     }
 

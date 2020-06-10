@@ -75,15 +75,15 @@ public class ContatoResource {
     @POST
     @Operation(summary = "Insere Contato", description = "Insere um novo objeto Contato e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid ContatoInsertDTO dto) throws URISyntaxException {
-        Contato contato = new Contato();
+        Contato entidade = null;
 
         try {
-            contato = service.fromDTO(dto);
+            entidade = service.fromDTO(dto);
         } catch (ObjectNotFoundException e) {
             return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
         }
 
-        UUID id = service.insert(contato);
+        UUID id = service.insert(entidade);
         return Response.created(new URI("contato/" + id.toString())).build();
     }
 

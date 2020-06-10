@@ -75,8 +75,15 @@ public class SocioPatrimonioResource {
     @POST
     @Operation(summary = "Insere SocioPatrimonio", description = "Insere um novo objeto SocioPatrimonio e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid SocioPatrimonioInsertDTO dto) throws URISyntaxException {
-        SocioPatrimonio sociopatrimonio = service.fromDTO(dto);
-        UUID id = service.insert(sociopatrimonio);
+        SocioPatrimonio entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("sociopatrimonio/" + id.toString())).build();
     }
 

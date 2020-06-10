@@ -75,8 +75,15 @@ public class DependenteResource {
     @POST
     @Operation(summary = "Insere Dependente", description = "Insere um novo objeto Dependente e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid DependenteInsertDTO dto) throws URISyntaxException {
-        Dependente dependente = service.fromDTO(dto);
-        UUID id = service.insert(dependente);
+        Dependente entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("dependente/" + id.toString())).build();
     }
 

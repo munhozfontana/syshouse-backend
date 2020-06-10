@@ -75,8 +75,15 @@ public class MunicipioResource {
     @POST
     @Operation(summary = "Insere Municipio", description = "Insere um novo objeto Municipio e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid MunicipioInsertDTO dto) throws URISyntaxException {
-        Municipio municipio = service.fromDTO(dto);
-        UUID id = service.insert(municipio);
+        Municipio entidade = null;
+
+        try {
+            entidade = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
+        UUID id = service.insert(entidade);
         return Response.created(new URI("municipio/" + id.toString())).build();
     }
 
