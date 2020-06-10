@@ -24,7 +24,7 @@ public class SocioService {
     @Inject
     SocioRepository repo;
 
-    private Socio find(final UUID id) {
+    public Socio find(final UUID id) {
         final Optional<Socio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + SocioService.class.getName()));

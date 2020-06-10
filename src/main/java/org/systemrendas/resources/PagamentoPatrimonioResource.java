@@ -46,9 +46,9 @@ public class PagamentoPatrimonioResource {
         try {
             return Response.ok(service.findById(id)).build();
         } catch (ObjectNotFoundException e) {
-            return Response.status(404, e.getMessage()).build();
+            return Response.status(Status.NOT_FOUND.getStatusCode(), e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
     }
 
@@ -58,7 +58,7 @@ public class PagamentoPatrimonioResource {
         try {
             return Response.ok(service.listAll()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
 
     }
@@ -98,9 +98,9 @@ public class PagamentoPatrimonioResource {
             service.delete(id);
             return Response.noContent().build();
         } catch (ObjectNotFoundException e) {
-            return Response.status(404, e.getMessage()).build();
+            return Response.status(Status.NOT_FOUND.getStatusCode(), e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
     }
 

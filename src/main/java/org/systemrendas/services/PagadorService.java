@@ -24,7 +24,7 @@ public class PagadorService {
     @Inject
     PagadorRepository repo;
 
-    private Pagador find(final UUID id) {
+    public Pagador find(final UUID id) {
         final Optional<Pagador> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + PagadorService.class.getName()));

@@ -46,9 +46,9 @@ public class ContatoResource {
         try {
             return Response.ok(service.findById(id)).build();
         } catch (ObjectNotFoundException e) {
-            return Response.status(404, e.getMessage()).build();
+            return Response.status(Status.NOT_FOUND.getStatusCode(), e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
     }
 
@@ -58,7 +58,7 @@ public class ContatoResource {
         try {
             return Response.ok(service.listAll()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
 
     }
@@ -75,7 +75,14 @@ public class ContatoResource {
     @POST
     @Operation(summary = "Insere Contato", description = "Insere um novo objeto Contato e retornado URI para localizar o objeto")
     public Response insert(final @RequestBody @Valid ContatoInsertDTO dto) throws URISyntaxException {
-        Contato contato = service.fromDTO(dto);
+        Contato contato = new Contato();
+
+        try {
+            contato = service.fromDTO(dto);
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+
         UUID id = service.insert(contato);
         return Response.created(new URI("contato/" + id.toString())).build();
     }
@@ -98,9 +105,9 @@ public class ContatoResource {
             service.delete(id);
             return Response.noContent().build();
         } catch (ObjectNotFoundException e) {
-            return Response.status(404, e.getMessage()).build();
+            return Response.status(Status.NOT_FOUND.getStatusCode(), e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(500, Status.INTERNAL_SERVER_ERROR.getReasonPhrase()).build();
+            return Response.serverError().build();
         }
     }
 

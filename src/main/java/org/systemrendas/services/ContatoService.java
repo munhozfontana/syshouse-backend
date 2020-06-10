@@ -26,6 +26,12 @@ public class ContatoService {
     @Inject
     ContatoRepository repo;
 
+    @Inject
+    SocioService socioService;
+
+    @Inject
+    PagadorService pagadorService;
+
     private Contato find(final UUID id) {
         final Optional<Contato> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -73,18 +79,14 @@ public class ContatoService {
     }
 
     public Contato fromDTO(final ContatoInsertDTO objDto) {
-        Pagador pagador = new Pagador();
-        pagador.setId(objDto.getPagadorId());
-
-        Socio socio = new Socio();
-        socio.setId(objDto.getSocioId());
 
         Contato contato = new Contato();
         contato.setFone(objDto.getFone());
         contato.setWhatsapp(objDto.getWhatsapp());
         contato.setEmail(objDto.getEmail());
-        contato.setPagador(pagador);
-        contato.setSocio(socio);
+
+        contato.setPagador(pagadorService.find(objDto.getPagadorId()));
+        contato.setSocio(socioService.find(objDto.getSocioId()));
 
         return contato;
     }
