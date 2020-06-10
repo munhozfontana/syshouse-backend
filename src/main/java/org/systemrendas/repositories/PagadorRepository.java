@@ -12,8 +12,8 @@ import io.quarkus.panache.common.Page;
 
 @ApplicationScoped
 public class PagadorRepository implements PanacheRepositoryBase<Pagador, UUID> {
-
     public PanacheQuery<Pagador> listAllPage(Page pegeable) {
+
         return find("from Pagador").page(pegeable);
     }
 
