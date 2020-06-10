@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +22,7 @@ public class RendaInsertDTO {
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonio;
 
-    @Max(message = "Valor não deve ser acima de 100 caracters", value = 100)
+    @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String descricao;
 
     private BigDecimal valor;
@@ -35,7 +35,7 @@ public class RendaInsertDTO {
 
     private LocalDate dataFim;
 
-    @Max(message = "Valor não deve ser acima de 500 caracters", value = 500)
+    @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String obs;
 
     public UUID getPagador() {

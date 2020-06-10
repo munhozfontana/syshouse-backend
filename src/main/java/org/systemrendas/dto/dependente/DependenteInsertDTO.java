@@ -2,7 +2,7 @@ package org.systemrendas.dto.dependente;
 
 import java.util.UUID;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -14,7 +14,7 @@ public class DependenteInsertDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 100 caracters", value = 100)
+    @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;
 
     public UUID getPagadorId() {

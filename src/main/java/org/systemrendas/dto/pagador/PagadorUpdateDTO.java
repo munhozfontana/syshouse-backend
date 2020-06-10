@@ -3,7 +3,7 @@ package org.systemrendas.dto.pagador;
 import java.time.LocalDate;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -11,31 +11,31 @@ public class PagadorUpdateDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 100 caracters", value = 100)
+    @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;
 
     @JsonbDateFormat(value = "dd-MM-yyyy")
     private LocalDate nascimento;
 
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 11)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 11)
     private String cpf;
 
-    @Max(message = "Valor não deve ser acima de 45 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 45 caracters", max = 45)
     private String rg;
 
-    @Max(message = "Valor não deve ser acima de 14 caracters", value = 14)
+    @Size(message = "Valor não deve ser acima de 14 caracters", max = 14)
     private String cnpj;
 
-    @Max(message = "Valor não deve ser acima de 45 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 45 caracters", max = 45)
     private String nacionalidade;
 
-    @Max(message = "Valor não deve ser acima de 45 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 45 caracters", max = 45)
     private String estadoCivil;
 
-    @Max(message = "Valor não deve ser acima de 45 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 45 caracters", max = 45)
     private String profissao;
 
-    @Max(message = "Valor não deve ser acima de 500 caracters", value = 500)
+    @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String endereco;
 
     public String getNome() {

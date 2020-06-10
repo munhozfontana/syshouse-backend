@@ -1,6 +1,6 @@
 package org.systemrendas.dto.socio;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -8,24 +8,24 @@ public class SocioInsertDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 100 caracters", value = 100)
+    @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 11)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 11)
     private String cpf;
 
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 20)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 20)
     private String rg;
 
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 45)
     private String nacionalidade;
 
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 45)
     private String estadoCivil;
 
-    @Max(message = "Valor não deve ser acima de 11 caracters", value = 45)
+    @Size(message = "Valor não deve ser acima de 11 caracters", max = 45)
     private String profissao;
 
     public String getNome() {

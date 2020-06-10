@@ -1,6 +1,6 @@
 package org.systemrendas.dto.municipio;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -10,13 +10,13 @@ public class MunicipioUpdateDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 50 caracters", value = 50)
+    @Size(message = "Valor não deve ser acima de 50 caracters", max = 50)
     private String nome;
 
-    @Max(message = "Valor não deve ser acima de 2 caracters", value = 2)
+    @Size(message = "Valor não deve ser acima de 2 caracters", max = 2)
     private String uf;
 
-    @Max(message = "Valor não deve ser acima de 50 caracters", value = 50)
+    @Size(message = "Valor não deve ser acima de 50 caracters", max = 50)
     private String pais;
 
     private Integer populacao;

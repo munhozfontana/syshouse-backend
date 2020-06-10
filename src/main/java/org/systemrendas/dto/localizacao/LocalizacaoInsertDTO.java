@@ -3,7 +3,7 @@ package org.systemrendas.dto.localizacao;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -11,16 +11,16 @@ public class LocalizacaoInsertDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    @Max(message = "Valor não deve ser acima de 500 caracters", value = 500)
+    @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String endereco;
 
-    @Max(message = "Valor não deve ser acima de 50 caracters", value = 50)
+    @Size(message = "Valor não deve ser acima de 50 caracters", max = 50)
     private String bairro;
 
-    @Max(message = "Valor não deve ser acima de 8 caracters", value = 8)
+    @Size(message = "Valor não deve ser acima de 8 caracters", max = 8)
     private String cep;
 
-    @Max(message = "Valor não deve ser acima de 1000 caracters", value = 1000)
+    @Size(message = "Valor não deve ser acima de 1000 caracters", max = 1000)
     private String complemento;
 
     private BigDecimal latitude;
