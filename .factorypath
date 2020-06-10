@@ -73,9 +73,6 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/io/agroal/agroal-narayana/1.7/agroal-narayana-1.7.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/agroal/agroal-pool/1.7/agroal-pool-1.7.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-vault-spi/1.4.2.Final/quarkus-vault-spi-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-jdbc-h2/1.4.2.Final/quarkus-jdbc-h2-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/h2database/h2/1.4.197/h2-1.4.197.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/org/locationtech/jts/jts-core/1.15.0/jts-core-1.15.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-hibernate-orm-panache/1.4.2.Final/quarkus-hibernate-orm-panache-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-panache-common/1.4.2.Final/quarkus-panache-common-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-jdbc-postgresql/1.4.2.Final/quarkus-jdbc-postgresql-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
@@ -125,4 +122,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.10.3/jackson-dataformat-yaml-2.10.3.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/yaml/snakeyaml/1.26/snakeyaml-1.26.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-swagger-ui/1.4.2.Final/quarkus-swagger-ui-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-hibernate-validator/1.4.2.Final/quarkus-hibernate-validator-1.4.2.Final.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/hibernate/validator/hibernate-validator/6.1.4.Final/hibernate-validator-6.1.4.Final.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/glassfish/jakarta.el/3.0.3/jakarta.el-3.0.3.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
