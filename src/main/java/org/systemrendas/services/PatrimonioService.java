@@ -16,7 +16,6 @@ import org.systemrendas.dto.patrimonio.PatrimonioUpdateDTO;
 import org.systemrendas.repositories.PatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Page;
 
 @ApplicationScoped

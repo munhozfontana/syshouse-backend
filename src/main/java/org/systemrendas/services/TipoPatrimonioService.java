@@ -1,5 +1,6 @@
 package org.systemrendas.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -72,6 +73,7 @@ public class TipoPatrimonioService {
     public TipoPatrimonio fromDTO(final TipoPatrimonioInsertDTO objDto) {
         TipoPatrimonio entidade = new TipoPatrimonio();
         entidade.setDescricao(objDto.getDescricao());
+        entidade.createdAt(new Date());
         return entidade;
     }
 

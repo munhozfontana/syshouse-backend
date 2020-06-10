@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Despesa;
-import org.systemrendas.domain.Patrimonio;
 import org.systemrendas.dto.despesa.DespesaInsertDTO;
 import org.systemrendas.dto.despesa.DespesaUpdateDTO;
 import org.systemrendas.repositories.DespesaRepository;

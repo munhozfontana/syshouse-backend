@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
-import org.systemrendas.domain.Patrimonio;
 import org.systemrendas.domain.RecebimentoPatrimonio;
 import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioInsertDTO;
 import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioUpdateDTO;

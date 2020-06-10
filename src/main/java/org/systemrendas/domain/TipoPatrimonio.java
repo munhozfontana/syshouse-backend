@@ -34,8 +34,9 @@ public class TipoPatrimonio {
     public TipoPatrimonio() {
     }
 
-    public TipoPatrimonio(UUID id, String descricao) {
+    public TipoPatrimonio(UUID id, Date createdAt, String descricao) {
         this.id = id;
+        this.createdAt = createdAt;
         this.descricao = descricao;
     }
 
@@ -45,6 +46,14 @@ public class TipoPatrimonio {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getDescricao() {
@@ -57,6 +66,11 @@ public class TipoPatrimonio {
 
     public TipoPatrimonio id(UUID id) {
         this.id = id;
+        return this;
+    }
+
+    public TipoPatrimonio createdAt(Date createdAt) {
+        this.createdAt = createdAt;
         return this;
     }
 
@@ -73,17 +87,19 @@ public class TipoPatrimonio {
             return false;
         }
         TipoPatrimonio tipoPatrimonio = (TipoPatrimonio) o;
-        return Objects.equals(id, tipoPatrimonio.id) && Objects.equals(descricao, tipoPatrimonio.descricao);
+        return Objects.equals(id, tipoPatrimonio.id) && Objects.equals(createdAt, tipoPatrimonio.createdAt)
+                && Objects.equals(descricao, tipoPatrimonio.descricao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, descricao);
+        return Objects.hash(id, createdAt, descricao);
     }
 
     @Override
     public String toString() {
-        return "{" + " id='" + getId() + "'" + ", descricao='" + getDescricao() + "'" + "}";
+        return "{" + " id='" + getId() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", descricao='" + getDescricao()
+                + "'" + "}";
     }
 
 }
