@@ -69,17 +69,20 @@ public class TipoRendaService {
         return repo.listAll();
     }
 
+    public TipoRenda fromDTO(final TipoRendaInsertDTO objDto) {
+        TipoRenda entidade = new TipoRenda();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
+    public TipoRenda fromDTO(TipoRendaUpdateDTO objDto) {
+        TipoRenda entidade = new TipoRenda();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
     private void updateData(final TipoRenda newObj, final TipoRenda obj) {
         newObj.setDescricao(obj.getDescricao());
-    }
-
-    public TipoRenda fromDTO(final TipoRendaInsertDTO objDto) {
-        TipoRenda tipoRenda = new TipoRenda();
-        return tipoRenda;
-    }
-
-    public TipoRenda fromDTO(TipoRendaUpdateDTO dto) {
-        return null;
     }
 
 }

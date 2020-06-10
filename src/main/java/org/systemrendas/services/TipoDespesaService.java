@@ -69,18 +69,20 @@ public class TipoDespesaService {
         return repo.listAll();
     }
 
+    public TipoDespesa fromDTO(final TipoDespesaInsertDTO objDto) {
+        TipoDespesa entidade = new TipoDespesa();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
+    public TipoDespesa fromDTO(TipoDespesaUpdateDTO objDto) {
+        TipoDespesa entidade = new TipoDespesa();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
     private void updateData(final TipoDespesa newObj, final TipoDespesa obj) {
         newObj.setDescricao(obj.getDescricao());
-    }
-
-    public TipoDespesa fromDTO(final TipoDespesaInsertDTO objDto) {
-        TipoDespesa tipoDespesa = new TipoDespesa();
-        tipoDespesa.setDescricao(objDto.getDescricao());
-        return tipoDespesa;
-    }
-
-    public TipoDespesa fromDTO(TipoDespesaUpdateDTO dto) {
-        return null;
     }
 
 }

@@ -75,8 +75,8 @@ public class MidiaService {
     }
 
     public Midia fromDTO(final MidiaInsertDTO objDto) {
-        Midia midia = new Midia();
-        return midia;
+        Midia entidade = new Midia();
+        return entidade;
     }
 
     public Midia fromDTO(MidiaUpdateDTO dto) {

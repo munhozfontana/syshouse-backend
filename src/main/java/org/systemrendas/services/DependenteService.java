@@ -24,6 +24,9 @@ public class DependenteService {
     @Inject
     DependenteRepository repo;
 
+    @Inject
+    PagadorService pagadorService;
+
     private Dependente find(final UUID id) {
         final Optional<Dependente> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,23 @@ public class DependenteService {
         return repo.listAll();
     }
 
-    private void updateData(final Dependente newObj, final Dependente obj) {
-        newObj.setId(null);
-    }
-
     public Dependente fromDTO(final DependenteInsertDTO objDto) {
-        Dependente dependente = new Dependente();
-        return dependente;
+        Dependente entidade = new Dependente();
+        entidade.setNome(objDto.getNome());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        return entidade;
     }
 
-    public Dependente fromDTO(DependenteUpdateDTO dto) {
-        return null;
+    public Dependente fromDTO(DependenteUpdateDTO objDto) {
+        Dependente entidade = new Dependente();
+        entidade.setNome(objDto.getNome());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        return entidade;
+    }
+
+    private void updateData(final Dependente newObj, final Dependente obj) {
+        newObj.setNome(obj.getNome());
+        newObj.setPagador(obj.getPagador());
     }
 
 }

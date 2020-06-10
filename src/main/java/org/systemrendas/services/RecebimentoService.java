@@ -24,6 +24,9 @@ public class RecebimentoService {
     @Inject
     RecebimentoRepository repo;
 
+    @Inject
+    private RendaService rendaService;
+
     private Recebimento find(final UUID id) {
         final Optional<Recebimento> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,29 @@ public class RecebimentoService {
         return repo.listAll();
     }
 
-    private void updateData(final Recebimento newObj, final Recebimento obj) {
-        newObj.setId(null);
-    }
-
     public Recebimento fromDTO(final RecebimentoInsertDTO objDto) {
-        Recebimento Recebimento = new Recebimento();
-        return Recebimento;
+        Recebimento entidade = new Recebimento();
+        entidade.setDataRecebimento(objDto.getDataRecebimento());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        return entidade;
     }
 
-    public Recebimento fromDTO(RecebimentoUpdateDTO dto) {
-        return null;
+    public Recebimento fromDTO(RecebimentoUpdateDTO objDto) {
+        Recebimento entidade = new Recebimento();
+        entidade.setDataRecebimento(objDto.getDataRecebimento());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        return entidade;
+    }
+
+    private void updateData(final Recebimento newObj, final Recebimento obj) {
+        newObj.setDataRecebimento(obj.getDataRecebimento());
+        newObj.setObs(obj.getObs());
+        newObj.setValor(obj.getValor());
+        newObj.setRenda(obj.getRenda());
     }
 
 }

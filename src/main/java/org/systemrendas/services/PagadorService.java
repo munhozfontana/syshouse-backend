@@ -24,7 +24,7 @@ public class PagadorService {
     @Inject
     PagadorRepository repo;
 
-    public Pagador find(final UUID id) {
+    private Pagador find(final UUID id) {
         final Optional<Pagador> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + PagadorService.class.getName()));
@@ -72,7 +72,6 @@ public class PagadorService {
 
     public Pagador fromDTO(final PagadorInsertDTO objDto) {
         Pagador pagador = new Pagador();
-
         pagador.setCnpj(objDto.getCnpj());
         pagador.setCpf(objDto.getCpf());
         pagador.setEndereco(objDto.getEndereco());
@@ -82,7 +81,6 @@ public class PagadorService {
         pagador.setNome(objDto.getNome());
         pagador.setProfissao(objDto.getProfissao());
         pagador.setRg(objDto.getRg());
-
         return pagador;
     }
 

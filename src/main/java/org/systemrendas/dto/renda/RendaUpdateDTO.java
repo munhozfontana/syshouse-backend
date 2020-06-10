@@ -12,15 +12,15 @@ public class RendaUpdateDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID pagador;
+    private UUID pagadorId;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID renda;
+    private UUID rendaId;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID patrimonio;
+    private UUID patrimonioId;
 
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String descricao;
@@ -38,28 +38,28 @@ public class RendaUpdateDTO {
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String obs;
 
-    public UUID getPagador() {
-        return this.pagador;
+    public UUID getPagadorId() {
+        return this.pagadorId;
     }
 
-    public void setPagador(UUID pagador) {
-        this.pagador = pagador;
+    public void setPagadorId(UUID pagadorId) {
+        this.pagadorId = pagadorId;
     }
 
-    public UUID getRenda() {
-        return this.renda;
+    public UUID getRendaId() {
+        return this.rendaId;
     }
 
-    public void setRenda(UUID renda) {
-        this.renda = renda;
+    public void setRendaId(UUID rendaId) {
+        this.rendaId = rendaId;
     }
 
-    public UUID getPatrimonio() {
-        return this.patrimonio;
+    public UUID getPatrimonioId() {
+        return this.patrimonioId;
     }
 
-    public void setPatrimonio(UUID patrimonio) {
-        this.patrimonio = patrimonio;
+    public void setPatrimonioId(UUID patrimonioId) {
+        this.patrimonioId = patrimonioId;
     }
 
     public String getDescricao() {

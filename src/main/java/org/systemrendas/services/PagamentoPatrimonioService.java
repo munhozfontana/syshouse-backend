@@ -24,6 +24,12 @@ public class PagamentoPatrimonioService {
     @Inject
     PagamentoPatrimonioRepository repo;
 
+    @Inject
+    PagamentoService pagamentoService;
+
+    @Inject
+    PatrimonioService patrimonioService;
+
     private PagamentoPatrimonio find(final UUID id) {
         final Optional<PagamentoPatrimonio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +75,26 @@ public class PagamentoPatrimonioService {
         return repo.listAll();
     }
 
-    private void updateData(final PagamentoPatrimonio newObj, final PagamentoPatrimonio obj) {
-        newObj.setId(null);
-    }
-
     public PagamentoPatrimonio fromDTO(final PagamentoPatrimonioInsertDTO objDto) {
-        PagamentoPatrimonio pagamentoPatrimonio = new PagamentoPatrimonio();
-        return pagamentoPatrimonio;
+        PagamentoPatrimonio entidade = new PagamentoPatrimonio();
+        entidade.setPagamento(pagamentoService.findById(objDto.getPagamentoId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setValorCalculado(objDto.getValorCalculado());
+        return entidade;
     }
 
-    public PagamentoPatrimonio fromDTO(PagamentoPatrimonioUpdateDTO dto) {
-        return null;
+    public PagamentoPatrimonio fromDTO(PagamentoPatrimonioUpdateDTO objDto) {
+        PagamentoPatrimonio entidade = new PagamentoPatrimonio();
+        entidade.setPagamento(pagamentoService.findById(objDto.getPagamentoId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setValorCalculado(objDto.getValorCalculado());
+        return entidade;
+    }
+
+    private void updateData(final PagamentoPatrimonio newObj, final PagamentoPatrimonio obj) {
+        newObj.setPagamento(obj.getPagamento());
+        newObj.setPatrimonio(obj.getPatrimonio());
+        newObj.setValorCalculado(obj.getValorCalculado());
     }
 
 }

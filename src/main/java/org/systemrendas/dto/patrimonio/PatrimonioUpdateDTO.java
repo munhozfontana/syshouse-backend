@@ -27,11 +27,11 @@ public class PatrimonioUpdateDTO {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID tipoPatrimonio;
+    private UUID tipoPatrimonioId;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID localizacao;
+    private UUID localizacaoId;
 
     public String getNome() {
         return this.nome;
@@ -65,20 +65,20 @@ public class PatrimonioUpdateDTO {
         this.dataFim = dataFim;
     }
 
-    public UUID getTipoPatrimonio() {
-        return this.tipoPatrimonio;
+    public UUID getTipoPatrimonioId() {
+        return this.tipoPatrimonioId;
     }
 
-    public void setTipoPatrimonio(UUID tipoPatrimonio) {
-        this.tipoPatrimonio = tipoPatrimonio;
+    public void setTipoPatrimonioId(UUID tipoPatrimonioId) {
+        this.tipoPatrimonioId = tipoPatrimonioId;
     }
 
-    public UUID getLocalizacao() {
-        return this.localizacao;
+    public UUID getLocalizacaoId() {
+        return this.localizacaoId;
     }
 
-    public void setLocalizacao(UUID localizacao) {
-        this.localizacao = localizacao;
+    public void setLocalizacaoId(UUID localizacaoId) {
+        this.localizacaoId = localizacaoId;
     }
 
 }

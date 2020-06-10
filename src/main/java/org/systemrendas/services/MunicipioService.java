@@ -69,16 +69,31 @@ public class MunicipioService {
         return repo.listAll();
     }
 
-    private void updateData(final Municipio newObj, final Municipio obj) {
-        newObj.setId(null);
-    }
-
     public Municipio fromDTO(final MunicipioInsertDTO objDto) {
         Municipio municipio = new Municipio();
+        municipio.setIbge(objDto.getIbge());
+        municipio.setNome(objDto.getNome());
+        municipio.setPais(objDto.getNome());
+        municipio.setPopulacao(objDto.getPopulacao());
+        municipio.setUf(objDto.getUf());
         return municipio;
     }
 
-    public Municipio fromDTO(MunicipioUpdateDTO dto) {
-        return null;
+    public Municipio fromDTO(MunicipioUpdateDTO objDto) {
+        Municipio municipio = new Municipio();
+        municipio.setIbge(objDto.getIbge());
+        municipio.setNome(objDto.getNome());
+        municipio.setPais(objDto.getNome());
+        municipio.setPopulacao(objDto.getPopulacao());
+        municipio.setUf(objDto.getUf());
+        return municipio;
+    }
+
+    private void updateData(final Municipio newObj, final Municipio obj) {
+        newObj.setIbge(obj.getIbge());
+        newObj.setNome(obj.getNome());
+        newObj.setPais(obj.getNome());
+        newObj.setPopulacao(obj.getPopulacao());
+        newObj.setUf(obj.getUf());
     }
 }

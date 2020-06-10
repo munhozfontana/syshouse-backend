@@ -69,18 +69,20 @@ public class TipoPatrimonioService {
         return repo.listAll();
     }
 
+    public TipoPatrimonio fromDTO(final TipoPatrimonioInsertDTO objDto) {
+        TipoPatrimonio entidade = new TipoPatrimonio();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
+    public TipoPatrimonio fromDTO(TipoPatrimonioUpdateDTO objDto) {
+        TipoPatrimonio entidade = new TipoPatrimonio();
+        entidade.setDescricao(objDto.getDescricao());
+        return entidade;
+    }
+
     private void updateData(final TipoPatrimonio newObj, final TipoPatrimonio obj) {
         newObj.setDescricao(obj.getDescricao());
-    }
-
-    public TipoPatrimonio fromDTO(final TipoPatrimonioInsertDTO objDto) {
-        TipoPatrimonio tioPatrimonio = new TipoPatrimonio();
-        tioPatrimonio.setDescricao(objDto.getDescricao());
-        return tioPatrimonio;
-    }
-
-    public TipoPatrimonio fromDTO(TipoPatrimonioUpdateDTO dto) {
-        return null;
     }
 
 }

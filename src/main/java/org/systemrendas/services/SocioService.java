@@ -24,7 +24,7 @@ public class SocioService {
     @Inject
     SocioRepository repo;
 
-    public Socio find(final UUID id) {
+    private Socio find(final UUID id) {
         final Optional<Socio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + SocioService.class.getName()));
@@ -70,17 +70,35 @@ public class SocioService {
         return repo.listAll();
     }
 
-    private void updateData(final Socio newObj, final Socio obj) {
-        newObj.setId(null);
-    }
-
     public Socio fromDTO(final SocioInsertDTO objDto) {
-        Socio Socio = new Socio();
-        return Socio;
+        Socio entidade = new Socio();
+        entidade.setCpf(objDto.getCpf());
+        entidade.setEstadoCivil(objDto.getEstadoCivil());
+        entidade.setNacionalidade(objDto.getNacionalidade());
+        entidade.setNome(objDto.getNome());
+        entidade.setProfissao(objDto.getProfissao());
+        entidade.setRg(objDto.getRg());
+        return entidade;
     }
 
-    public Socio fromDTO(SocioUpdateDTO dto) {
-        return null;
+    public Socio fromDTO(SocioUpdateDTO objDto) {
+        Socio entidade = new Socio();
+        entidade.setCpf(objDto.getCpf());
+        entidade.setEstadoCivil(objDto.getEstadoCivil());
+        entidade.setNacionalidade(objDto.getNacionalidade());
+        entidade.setNome(objDto.getNome());
+        entidade.setProfissao(objDto.getProfissao());
+        entidade.setRg(objDto.getRg());
+        return entidade;
+    }
+
+    private void updateData(final Socio newObj, final Socio obj) {
+        newObj.setCpf(obj.getCpf());
+        newObj.setEstadoCivil(obj.getEstadoCivil());
+        newObj.setNacionalidade(obj.getNacionalidade());
+        newObj.setNome(obj.getNome());
+        newObj.setProfissao(obj.getProfissao());
+        newObj.setRg(obj.getRg());
     }
 
 }

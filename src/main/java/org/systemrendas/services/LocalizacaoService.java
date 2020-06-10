@@ -24,6 +24,9 @@ public class LocalizacaoService {
     @Inject
     LocalizacaoRepository repo;
 
+    @Inject
+    MunicipioService municipioService;
+
     private Localizacao find(final UUID id) {
         final Optional<Localizacao> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,38 @@ public class LocalizacaoService {
         return repo.listAll();
     }
 
-    private void updateData(final Localizacao newObj, final Localizacao obj) {
-        newObj.setId(null);
-    }
-
     public Localizacao fromDTO(final LocalizacaoInsertDTO objDto) {
-        Localizacao localizacao = new Localizacao();
-        return localizacao;
+        Localizacao entidade = new Localizacao();
+        entidade.setBairro(objDto.getBairro());
+        entidade.setCep(objDto.getCep());
+        entidade.setComplemento(objDto.getComplemento());
+        entidade.setEndereco(objDto.getEndereco());
+        entidade.setLatitude(objDto.getLatitude());
+        entidade.setLongitude(objDto.getLongitude());
+        entidade.setMunicipio(municipioService.findById(objDto.getMunicipioId()));
+        return entidade;
     }
 
-    public Localizacao fromDTO(LocalizacaoUpdateDTO dto) {
-        return null;
+    public Localizacao fromDTO(LocalizacaoUpdateDTO objDto) {
+        Localizacao entidade = new Localizacao();
+        entidade.setBairro(objDto.getBairro());
+        entidade.setCep(objDto.getCep());
+        entidade.setComplemento(objDto.getComplemento());
+        entidade.setEndereco(objDto.getEndereco());
+        entidade.setLatitude(objDto.getLatitude());
+        entidade.setLongitude(objDto.getLongitude());
+        entidade.setMunicipio(municipioService.findById(objDto.getMunicipioId()));
+        return entidade;
+    }
+
+    private void updateData(final Localizacao newObj, final Localizacao obj) {
+        newObj.setBairro(obj.getBairro());
+        newObj.setCep(obj.getCep());
+        newObj.setComplemento(obj.getComplemento());
+        newObj.setEndereco(obj.getEndereco());
+        newObj.setLatitude(obj.getLatitude());
+        newObj.setLongitude(obj.getLongitude());
+        newObj.setMunicipio(obj.getMunicipio());
     }
 
 }

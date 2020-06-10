@@ -24,6 +24,9 @@ public class PagamentoService {
     @Inject
     PagamentoRepository repo;
 
+    @Inject
+    DespesaService despesaService;
+
     private Pagamento find(final UUID id) {
         final Optional<Pagamento> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,29 @@ public class PagamentoService {
         return repo.listAll();
     }
 
-    private void updateData(final Pagamento newObj, final Pagamento obj) {
-        newObj.setId(null);
-    }
-
     public Pagamento fromDTO(final PagamentoInsertDTO objDto) {
-        Pagamento pagamento = new Pagamento();
-        return pagamento;
+        Pagamento entidade = new Pagamento();
+        entidade.setDataPagamento(objDto.getDataPagamento());
+        entidade.setDespesa(despesaService.findById(objDto.getDespesaId()));
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        return entidade;
     }
 
-    public Pagamento fromDTO(PagamentoUpdateDTO dto) {
-        return null;
+    public Pagamento fromDTO(PagamentoUpdateDTO objDto) {
+        Pagamento entidade = new Pagamento();
+        entidade.setDataPagamento(objDto.getDataPagamento());
+        entidade.setDespesa(despesaService.findById(objDto.getDespesaId()));
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        return entidade;
+    }
+
+    private void updateData(final Pagamento newObj, final Pagamento obj) {
+        newObj.setDataPagamento(obj.getDataPagamento());
+        newObj.setDespesa(obj.getDespesa());
+        newObj.setObs(obj.getObs());
+        newObj.setValor(obj.getValor());
     }
 
 }

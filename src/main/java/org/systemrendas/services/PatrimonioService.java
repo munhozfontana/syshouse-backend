@@ -16,6 +16,7 @@ import org.systemrendas.dto.patrimonio.PatrimonioUpdateDTO;
 import org.systemrendas.repositories.PatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkus.panache.common.Page;
 
 @ApplicationScoped
@@ -23,6 +24,8 @@ public class PatrimonioService {
 
     @Inject
     PatrimonioRepository repo;
+
+    private LocalizacaoService localizacaoService;
 
     private Patrimonio find(final UUID id) {
         final Optional<Patrimonio> obj = repo.findByIdOptional(id);
@@ -69,17 +72,29 @@ public class PatrimonioService {
         return repo.listAll();
     }
 
-    private void updateData(final Patrimonio newObj, final Patrimonio obj) {
-        newObj.setId(null);
-    }
-
     public Patrimonio fromDTO(final PatrimonioInsertDTO objDto) {
-        Patrimonio patrimonio = new Patrimonio();
-        return patrimonio;
+        Patrimonio entidade = new Patrimonio();
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setNome(objDto.getNome());
+        entidade.setLocalizacao(localizacaoService.findById(objDto.getLocalizacaoId()));
+        return entidade;
     }
 
-    public Patrimonio fromDTO(PatrimonioUpdateDTO dto) {
-        return null;
+    public Patrimonio fromDTO(PatrimonioUpdateDTO objDto) {
+        Patrimonio entidade = new Patrimonio();
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setNome(objDto.getNome());
+        entidade.setLocalizacao(localizacaoService.findById(objDto.getLocalizacaoId()));
+        return entidade;
+    }
+
+    private void updateData(final Patrimonio newObj, final Patrimonio obj) {
+        newObj.setDataFim(obj.getDataFim());
+        newObj.setDataInicio(obj.getDataInicio());
+        newObj.setNome(obj.getNome());
+        newObj.setLocalizacao(obj.getLocalizacao());
     }
 
 }

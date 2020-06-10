@@ -24,6 +24,9 @@ public class MovimentacaoService {
     @Inject
     MovimentacaoRepository repo;
 
+    @Inject
+    PatrimonioService patrimonioService;
+
     private Movimentacao find(final UUID id) {
         final Optional<Movimentacao> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,32 @@ public class MovimentacaoService {
         return repo.listAll();
     }
 
-    private void updateData(final Movimentacao newObj, final Movimentacao obj) {
-        newObj.setId(null);
-    }
-
     public Movimentacao fromDTO(final MovimentacaoInsertDTO objDto) {
-        Movimentacao movimentacao = new Movimentacao();
-        return movimentacao;
+        Movimentacao entidade = new Movimentacao();
+        entidade.setData(objDto.getData());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setPatrimonioIn(patrimonioService.findById(objDto.getPatrimonioIn()));
+        entidade.setPatrimonioOut(patrimonioService.findById(objDto.getPatrimonioOut()));
+        return entidade;
     }
 
-    public Movimentacao fromDTO(MovimentacaoUpdateDTO dto) {
-        return null;
+    public Movimentacao fromDTO(MovimentacaoUpdateDTO objDto) {
+        Movimentacao entidade = new Movimentacao();
+        entidade.setData(objDto.getData());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setPatrimonioIn(patrimonioService.findById(objDto.getPatrimonioIn()));
+        entidade.setPatrimonioOut(patrimonioService.findById(objDto.getPatrimonioOut()));
+        return entidade;
+    }
+
+    private void updateData(final Movimentacao newObj, final Movimentacao obj) {
+        newObj.setData(obj.getData());
+        newObj.setObs(obj.getObs());
+        newObj.setValor(obj.getValor());
+        newObj.setPatrimonioIn(obj.getPatrimonioIn());
+        newObj.setPatrimonioOut(obj.getPatrimonioOut());
     }
 
 }

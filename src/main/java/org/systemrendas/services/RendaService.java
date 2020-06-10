@@ -24,6 +24,15 @@ public class RendaService {
     @Inject
     RendaRepository repo;
 
+    @Inject
+    PagadorService pagadorService;
+
+    @Inject
+    PatrimonioService patrimonioService;
+
+    @Inject
+    RendaService rendaService;
+
     private Renda find(final UUID id) {
         final Optional<Renda> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -70,17 +79,44 @@ public class RendaService {
         return repo.listAll();
     }
 
-    private void updateData(final Renda newObj, final Renda obj) {
-        newObj.setId(null);
-    }
-
     public Renda fromDTO(final RendaInsertDTO objDto) {
-        Renda Renda = new Renda();
-        return Renda;
+        Renda entidade = new Renda();
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setDescricao(objDto.getDescricao());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setVencimento(objDto.getVencimento());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
     }
 
-    public Renda fromDTO(RendaUpdateDTO dto) {
-        return null;
+    public Renda fromDTO(RendaUpdateDTO objDto) {
+        Renda entidade = new Renda();
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setDescricao(objDto.getDescricao());
+        entidade.setObs(objDto.getObs());
+        entidade.setValor(objDto.getValor());
+        entidade.setVencimento(objDto.getVencimento());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
+    }
+
+    private void updateData(final Renda newObj, final Renda obj) {
+        newObj.setDataFim(obj.getDataFim());
+        newObj.setDataInicio(obj.getDataInicio());
+        newObj.setDescricao(obj.getDescricao());
+        newObj.setObs(obj.getObs());
+        newObj.setValor(obj.getValor());
+        newObj.setVencimento(obj.getVencimento());
+        newObj.setPagador(obj.getPagador());
+        newObj.setRenda(obj.getRenda());
+        newObj.setPatrimonio(obj.getPatrimonio());
     }
 
 }

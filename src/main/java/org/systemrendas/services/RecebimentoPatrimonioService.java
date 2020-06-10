@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
+import org.systemrendas.domain.Patrimonio;
 import org.systemrendas.domain.RecebimentoPatrimonio;
 import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioInsertDTO;
 import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioUpdateDTO;
@@ -23,6 +24,12 @@ public class RecebimentoPatrimonioService {
 
     @Inject
     RecebimentoPatrimonioRepository repo;
+
+    @Inject
+    PatrimonioService patrimonioService;
+
+    @Inject
+    RecebimentoService recebimentoService;
 
     private RecebimentoPatrimonio find(final UUID id) {
         final Optional<RecebimentoPatrimonio> obj = repo.findByIdOptional(id);
@@ -70,17 +77,26 @@ public class RecebimentoPatrimonioService {
         return repo.listAll();
     }
 
-    private void updateData(final RecebimentoPatrimonio newObj, final RecebimentoPatrimonio obj) {
-        newObj.setId(null);
-    }
-
     public RecebimentoPatrimonio fromDTO(final RecebimentoPatrimonioInsertDTO objDto) {
-        RecebimentoPatrimonio recebimentoPatrimonio = new RecebimentoPatrimonio();
-        return recebimentoPatrimonio;
+        RecebimentoPatrimonio entidade = new RecebimentoPatrimonio();
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setRecebimento(recebimentoService.findById(objDto.getRecebimentoId()));
+        entidade.setValorCalculado(objDto.getValorCalculado());
+        return entidade;
     }
 
-    public RecebimentoPatrimonio fromDTO(RecebimentoPatrimonioUpdateDTO dto) {
-        return null;
+    public RecebimentoPatrimonio fromDTO(RecebimentoPatrimonioUpdateDTO objDto) {
+        RecebimentoPatrimonio entidade = new RecebimentoPatrimonio();
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setRecebimento(recebimentoService.findById(objDto.getRecebimentoId()));
+        entidade.setValorCalculado(objDto.getValorCalculado());
+        return entidade;
+    }
+
+    private void updateData(final RecebimentoPatrimonio newObj, final RecebimentoPatrimonio obj) {
+        newObj.setPatrimonio(obj.getPatrimonio());
+        newObj.setRecebimento(obj.getRecebimento());
+        newObj.setValorCalculado(obj.getValorCalculado());
     }
 
 }

@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Despesa;
+import org.systemrendas.domain.Patrimonio;
 import org.systemrendas.dto.despesa.DespesaInsertDTO;
 import org.systemrendas.dto.despesa.DespesaUpdateDTO;
 import org.systemrendas.repositories.DespesaRepository;
@@ -23,6 +24,12 @@ public class DespesaService {
 
     @Inject
     DespesaRepository repo;
+
+    @Inject
+    TipoDespesaService tipoDespesaService;
+
+    @Inject
+    PatrimonioService patrimonioService;
 
     private Despesa find(final UUID id) {
         final Optional<Despesa> obj = repo.findByIdOptional(id);
@@ -70,17 +77,41 @@ public class DespesaService {
         return repo.listAll();
     }
 
-    private void updateData(final Despesa newObj, final Despesa obj) {
-        newObj.setId(null);
-    }
-
     public Despesa fromDTO(final DespesaInsertDTO objDto) {
-        Despesa despesa = new Despesa();
-        return despesa;
+        Despesa entidade = new Despesa();
+        entidade.setDescricao(objDto.getDescricao());
+        entidade.setValor(objDto.getValor());
+        entidade.setVencimento(objDto.getVencimento());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setObs(objDto.getObs());
+        entidade.setTipoDespesa(tipoDespesaService.findById(objDto.getTipoDespesaId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
     }
 
-    public Despesa fromDTO(DespesaUpdateDTO dto) {
-        return null;
+    public Despesa fromDTO(DespesaUpdateDTO objDto) {
+        Despesa entidade = new Despesa();
+        entidade.setDescricao(objDto.getDescricao());
+        entidade.setValor(objDto.getValor());
+        entidade.setVencimento(objDto.getVencimento());
+        entidade.setDataInicio(objDto.getDataInicio());
+        entidade.setDataFim(objDto.getDataFim());
+        entidade.setObs(objDto.getObs());
+        entidade.setTipoDespesa(tipoDespesaService.findById(objDto.getTipoDespesaId()));
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
+    }
+
+    private void updateData(final Despesa newObj, final Despesa obj) {
+        newObj.setDescricao(obj.getDescricao());
+        newObj.setValor(obj.getValor());
+        newObj.setVencimento(obj.getVencimento());
+        newObj.setDataInicio(obj.getDataInicio());
+        newObj.setDataFim(obj.getDataFim());
+        newObj.setObs(obj.getObs());
+        newObj.setTipoDespesa(obj.getTipoDespesa());
+        newObj.setPatrimonio(obj.getPatrimonio());
     }
 
 }

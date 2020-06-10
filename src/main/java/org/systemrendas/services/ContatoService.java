@@ -11,8 +11,6 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Contato;
-import org.systemrendas.domain.Pagador;
-import org.systemrendas.domain.Socio;
 import org.systemrendas.dto.contato.ContatoInsertDTO;
 import org.systemrendas.dto.contato.ContatoUpdateDTO;
 import org.systemrendas.repositories.ContatoRepository;
@@ -79,21 +77,22 @@ public class ContatoService {
     }
 
     public Contato fromDTO(final ContatoInsertDTO objDto) {
-
-        Contato contato = new Contato();
-        contato.setFone(objDto.getFone());
-        contato.setWhatsapp(objDto.getWhatsapp());
-        contato.setEmail(objDto.getEmail());
-
-        contato.setPagador(pagadorService.find(objDto.getPagadorId()));
-        contato.setSocio(socioService.find(objDto.getSocioId()));
-
-        return contato;
+        Contato entidade = new Contato();
+        entidade.setFone(objDto.getFone());
+        entidade.setWhatsapp(objDto.getWhatsapp());
+        entidade.setEmail(objDto.getEmail());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        entidade.setSocio(socioService.findById(objDto.getSocioId()));
+        return entidade;
     }
 
     public Contato fromDTO(final ContatoUpdateDTO objDto) {
         Contato entidade = new Contato();
-
+        entidade.setFone(objDto.getFone());
+        entidade.setWhatsapp(objDto.getWhatsapp());
+        entidade.setEmail(objDto.getEmail());
+        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        entidade.setSocio(socioService.findById(objDto.getSocioId()));
         return entidade;
     }
 
@@ -101,14 +100,8 @@ public class ContatoService {
         newObj.setWhatsapp(obj.getWhatsapp());
         newObj.setEmail(obj.getEmail());
         newObj.setFone(obj.getFone());
-
-        Pagador pagador = new Pagador();
-        pagador.setId(newObj.getPagador().getId());
-        newObj.setPagador(pagador);
-
-        Socio socio = new Socio();
-        socio.setId(newObj.getSocio().getId());
-        newObj.setSocio(socio);
+        newObj.setPagador(pagadorService.findById(newObj.getPagador().getId()));
+        newObj.setSocio(socioService.findById(newObj.getSocio().getId()));
     }
 
 }

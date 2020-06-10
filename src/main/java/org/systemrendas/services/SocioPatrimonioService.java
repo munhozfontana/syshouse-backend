@@ -24,6 +24,9 @@ public class SocioPatrimonioService {
     @Inject
     SocioPatrimonioRepository repo;
 
+    @Inject
+    PatrimonioService patrimonioService;
+
     private SocioPatrimonio find(final UUID id) {
         final Optional<SocioPatrimonio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -69,17 +72,26 @@ public class SocioPatrimonioService {
         return repo.listAll();
     }
 
-    private void updateData(final SocioPatrimonio newObj, final SocioPatrimonio obj) {
-        newObj.setId(null);
-    }
-
     public SocioPatrimonio fromDTO(final SocioPatrimonioInsertDTO objDto) {
-        SocioPatrimonio SocioPatrimonio = new SocioPatrimonio();
-        return SocioPatrimonio;
+        SocioPatrimonio entidade = new SocioPatrimonio();
+        entidade.setPorcentagem(objDto.getPorcentagem());
+        entidade.setProprietario(objDto.getProprietario());
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
     }
 
-    public SocioPatrimonio fromDTO(SocioPatrimonioUpdateDTO dto) {
-        return null;
+    public SocioPatrimonio fromDTO(SocioPatrimonioUpdateDTO objDto) {
+        SocioPatrimonio entidade = new SocioPatrimonio();
+        entidade.setPorcentagem(objDto.getPorcentagem());
+        entidade.setProprietario(objDto.getProprietario());
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        return entidade;
+    }
+
+    private void updateData(final SocioPatrimonio newObj, final SocioPatrimonio obj) {
+        newObj.setPorcentagem(obj.getPorcentagem());
+        newObj.setProprietario(obj.getProprietario());
+        newObj.setPatrimonio(obj.getPatrimonio());
     }
 
 }
