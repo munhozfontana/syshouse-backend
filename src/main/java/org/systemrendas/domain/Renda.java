@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,10 +47,13 @@ public class Renda {
 
     private BigDecimal valor;
 
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate vencimento;
 
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataInicio;
 
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataFim;
 
     @Column(length = 500)

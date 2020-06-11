@@ -1,7 +1,7 @@
 package org.systemrendas.dto.midia;
 
 import javax.validation.constraints.Size;
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 
 public class MidiaUpdateDTO {

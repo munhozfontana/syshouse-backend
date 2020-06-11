@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.Column;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class DespesaUpdateDTO {
 
@@ -16,11 +16,14 @@ public class DespesaUpdateDTO {
 
     private BigDecimal valor;
 
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate vencimento;
 
     @NotNull(message = "Não e permitido valor nulo")
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataInicio;
 
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataFim;
 
     @Column(length = 500)

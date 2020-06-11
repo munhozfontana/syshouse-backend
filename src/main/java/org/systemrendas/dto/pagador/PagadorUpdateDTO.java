@@ -3,9 +3,8 @@ package org.systemrendas.dto.pagador;
 import java.time.LocalDate;
 
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class PagadorUpdateDTO {
 
@@ -13,7 +12,7 @@ public class PagadorUpdateDTO {
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String nome;
 
-    @JsonbDateFormat(value = "dd-MM-yyyy")
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate nascimento;
 
     @Size(message = "Valor não deve ser acima de 11 caracters", max = 11)

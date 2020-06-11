@@ -1,7 +1,7 @@
 package org.systemrendas.dto.tiporenda;
 
 import javax.validation.constraints.Size;
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
 
 public class TipoRendaUpdateDTO {

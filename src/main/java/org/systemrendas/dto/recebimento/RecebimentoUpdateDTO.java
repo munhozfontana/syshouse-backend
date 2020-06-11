@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import javax.validation.constraints.Size;
-import javax.validation.constraints.NotEmpty;
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class RecebimentoUpdateDTO {
 
@@ -17,6 +17,7 @@ public class RecebimentoUpdateDTO {
     private BigDecimal valor;
 
     @NotNull(message = "Não e permitido valor nulo")
+    @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataRecebimento;
 
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)

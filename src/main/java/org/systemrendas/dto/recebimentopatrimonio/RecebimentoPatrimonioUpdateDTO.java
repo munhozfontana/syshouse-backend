@@ -3,7 +3,6 @@ package org.systemrendas.dto.recebimentopatrimonio;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class RecebimentoPatrimonioUpdateDTO {
