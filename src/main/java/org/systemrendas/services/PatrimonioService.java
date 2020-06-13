@@ -24,6 +24,7 @@ public class PatrimonioService {
     @Inject
     PatrimonioRepository repo;
 
+    @Inject
     private LocalizacaoService localizacaoService;
 
     private Patrimonio find(final UUID id) {

@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -48,6 +51,9 @@ public class Localizacao {
 
     @ManyToOne
     private Municipio municipio;
+
+    @OneToOne(mappedBy = "localizacao", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Patrimonio patrimonio;
 
     public Localizacao() {
     }

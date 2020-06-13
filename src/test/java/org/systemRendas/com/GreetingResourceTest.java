@@ -1,4 +1,4 @@
-package org.systemRendas.com;
+package org.systemrendas.com;
 
 import static io.restassured.RestAssured.given;
 

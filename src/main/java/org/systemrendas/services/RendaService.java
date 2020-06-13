@@ -31,7 +31,7 @@ public class RendaService {
     PatrimonioService patrimonioService;
 
     @Inject
-    RendaService rendaService;
+    TipoRendaService tipoRendaService;
 
     private Renda find(final UUID id) {
         final Optional<Renda> obj = repo.findByIdOptional(id);
@@ -88,7 +88,7 @@ public class RendaService {
         entidade.setValor(objDto.getValor());
         entidade.setVencimento(objDto.getVencimento());
         entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
-        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        entidade.setTipoRenda(tipoRendaService.findById(objDto.getTipoRendaId()));
         entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
         return entidade;
     }
@@ -102,7 +102,7 @@ public class RendaService {
         entidade.setValor(objDto.getValor());
         entidade.setVencimento(objDto.getVencimento());
         entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
-        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        entidade.setTipoRenda(tipoRendaService.findById(objDto.getTipoRendaId()));
         entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
         return entidade;
     }
@@ -115,7 +115,7 @@ public class RendaService {
         newObj.setValor(obj.getValor());
         newObj.setVencimento(obj.getVencimento());
         newObj.setPagador(obj.getPagador());
-        newObj.setRenda(obj.getRenda());
+        newObj.setTipoRenda(obj.getTipoRenda());
         newObj.setPatrimonio(obj.getPatrimonio());
     }
 

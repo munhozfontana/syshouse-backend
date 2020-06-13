@@ -14,7 +14,7 @@ public class RendaUpdateDTO {
     private UUID pagadorId;
 
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID rendaId;
+    private UUID tipoRendaId;
 
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioId;
@@ -45,12 +45,12 @@ public class RendaUpdateDTO {
         this.pagadorId = pagadorId;
     }
 
-    public UUID getRendaId() {
-        return this.rendaId;
+    public UUID getTipoRendaId() {
+        return this.tipoRendaId;
     }
 
-    public void setRendaId(UUID rendaId) {
-        this.rendaId = rendaId;
+    public void setTipoRendaId(UUID tipoRendaId) {
+        this.tipoRendaId = tipoRendaId;
     }
 
     public UUID getPatrimonioId() {
