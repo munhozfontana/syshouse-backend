@@ -13,7 +13,7 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.systemrendas.domain.Municipio;
+import org.systemrendas.domain.TipoPatrimonio;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
@@ -23,11 +23,11 @@ import io.restassured.specification.RequestSpecification;
 @QuarkusTest
 @TestMethodOrder(OrderAnnotation.class)
 @QuarkusTestResource(H2DatabaseTestResource.class)
-public class MunicipioResourceTest {
+public class TipoPatrimonioResourceTest {
 
-    private static final String PATH = "/municipio";
+    private static final String PATH = "/tipopatrimonio";
     private final int elementsToInsert = 5;
-    private String atibuteValue = "nome";
+    private String atibuteValue = "descricao";
 
     private RequestSpecification requisicao() {
         return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
@@ -41,11 +41,7 @@ public class MunicipioResourceTest {
             private static final long serialVersionUID = 1L;
 
             {
-                put("ibge", Math.min(1, 5300108));
-                put("nome", atibuteValue);
-                put("pais", "pais");
-                put("populacao", Math.min(1, 99999999));
-                put("uf", "uf");
+                put("descricao", atibuteValue);
             }
         };
 
@@ -79,8 +75,8 @@ public class MunicipioResourceTest {
     @Test
     @Order(4)
     public void testFindById() {
-        final Municipio[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(Municipio[].class);
+        final TipoPatrimonio[] result = requisicao().when().get(PATH).then()
+                .statusCode(Response.Status.OK.getStatusCode()).extract().as(TipoPatrimonio[].class);
         requisicao().pathParam("id", result[0].getId()).when().get(PATH + "/{id}").then()
                 .statusCode(Response.Status.OK.getStatusCode()).body(atibuteValue, CoreMatchers.equalTo(atibuteValue));
     }
@@ -88,8 +84,8 @@ public class MunicipioResourceTest {
     @Test
     @Order(5)
     public void testUpdate() {
-        final Municipio[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(Municipio[].class);
+        final TipoPatrimonio[] result = requisicao().when().get(PATH).then()
+                .statusCode(Response.Status.OK.getStatusCode()).extract().as(TipoPatrimonio[].class);
         Map<String, Object> body = newElement();
         body.put(atibuteValue, "nomeDiferente");
         requisicao().pathParam("id", result[0].getId()).body(body).when().put(PATH + "/{id}").then()
@@ -100,8 +96,8 @@ public class MunicipioResourceTest {
     @Test
     @Order(6)
     public void testDelete() {
-        final Municipio[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(Municipio[].class);
+        final TipoPatrimonio[] result = requisicao().when().get(PATH).then()
+                .statusCode(Response.Status.OK.getStatusCode()).extract().as(TipoPatrimonio[].class);
 
         requisicao().pathParam("id", result[0].getId()).when().delete(PATH + "/{id}").then()
                 .statusCode(Response.Status.NO_CONTENT.getStatusCode());
