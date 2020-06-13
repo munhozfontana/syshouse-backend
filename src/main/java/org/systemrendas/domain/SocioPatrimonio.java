@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -29,6 +31,7 @@ public class SocioPatrimonio {
     @Column(nullable = false)
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date createdAt;
 
     @ManyToOne
