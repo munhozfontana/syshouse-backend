@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import io.quarkus.test.common.QuarkusTestResource;
@@ -26,7 +26,7 @@ import io.restassured.specification.RequestSpecification;
 @TestMethodOrder(OrderAnnotation.class)
 @QuarkusTestResource(H2DatabaseTestResource.class)
 @TestInstance(Lifecycle.PER_CLASS)
-public class TipoPatrimonioResourceTest {
+public class TipoDespesaResourceTest {
 
     private static final String PATH_TIPOPATRIMONIO = "/tipopatrimonio";
     private String atibuteValue = "descricao";

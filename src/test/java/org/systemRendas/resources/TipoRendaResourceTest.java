@@ -9,101 +9,93 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.systemrendas.domain.TipoRenda;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.specification.RequestSpecification;
 
+@QuarkusTestResource(H2DatabaseTestResource.class)
 @QuarkusTest
 @TestMethodOrder(OrderAnnotation.class)
-@QuarkusTestResource(H2DatabaseTestResource.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class TipoRendaResourceTest {
 
-    private static final String PATH = "/tiporenda";
-    private final int elementsToInsert = 5;
-    private String atibuteValue = "descricao";
+        private static final String PATH_TIPORENDA = "/tiporenda";
+        private String atibuteValue = "descricao";
+        private String idTipoRenda;
+        private HashMap<String, Object> bodyReqTipoRenda;
 
-    private RequestSpecification requisicao() {
-        return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
-    }
-
-    private Map<String, Object> newElement() {
-        return new HashMap<String, Object>() {
-            /**
-             *
-             */
-            private static final long serialVersionUID = 1L;
-
-            {
-                put("descricao", atibuteValue);
-            }
-        };
-
-    }
-
-    @Test
-    @Order(1)
-    public void testInsert() {
-        for (int i = 0; i < elementsToInsert; i++) {
-            requisicao().body(newElement()).when().post(PATH).then().statusCode(Response.Status.CREATED.getStatusCode())
-                    .header("location", CoreMatchers.notNullValue());
+        @BeforeAll
+        void setUp() {
+                bodyReqTipoRenda = new HashMap<String, Object>();
+                bodyReqTipoRenda.put("descricao", atibuteValue);
         }
-    }
 
-    @Test
-    @Order(2)
-    public void testListAll() {
-        requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode()).body("size()",
-                CoreMatchers.is(elementsToInsert));
-    }
+        private RequestSpecification requisicao() {
+                return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
+        }
 
-    @Test
-    @Order(3)
-    public void testListAllPegeable() {
-        final int page = 0;
-        final int size = 5;
-        requisicao().queryParam("page", page).queryParam("size", size).when().get(PATH + "/page").then()
-                .statusCode(Response.Status.OK.getStatusCode()).body("size()", CoreMatchers.is(5));
-    }
+        @Test
+        @Order(1)
+        public void testInsert() {
+                requisicao().body(bodyReqTipoRenda).when().post(PATH_TIPORENDA).then()
+                                .statusCode(Response.Status.CREATED.getStatusCode())
+                                .header("location", CoreMatchers.notNullValue());
+        }
 
-    @Test
-    @Order(4)
-    public void testFindById() {
-        final TipoRenda[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(TipoRenda[].class);
-        requisicao().pathParam("id", result[0].getId()).when().get(PATH + "/{id}").then()
-                .statusCode(Response.Status.OK.getStatusCode()).body(atibuteValue, CoreMatchers.equalTo(atibuteValue));
-    }
+        @Test
+        @Order(2)
+        public void testListAll() {
+                idTipoRenda = requisicao().when().get(PATH_TIPORENDA).then()
+                                .statusCode(Response.Status.OK.getStatusCode()).body("size()", CoreMatchers.is(1))
+                                .extract().jsonPath().get("[0].id");
+        }
 
-    @Test
-    @Order(5)
-    public void testUpdate() {
-        final TipoRenda[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(TipoRenda[].class);
-        Map<String, Object> body = newElement();
-        body.put(atibuteValue, "nomeDiferente");
-        requisicao().pathParam("id", result[0].getId()).body(body).when().put(PATH + "/{id}").then()
-                .statusCode(Response.Status.OK.getStatusCode())
-                .body(atibuteValue, CoreMatchers.equalTo("nomeDiferente"));
-    }
+        @Test
+        @Order(3)
+        public void testListAllPegeable() {
+                final int page = 0;
+                final int size = 5;
+                requisicao().queryParam("page", page).queryParam("size", size).when().get(PATH_TIPORENDA + "/page")
+                                .then().statusCode(Response.Status.OK.getStatusCode())
+                                .body("size()", CoreMatchers.is(1));
+        }
 
-    @Test
-    @Order(6)
-    public void testDelete() {
-        final TipoRenda[] result = requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode())
-                .extract().as(TipoRenda[].class);
+        @Test
+        @Order(4)
+        public void testFindById() {
+                requisicao().pathParam("id", idTipoRenda).when().get(PATH_TIPORENDA + "/{id}").then()
+                                .statusCode(Response.Status.OK.getStatusCode())
+                                .body(atibuteValue, CoreMatchers.equalTo(atibuteValue));
+        }
 
-        requisicao().pathParam("id", result[0].getId()).when().delete(PATH + "/{id}").then()
-                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
+        @Test
+        @Order(5)
+        public void testUpdate() {
+                Map<String, Object> body = bodyReqTipoRenda;
+                body.put(atibuteValue, "nomeDiferente");
+                requisicao().pathParam("id", idTipoRenda).body(body).when().put(PATH_TIPORENDA + "/{id}").then()
+                                .statusCode(Response.Status.OK.getStatusCode())
+                                .body(atibuteValue, CoreMatchers.equalTo("nomeDiferente"));
+        }
 
-        requisicao().when().get(PATH).then().statusCode(Response.Status.OK.getStatusCode()).body("size()",
-                CoreMatchers.is(elementsToInsert - 1));
-    }
+        @Test
+        @Order(6)
+        public void testDelete() {
+                requisicao().pathParam("id", idTipoRenda).when().delete(PATH_TIPORENDA + "/{id}").then()
+                                .statusCode(Response.Status.NO_CONTENT.getStatusCode());
+
+                requisicao().when().get(PATH_TIPORENDA).then().statusCode(Response.Status.OK.getStatusCode())
+                                .body("size()", CoreMatchers.is(0));
+
+        }
 
 }

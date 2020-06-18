@@ -26,6 +26,7 @@ public class LocalizacaoUpdateDTO {
 
     private BigDecimal longitude;
 
+    @NotNull(message = "Não e permitido valor nulo")
     private UUID municipioId;
 
     public String getEndereco() {

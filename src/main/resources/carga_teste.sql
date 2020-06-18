@@ -1,1 +1,0 @@
--- insert into Municipio (createdAt, ibge, nome, pais, populacao, uf, id) values ( CURRENT_TIMESTAMP(), 5325, 'Goiania', 'Brasil', 543, 'GO',   0x3c0da3e5a40840588e05ccbc52772597);
