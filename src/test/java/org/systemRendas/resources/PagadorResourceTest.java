@@ -30,20 +30,20 @@ public class PagadorResourceTest {
     private static final String PATH_PAGADOR = "/pagador";
     private String atibuteValue = "nacionalidade";
     private String idPagador;
-    private HashMap<String, Object> bodyReqPagador;
+    private HashMap<String, Object> bodyPagador;
 
     @BeforeAll
     void setUp() {
-        bodyReqPagador = new HashMap<String, Object>();
-        bodyReqPagador.put("cnpj", "string");
-        bodyReqPagador.put("cpf", "string");
-        bodyReqPagador.put("endereco", "string");
-        bodyReqPagador.put("estadoCivil", "string");
-        bodyReqPagador.put("nacionalidade", atibuteValue);
-        bodyReqPagador.put("nascimento", "06/06/1994");
-        bodyReqPagador.put("nome", "string");
-        bodyReqPagador.put("profissao", "string");
-        bodyReqPagador.put("rg", "strin");
+        bodyPagador = new HashMap<String, Object>();
+        bodyPagador.put("cnpj", "string");
+        bodyPagador.put("cpf", "string");
+        bodyPagador.put("endereco", "string");
+        bodyPagador.put("estadoCivil", "string");
+        bodyPagador.put("nacionalidade", atibuteValue);
+        bodyPagador.put("nascimento", "06/06/1994");
+        bodyPagador.put("nome", "string");
+        bodyPagador.put("profissao", "string");
+        bodyPagador.put("rg", "strin");
     }
 
     private RequestSpecification requisicao() {
@@ -53,7 +53,7 @@ public class PagadorResourceTest {
     @Test
     @Order(1)
     public void testInsert() {
-        requisicao().body(bodyReqPagador).when().post(PATH_PAGADOR).then()
+        requisicao().body(bodyPagador).when().post(PATH_PAGADOR).then()
                 .statusCode(Response.Status.CREATED.getStatusCode()).header("location", CoreMatchers.notNullValue());
     }
 
@@ -83,7 +83,7 @@ public class PagadorResourceTest {
     @Test
     @Order(5)
     public void testUpdate() {
-        Map<String, Object> body = bodyReqPagador;
+        Map<String, Object> body = bodyPagador;
         body.put(atibuteValue, "nomeDiferente");
         requisicao().pathParam("id", idPagador).body(body).when().put(PATH_PAGADOR + "/{id}").then()
                 .statusCode(Response.Status.OK.getStatusCode())
