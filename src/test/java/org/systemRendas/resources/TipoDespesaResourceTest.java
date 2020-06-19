@@ -31,11 +31,10 @@ public class TipoDespesaResourceTest {
     private static final String PATH_TIPOPATRIMONIO = "/tipopatrimonio";
     private String atibuteValue = "descricao";
     private String idTipoPatrimonio;
-    private HashMap<String, Object> bodyReqTipoPatrimonio;
+    private HashMap<String, Object> bodyReqTipoPatrimonio = new HashMap<String, Object>();
 
     @BeforeAll
     void setUp() {
-        bodyReqTipoPatrimonio = new HashMap<String, Object>();
         bodyReqTipoPatrimonio.put("descricao", atibuteValue);
     }
 

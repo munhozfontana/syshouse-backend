@@ -134,4 +134,5 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/glassfish/jakarta.el/3.0.3/jakarta.el-3.0.3.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-jdbc-h2/1.5.1.Final/quarkus-jdbc-h2-1.5.1.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/locationtech/jts/jts-core/1.15.0/jts-core-1.15.0.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/io/quarkus/quarkus-container-image-docker/1.5.1.Final/quarkus-container-image-docker-1.5.1.Final.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>
