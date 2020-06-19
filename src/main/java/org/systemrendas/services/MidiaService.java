@@ -24,6 +24,9 @@ public class MidiaService {
     @Inject
     MidiaRepository repo;
 
+    @Inject
+    PatrimonioService patrimonioService;
+
     private Midia find(final UUID id) {
         final Optional<Midia> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -70,17 +73,32 @@ public class MidiaService {
         return repo.listAll();
     }
 
-    private void updateData(final Midia newObj, final Midia obj) {
-        newObj.setId(null);
-    }
-
     public Midia fromDTO(final MidiaInsertDTO objDto) {
         Midia entidade = new Midia();
+        entidade.setCaminho(objDto.getCaminho());
+        entidade.setNome(objDto.getNome());
+        entidade.setObs(objDto.getObs());
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setTipo(objDto.getTipo());
         return entidade;
     }
 
-    public Midia fromDTO(MidiaUpdateDTO dto) {
-        return null;
+    public Midia fromDTO(final MidiaUpdateDTO objDto) {
+        Midia entidade = new Midia();
+        entidade.setCaminho(objDto.getCaminho());
+        entidade.setNome(objDto.getNome());
+        entidade.setObs(objDto.getObs());
+        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setTipo(objDto.getTipo());
+        return entidade;
+    }
+
+    private void updateData(final Midia newObj, final Midia obj) {
+        newObj.setNome(obj.getNome());
+        newObj.setCaminho(obj.getCaminho());
+        newObj.setObs(obj.getObs());
+        newObj.setTipo(obj.getTipo());
+        newObj.setPatrimonio(obj.getPatrimonio());
     }
 
 }
