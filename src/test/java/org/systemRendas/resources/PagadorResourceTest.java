@@ -30,11 +30,15 @@ public class PagadorResourceTest {
     private static final String PATH_PAGADOR = "/pagador";
     private String atibuteValue = "nacionalidade";
     private String idPagador;
-    private HashMap<String, Object> bodyPagador;
+    private HashMap<String, Object> bodyPagador = new HashMap<String, Object>();;
 
-    @BeforeAll
-    void setUp() {
-        bodyPagador = new HashMap<String, Object>();
+    private RequestSpecification requisicao() {
+        return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    @Order(1)
+    public void testInsert() {
         bodyPagador.put("cnpj", "string");
         bodyPagador.put("cpf", "string");
         bodyPagador.put("endereco", "string");
@@ -44,15 +48,7 @@ public class PagadorResourceTest {
         bodyPagador.put("nome", "string");
         bodyPagador.put("profissao", "string");
         bodyPagador.put("rg", "strin");
-    }
 
-    private RequestSpecification requisicao() {
-        return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
-    }
-
-    @Test
-    @Order(1)
-    public void testInsert() {
         requisicao().body(bodyPagador).when().post(PATH_PAGADOR).then()
                 .statusCode(Response.Status.CREATED.getStatusCode()).header("location", CoreMatchers.notNullValue());
     }

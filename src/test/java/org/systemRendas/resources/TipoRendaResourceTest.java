@@ -29,15 +29,12 @@ import io.restassured.specification.RequestSpecification;
 public class TipoRendaResourceTest {
 
         private static final String PATH_TIPORENDA = "/tiporenda";
-        private String atibuteValue = "descricao";
-        private String idTipoRenda;
-        private HashMap<String, Object> bodyReqTipoRenda;
 
-        @BeforeAll
-        void setUp() {
-                bodyReqTipoRenda = new HashMap<String, Object>();
-                bodyReqTipoRenda.put("descricao", atibuteValue);
-        }
+        private String atibuteValue = "descricao";
+
+        private String idTipoRenda;
+
+        private HashMap<String, Object> bodyReqTipoRenda = new HashMap<String, Object>();;
 
         private RequestSpecification requisicao() {
                 return given().accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON);
@@ -46,6 +43,7 @@ public class TipoRendaResourceTest {
         @Test
         @Order(1)
         public void testInsert() {
+                bodyReqTipoRenda.put("descricao", atibuteValue);
                 requisicao().body(bodyReqTipoRenda).when().post(PATH_TIPORENDA).then()
                                 .statusCode(Response.Status.CREATED.getStatusCode())
                                 .header("location", CoreMatchers.notNullValue());
