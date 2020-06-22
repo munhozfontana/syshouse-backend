@@ -46,7 +46,7 @@ public class PagadorResourceTest {
         bodyPagador.put("nascimento", "06/06/1994");
         bodyPagador.put("nome", "string");
         bodyPagador.put("profissao", "string");
-        bodyPagador.put("rg", "strings");
+        bodyPagador.put("rg", "string");
 
         requisicao().body(bodyPagador).when().post(PATH_PAGADOR).then()
                 .statusCode(Response.Status.CREATED.getStatusCode()).header("location", CoreMatchers.notNullValue());
