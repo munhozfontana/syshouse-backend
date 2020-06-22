@@ -1,33 +1,51 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+name: "Quarkus ecosystem CI"
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  watch:
+    types: [started]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# For this CI to work, ECOSYSTEM_CI_TOKEN needs to contain a GitHub with rights to close the Quarkus issue that the user/bot has opened,
+ # while 'ECOSYSTEM_CI_REPO_PATH' needs to be set to the corresponding path in the 'quarkusio/quarkus-ecosystem-ci' repository
+
+env:
+  ECOSYSTEM_CI_REPO: quarkusio/quarkus-ecosystem-ci
+  ECOSYSTEM_CI_REPO_FILE: context.yaml
+  JAVA_VERSION: 11
+
+  #########################
+  # Repo specific setting #
+  #########################
+
+  ECOSYSTEM_CI_REPO_PATH: FIXME # TODO: this needs to be set to the directory name added in 'quarkusio/quarkus-ecosystem-ci'
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: "Build against latest Quarkus snapshot"
     runs-on: ubuntu-latest
+    if: github.actor == 'quarkusbot'
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      - name: Install yq
+        run: sudo add-apt-repository ppa:rmescandon/yq && sudo apt update && sudo apt install yq -y
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          path: current-repo
+          ref: master
+
+      - name: Checkout Ecosystem
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ env.ECOSYSTEM_CI_REPO }}
+          ref: master
+          path: ecosystem-ci
+
+      - name: Setup and Run Tests
+        run: ./ecosystem-ci/setup-and-test
+        env:
+          ECOSYSTEM_CI_TOKEN: ${{ secrets.ECOSYSTEM_CI_TOKEN }}
