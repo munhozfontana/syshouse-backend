@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Recebimento;
-import org.systemrendas.dto.recebimento.RecebimentoInsertDTO;
-import org.systemrendas.dto.recebimento.RecebimentoUpdateDTO;
+import org.systemrendas.dto.recebimento.RecebimentoDTO;
 import org.systemrendas.repositories.RecebimentoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -27,14 +27,14 @@ public class RecebimentoService {
     @Inject
     private RendaService rendaService;
 
-    private Recebimento find(final UUID id) {
+    public Recebimento find(final UUID id) {
         final Optional<Recebimento> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + RecebimentoService.class.getName()));
     }
 
-    public Recebimento findById(final UUID id) {
-        return find(id);
+    public RecebimentoDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Recebimento> findAllPage(Integer page, Integer size) {
@@ -68,25 +68,26 @@ public class RecebimentoService {
         }
     }
 
-    public List<Recebimento> listAll() {
-        return repo.listAll();
+    public List<RecebimentoDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Recebimento fromDTO(final RecebimentoInsertDTO objDto) {
+    private RecebimentoDTO toDTO(Recebimento entidade) {
+        RecebimentoDTO newObj = new RecebimentoDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDataRecebimento(entidade.getDataRecebimento());
+        newObj.setObs(entidade.getObs());
+        newObj.setValor(entidade.getValor());
+        newObj.setRendaId(entidade.getRenda().getId());
+        return newObj;
+    }
+
+    public Recebimento fromDTO(final RecebimentoDTO objDto) {
         Recebimento entidade = new Recebimento();
         entidade.setDataRecebimento(objDto.getDataRecebimento());
         entidade.setObs(objDto.getObs());
         entidade.setValor(objDto.getValor());
-        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
-        return entidade;
-    }
-
-    public Recebimento fromDTO(RecebimentoUpdateDTO objDto) {
-        Recebimento entidade = new Recebimento();
-        entidade.setDataRecebimento(objDto.getDataRecebimento());
-        entidade.setObs(objDto.getObs());
-        entidade.setValor(objDto.getValor());
-        entidade.setRenda(rendaService.findById(objDto.getRendaId()));
+        entidade.setRenda(rendaService.find(objDto.getRendaId()));
         return entidade;
     }
 

@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Movimentacao;
-import org.systemrendas.dto.movimentacao.MovimentacaoInsertDTO;
-import org.systemrendas.dto.movimentacao.MovimentacaoUpdateDTO;
+import org.systemrendas.dto.movimentacao.MovimentacaoDTO;
 import org.systemrendas.repositories.MovimentacaoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -33,8 +33,8 @@ public class MovimentacaoService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + MovimentacaoService.class.getName()));
     }
 
-    public Movimentacao findById(final UUID id) {
-        return find(id);
+    public MovimentacaoDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Movimentacao> findAllPage(Integer page, Integer size) {
@@ -68,27 +68,28 @@ public class MovimentacaoService {
         }
     }
 
-    public List<Movimentacao> listAll() {
-        return repo.listAll();
+    public List<MovimentacaoDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Movimentacao fromDTO(final MovimentacaoInsertDTO objDto) {
+    private MovimentacaoDTO toDTO(Movimentacao entidade) {
+        MovimentacaoDTO newObj = new MovimentacaoDTO();
+        newObj.setId(entidade.getId());
+        newObj.setData(entidade.getData());
+        newObj.setObs(entidade.getObs());
+        newObj.setValor(entidade.getValor());
+        newObj.setPatrimonioIn(entidade.getPatrimonioIn().getId());
+        newObj.setPatrimonioOut(entidade.getPatrimonioOut().getId());
+        return newObj;
+    }
+
+    public Movimentacao fromDTO(final MovimentacaoDTO objDto) {
         Movimentacao entidade = new Movimentacao();
         entidade.setData(objDto.getData());
         entidade.setObs(objDto.getObs());
         entidade.setValor(objDto.getValor());
-        entidade.setPatrimonioIn(patrimonioService.findById(objDto.getPatrimonioIn()));
-        entidade.setPatrimonioOut(patrimonioService.findById(objDto.getPatrimonioOut()));
-        return entidade;
-    }
-
-    public Movimentacao fromDTO(MovimentacaoUpdateDTO objDto) {
-        Movimentacao entidade = new Movimentacao();
-        entidade.setData(objDto.getData());
-        entidade.setObs(objDto.getObs());
-        entidade.setValor(objDto.getValor());
-        entidade.setPatrimonioIn(patrimonioService.findById(objDto.getPatrimonioIn()));
-        entidade.setPatrimonioOut(patrimonioService.findById(objDto.getPatrimonioOut()));
+        entidade.setPatrimonioIn(patrimonioService.find(objDto.getPatrimonioIn()));
+        entidade.setPatrimonioOut(patrimonioService.find(objDto.getPatrimonioOut()));
         return entidade;
     }
 

@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Localizacao;
-import org.systemrendas.dto.localizacao.LocalizacaoInsertDTO;
-import org.systemrendas.dto.localizacao.LocalizacaoUpdateDTO;
+import org.systemrendas.dto.localizacao.LocalizacaoDTO;
 import org.systemrendas.services.LocalizacaoService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class LocalizacaoResource {
 
     @POST
     @Operation(summary = "Insere Localizacao", description = "Insere um novo objeto Localizacao e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid LocalizacaoInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid LocalizacaoDTO dto) throws URISyntaxException {
         Localizacao entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class LocalizacaoResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Localizacao", description = "Atualiza o objeto Localizacao")
-    public Response update(@PathParam("id") final UUID id, final @Valid LocalizacaoUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid LocalizacaoDTO dto) {
         Localizacao obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

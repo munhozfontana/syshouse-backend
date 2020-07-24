@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Movimentacao;
-import org.systemrendas.dto.movimentacao.MovimentacaoInsertDTO;
-import org.systemrendas.dto.movimentacao.MovimentacaoUpdateDTO;
+import org.systemrendas.dto.movimentacao.MovimentacaoDTO;
 import org.systemrendas.services.MovimentacaoService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class MovimentacaoResource {
 
     @POST
     @Operation(summary = "Insere Movimentacao", description = "Insere um novo objeto Movimentacao e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MovimentacaoInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MovimentacaoDTO dto) throws URISyntaxException {
         Movimentacao entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class MovimentacaoResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Movimentacao", description = "Atualiza o objeto Movimentacao")
-    public Response update(@PathParam("id") final UUID id, final @Valid MovimentacaoUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid MovimentacaoDTO dto) {
         Movimentacao obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

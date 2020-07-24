@@ -2,9 +2,12 @@ package org.systemrendas.dto.municipio;
 
 import javax.validation.constraints.Size;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-public class MunicipioInsertDTO {
+public class MunicipioDTO {
+    private UUID id;
 
     private Integer ibge;
 
@@ -60,4 +63,11 @@ public class MunicipioInsertDTO {
         this.populacao = populacao;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

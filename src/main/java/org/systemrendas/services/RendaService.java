@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Renda;
-import org.systemrendas.dto.renda.RendaInsertDTO;
-import org.systemrendas.dto.renda.RendaUpdateDTO;
+import org.systemrendas.dto.renda.RendaDTO;
 import org.systemrendas.repositories.RendaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -33,14 +33,14 @@ public class RendaService {
     @Inject
     TipoRendaService tipoRendaService;
 
-    private Renda find(final UUID id) {
+    public Renda find(final UUID id) {
         final Optional<Renda> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + RendaService.class.getName()));
     }
 
-    public Renda findById(final UUID id) {
-        return find(id);
+    public RendaDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Renda> findAllPage(Integer page, Integer size) {
@@ -75,11 +75,26 @@ public class RendaService {
         }
     }
 
-    public List<Renda> listAll() {
-        return repo.listAll();
+    public List<RendaDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Renda fromDTO(final RendaInsertDTO objDto) {
+    private RendaDTO toDTO(Renda entidade) {
+        RendaDTO newObj = new RendaDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDataFim(entidade.getDataFim());
+        newObj.setDataInicio(entidade.getDataInicio());
+        newObj.setDescricao(entidade.getDescricao());
+        newObj.setObs(entidade.getObs());
+        newObj.setValor(entidade.getValor());
+        newObj.setVencimento(entidade.getVencimento());
+        newObj.setPagadorId(entidade.getPagador().getId());
+        newObj.setTipoRendaId(entidade.getTipoRenda().getId());
+        newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        return newObj;
+    }
+
+    public Renda fromDTO(final RendaDTO objDto) {
         Renda entidade = new Renda();
         entidade.setDataFim(objDto.getDataFim());
         entidade.setDataInicio(objDto.getDataInicio());
@@ -87,23 +102,9 @@ public class RendaService {
         entidade.setObs(objDto.getObs());
         entidade.setValor(objDto.getValor());
         entidade.setVencimento(objDto.getVencimento());
-        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
-        entidade.setTipoRenda(tipoRendaService.findById(objDto.getTipoRendaId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
-        return entidade;
-    }
-
-    public Renda fromDTO(RendaUpdateDTO objDto) {
-        Renda entidade = new Renda();
-        entidade.setDataFim(objDto.getDataFim());
-        entidade.setDataInicio(objDto.getDataInicio());
-        entidade.setDescricao(objDto.getDescricao());
-        entidade.setObs(objDto.getObs());
-        entidade.setValor(objDto.getValor());
-        entidade.setVencimento(objDto.getVencimento());
-        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
-        entidade.setTipoRenda(tipoRendaService.findById(objDto.getTipoRendaId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setPagador(pagadorService.find(objDto.getPagadorId()));
+        entidade.setTipoRenda(tipoRendaService.find(objDto.getTipoRendaId()));
+        entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         return entidade;
     }
 

@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Renda;
-import org.systemrendas.dto.renda.RendaInsertDTO;
-import org.systemrendas.dto.renda.RendaUpdateDTO;
+import org.systemrendas.dto.renda.RendaDTO;
 import org.systemrendas.services.RendaService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class RendaResource {
 
     @POST
     @Operation(summary = "Insere Renda", description = "Insere um novo objeto Renda e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid RendaInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid RendaDTO dto) throws URISyntaxException {
         Renda entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class RendaResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Renda", description = "Atualiza o objeto Renda")
-    public Response update(@PathParam("id") final UUID id, final @Valid RendaUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid RendaDTO dto) {
         Renda obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.TipoDespesa;
-import org.systemrendas.dto.tipodespesa.TipoDespesaInsertDTO;
-import org.systemrendas.dto.tipodespesa.TipoDespesaUpdateDTO;
+import org.systemrendas.dto.tipodespesa.TipoDespesaDTO;
 import org.systemrendas.repositories.TipoDespesaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -24,14 +24,14 @@ public class TipoDespesaService {
     @Inject
     TipoDespesaRepository repo;
 
-    private TipoDespesa find(final UUID id) {
+    public TipoDespesa find(final UUID id) {
         final Optional<TipoDespesa> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + TipoDespesaService.class.getName()));
     }
 
-    public TipoDespesa findById(final UUID id) {
-        return find(id);
+    public TipoDespesaDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<TipoDespesa> findAllPage(Integer page, Integer size) {
@@ -65,17 +65,18 @@ public class TipoDespesaService {
         }
     }
 
-    public List<TipoDespesa> listAll() {
-        return repo.listAll();
+    public List<TipoDespesaDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public TipoDespesa fromDTO(final TipoDespesaInsertDTO objDto) {
-        TipoDespesa entidade = new TipoDespesa();
-        entidade.setDescricao(objDto.getDescricao());
-        return entidade;
+    private TipoDespesaDTO toDTO(TipoDespesa entidade) {
+        TipoDespesaDTO newObj = new TipoDespesaDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDescricao(entidade.getDescricao());
+        return newObj;
     }
 
-    public TipoDespesa fromDTO(TipoDespesaUpdateDTO objDto) {
+    public TipoDespesa fromDTO(final TipoDespesaDTO objDto) {
         TipoDespesa entidade = new TipoDespesa();
         entidade.setDescricao(objDto.getDescricao());
         return entidade;

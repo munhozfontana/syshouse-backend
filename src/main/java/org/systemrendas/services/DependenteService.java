@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Dependente;
-import org.systemrendas.dto.dependente.DependenteInsertDTO;
-import org.systemrendas.dto.dependente.DependenteUpdateDTO;
+import org.systemrendas.dto.dependente.DependenteDTO;
 import org.systemrendas.repositories.DependenteRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -33,8 +33,8 @@ public class DependenteService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + DependenteService.class.getName()));
     }
 
-    public Dependente findById(final UUID id) {
-        return find(id);
+    public DependenteDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Dependente> findAllPage(Integer page, Integer size) {
@@ -68,21 +68,22 @@ public class DependenteService {
         }
     }
 
-    public List<Dependente> listAll() {
-        return repo.listAll();
+    public List<DependenteDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Dependente fromDTO(final DependenteInsertDTO objDto) {
-        Dependente entidade = new Dependente();
-        entidade.setNome(objDto.getNome());
-        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
-        return entidade;
+    private DependenteDTO toDTO(Dependente entidade) {
+        DependenteDTO newObj = new DependenteDTO();
+        newObj.setId(entidade.getId());
+        newObj.setNome(entidade.getNome());
+        newObj.setPagadorId(entidade.getPagador().getId());
+        return newObj;
     }
 
-    public Dependente fromDTO(DependenteUpdateDTO objDto) {
+    public Dependente fromDTO(final DependenteDTO objDto) {
         Dependente entidade = new Dependente();
         entidade.setNome(objDto.getNome());
-        entidade.setPagador(pagadorService.findById(objDto.getPagadorId()));
+        entidade.setPagador(pagadorService.find(objDto.getPagadorId()));
         return entidade;
     }
 

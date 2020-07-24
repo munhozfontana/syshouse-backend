@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Pagador;
-import org.systemrendas.dto.pagador.PagadorInsertDTO;
-import org.systemrendas.dto.pagador.PagadorUpdateDTO;
+import org.systemrendas.dto.pagador.PagadorDTO;
 import org.systemrendas.repositories.PagadorRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -24,14 +24,14 @@ public class PagadorService {
     @Inject
     PagadorRepository repo;
 
-    private Pagador find(final UUID id) {
+    public Pagador find(final UUID id) {
         final Optional<Pagador> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + PagadorService.class.getName()));
     }
 
-    public Pagador findById(final UUID id) {
-        return find(id);
+    public PagadorDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Pagador> findAllPage(Integer page, Integer size) {
@@ -66,25 +66,26 @@ public class PagadorService {
         }
     }
 
-    public List<Pagador> listAll() {
-        return repo.listAll();
+    public List<PagadorDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Pagador fromDTO(final PagadorInsertDTO objDto) {
-        Pagador pagador = new Pagador();
-        pagador.setCnpj(objDto.getCnpj());
-        pagador.setCpf(objDto.getCpf());
-        pagador.setEndereco(objDto.getEndereco());
-        pagador.setEstadoCivil(objDto.getEstadoCivil());
-        pagador.setNacionalidade(objDto.getNacionalidade());
-        pagador.setNascimento(objDto.getNascimento());
-        pagador.setNome(objDto.getNome());
-        pagador.setProfissao(objDto.getProfissao());
-        pagador.setRg(objDto.getRg());
-        return pagador;
+    private PagadorDTO toDTO(Pagador entidade) {
+        PagadorDTO newObj = new PagadorDTO();
+        newObj.setId(entidade.getId());
+        newObj.setCnpj(entidade.getCnpj());
+        newObj.setCpf(entidade.getCpf());
+        newObj.setEndereco(entidade.getEndereco());
+        newObj.setEstadoCivil(entidade.getEstadoCivil());
+        newObj.setNacionalidade(entidade.getNacionalidade());
+        newObj.setNascimento(entidade.getNascimento());
+        newObj.setNome(entidade.getNome());
+        newObj.setProfissao(entidade.getProfissao());
+        newObj.setRg(entidade.getRg());
+        return newObj;
     }
 
-    public Pagador fromDTO(final PagadorUpdateDTO objDto) {
+    public Pagador fromDTO(final PagadorDTO objDto) {
         Pagador pagador = new Pagador();
         pagador.setCnpj(objDto.getCnpj());
         pagador.setCpf(objDto.getCpf());

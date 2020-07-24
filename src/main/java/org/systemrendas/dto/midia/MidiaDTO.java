@@ -5,7 +5,8 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class MidiaUpdateDTO {
+public class MidiaDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioId;
@@ -62,5 +63,13 @@ public class MidiaUpdateDTO {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

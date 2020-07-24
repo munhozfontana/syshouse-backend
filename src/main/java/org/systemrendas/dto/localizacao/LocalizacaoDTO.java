@@ -7,7 +7,8 @@ import javax.validation.constraints.Size;
 
 import javax.validation.constraints.NotNull;
 
-public class LocalizacaoInsertDTO {
+public class LocalizacaoDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
@@ -85,4 +86,11 @@ public class LocalizacaoInsertDTO {
         this.municipioId = municipioId;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

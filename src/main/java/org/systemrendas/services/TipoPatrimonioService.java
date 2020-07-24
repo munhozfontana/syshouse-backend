@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -12,8 +13,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.TipoPatrimonio;
-import org.systemrendas.dto.tipopatrimonio.TipoPatrimonioInsertDTO;
-import org.systemrendas.dto.tipopatrimonio.TipoPatrimonioUpdateDTO;
+import org.systemrendas.dto.tipopatrimonio.TipoPatrimonioDTO;
 import org.systemrendas.repositories.TipoPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -31,8 +31,8 @@ public class TipoPatrimonioService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + TipoPatrimonioService.class.getName()));
     }
 
-    public TipoPatrimonio findById(final UUID id) {
-        return find(id);
+    public TipoPatrimonioDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<TipoPatrimonio> findAllPage(Integer page, Integer size) {
@@ -66,20 +66,21 @@ public class TipoPatrimonioService {
         }
     }
 
-    public List<TipoPatrimonio> listAll() {
-        return repo.listAll();
+    public List<TipoPatrimonioDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public TipoPatrimonio fromDTO(final TipoPatrimonioInsertDTO objDto) {
+    private TipoPatrimonioDTO toDTO(TipoPatrimonio entidade) {
+        TipoPatrimonioDTO newObj = new TipoPatrimonioDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDescricao(entidade.getDescricao());
+        return newObj;
+    }
+
+    public TipoPatrimonio fromDTO(final TipoPatrimonioDTO objDto) {
         TipoPatrimonio entidade = new TipoPatrimonio();
         entidade.setDescricao(objDto.getDescricao());
         entidade.createdAt(new Date());
-        return entidade;
-    }
-
-    public TipoPatrimonio fromDTO(TipoPatrimonioUpdateDTO objDto) {
-        TipoPatrimonio entidade = new TipoPatrimonio();
-        entidade.setDescricao(objDto.getDescricao());
         return entidade;
     }
 

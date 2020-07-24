@@ -1,10 +1,13 @@
-package org.systemrendas.dto.tipodespesa;
+package org.systemrendas.dto.tipopatrimonio;
 
 import javax.validation.constraints.Size;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-public class TipoDespesaInsertDTO {
+public class TipoPatrimonioDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
@@ -18,4 +21,11 @@ public class TipoDespesaInsertDTO {
         this.descricao = descricao;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

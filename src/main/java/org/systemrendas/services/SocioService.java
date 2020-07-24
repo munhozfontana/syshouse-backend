@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Socio;
-import org.systemrendas.dto.socio.SocioInsertDTO;
-import org.systemrendas.dto.socio.SocioUpdateDTO;
+import org.systemrendas.dto.socio.SocioDTO;
 import org.systemrendas.repositories.SocioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -24,14 +24,14 @@ public class SocioService {
     @Inject
     SocioRepository repo;
 
-    private Socio find(final UUID id) {
+    public Socio find(final UUID id) {
         final Optional<Socio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + SocioService.class.getName()));
     }
 
-    public Socio findById(final UUID id) {
-        return find(id);
+    public SocioDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Socio> findAllPage(Integer page, Integer size) {
@@ -66,22 +66,23 @@ public class SocioService {
         }
     }
 
-    public List<Socio> listAll() {
-        return repo.listAll();
+    public List<SocioDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Socio fromDTO(final SocioInsertDTO objDto) {
-        Socio entidade = new Socio();
-        entidade.setCpf(objDto.getCpf());
-        entidade.setEstadoCivil(objDto.getEstadoCivil());
-        entidade.setNacionalidade(objDto.getNacionalidade());
-        entidade.setNome(objDto.getNome());
-        entidade.setProfissao(objDto.getProfissao());
-        entidade.setRg(objDto.getRg());
-        return entidade;
+    private SocioDTO toDTO(Socio entidade) {
+        SocioDTO newObj = new SocioDTO();
+        newObj.setId(entidade.getId());
+        newObj.setCpf(entidade.getCpf());
+        newObj.setEstadoCivil(entidade.getEstadoCivil());
+        newObj.setNacionalidade(entidade.getNacionalidade());
+        newObj.setNome(entidade.getNome());
+        newObj.setProfissao(entidade.getProfissao());
+        newObj.setRg(entidade.getRg());
+        return newObj;
     }
 
-    public Socio fromDTO(SocioUpdateDTO objDto) {
+    public Socio fromDTO(final SocioDTO objDto) {
         Socio entidade = new Socio();
         entidade.setCpf(objDto.getCpf());
         entidade.setEstadoCivil(objDto.getEstadoCivil());

@@ -1,23 +1,16 @@
-package org.systemrendas.dto.renda;
+package org.systemrendas.dto.despesa;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class RendaInsertDTO {
-
-    @NotNull(message = "Não e permitido valor nulo")
-    private UUID pagadorId;
-
-    @NotNull(message = "Não e permitido valor nulo")
-    private UUID tipoRendaId;
-
-    @NotNull(message = "Não e permitido valor nulo")
-    private UUID patrimonioId;
+public class DespesaDTO {
+    private UUID id;
 
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
     private String descricao;
@@ -34,32 +27,14 @@ public class RendaInsertDTO {
     @JsonbDateFormat(value = "dd/MM/yyyy")
     private LocalDate dataFim;
 
-    @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
+    @Column(length = 500)
     private String obs;
 
-    public UUID getPagadorId() {
-        return this.pagadorId;
-    }
+    @NotNull(message = "Não e permitido valor nulo")
+    private UUID tipoDespesaId;
 
-    public void setPagadorId(UUID pagadorId) {
-        this.pagadorId = pagadorId;
-    }
-
-    public UUID getTipoRendaId() {
-        return this.tipoRendaId;
-    }
-
-    public void setTipoRendaId(UUID tipoRendaId) {
-        this.tipoRendaId = tipoRendaId;
-    }
-
-    public UUID getPatrimonioId() {
-        return this.patrimonioId;
-    }
-
-    public void setPatrimonioId(UUID patrimonioId) {
-        this.patrimonioId = patrimonioId;
-    }
+    @NotNull(message = "Não e permitido valor nulo")
+    private UUID patrimonioId;
 
     public String getDescricao() {
         return this.descricao;
@@ -109,4 +84,27 @@ public class RendaInsertDTO {
         this.obs = obs;
     }
 
+    public UUID getTipoDespesaId() {
+        return this.tipoDespesaId;
+    }
+
+    public void setTipoDespesaId(UUID tipoDespesaId) {
+        this.tipoDespesaId = tipoDespesaId;
+    }
+
+    public UUID getPatrimonioId() {
+        return this.patrimonioId;
+    }
+
+    public void setPatrimonioId(UUID patrimonioId) {
+        this.patrimonioId = patrimonioId;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

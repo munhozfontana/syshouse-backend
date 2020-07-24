@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Dependente;
-import org.systemrendas.dto.dependente.DependenteInsertDTO;
-import org.systemrendas.dto.dependente.DependenteUpdateDTO;
+import org.systemrendas.dto.dependente.DependenteDTO;
 import org.systemrendas.services.DependenteService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class DependenteResource {
 
     @POST
     @Operation(summary = "Insere Dependente", description = "Insere um novo objeto Dependente e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid DependenteInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid DependenteDTO dto) throws URISyntaxException {
         Dependente entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class DependenteResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Dependente", description = "Atualiza o objeto Dependente")
-    public Response update(@PathParam("id") final UUID id, final @Valid DependenteUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid DependenteDTO dto) {
         Dependente obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

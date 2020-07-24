@@ -8,7 +8,8 @@ import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class MovimentacaoInsertDTO {
+public class MovimentacaoDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     private UUID patrimonioOut;
@@ -65,4 +66,11 @@ public class MovimentacaoInsertDTO {
         this.obs = obs;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

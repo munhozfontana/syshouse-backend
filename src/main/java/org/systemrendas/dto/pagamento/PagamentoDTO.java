@@ -1,4 +1,4 @@
-package org.systemrendas.dto.movimentacao;
+package org.systemrendas.dto.pagamento;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,37 +8,28 @@ import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class MovimentacaoUpdateDTO {
+public class PagamentoDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID patrimonioOut;
-
-    @NotNull(message = "Não e permitido valor nulo")
-    private UUID patrimonioIn;
+    private UUID despesaId;
 
     @NotNull(message = "Não e permitido valor nulo")
     private BigDecimal valor;
 
+    @NotNull(message = "Não e permitido valor nulo")
     @JsonbDateFormat(value = "dd/MM/yyyy")
-    private LocalDate data;
+    private LocalDate dataPagamento;
 
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String obs;
 
-    public UUID getPatrimonioOut() {
-        return this.patrimonioOut;
+    public UUID getDespesaId() {
+        return this.despesaId;
     }
 
-    public void setPatrimonioOut(UUID patrimonioOut) {
-        this.patrimonioOut = patrimonioOut;
-    }
-
-    public UUID getPatrimonioIn() {
-        return this.patrimonioIn;
-    }
-
-    public void setPatrimonioIn(UUID patrimonioIn) {
-        this.patrimonioIn = patrimonioIn;
+    public void setDespesaId(UUID despesaId) {
+        this.despesaId = despesaId;
     }
 
     public BigDecimal getValor() {
@@ -49,12 +40,12 @@ public class MovimentacaoUpdateDTO {
         this.valor = valor;
     }
 
-    public LocalDate getData() {
-        return this.data;
+    public LocalDate getDataPagamento() {
+        return this.dataPagamento;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 
     public String getObs() {
@@ -65,4 +56,11 @@ public class MovimentacaoUpdateDTO {
         this.obs = obs;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

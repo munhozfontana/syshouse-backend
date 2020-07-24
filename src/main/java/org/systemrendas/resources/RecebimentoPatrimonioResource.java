@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.RecebimentoPatrimonio;
-import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioInsertDTO;
-import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioUpdateDTO;
+import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioDTO;
 import org.systemrendas.services.RecebimentoPatrimonioService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class RecebimentoPatrimonioResource {
 
     @POST
     @Operation(summary = "Insere RecebimentoPatrimonio", description = "Insere um novo objeto RecebimentoPatrimonio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid RecebimentoPatrimonioInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid RecebimentoPatrimonioDTO dto) throws URISyntaxException {
         RecebimentoPatrimonio entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class RecebimentoPatrimonioResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza RecebimentoPatrimonio", description = "Atualiza o objeto RecebimentoPatrimonio")
-    public Response update(@PathParam("id") final UUID id, final @Valid RecebimentoPatrimonioUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid RecebimentoPatrimonioDTO dto) {
         RecebimentoPatrimonio obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

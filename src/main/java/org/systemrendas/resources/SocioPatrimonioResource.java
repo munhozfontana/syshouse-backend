@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.SocioPatrimonio;
-import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioInsertDTO;
-import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioUpdateDTO;
+import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioDTO;
 import org.systemrendas.services.SocioPatrimonioService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class SocioPatrimonioResource {
 
     @POST
     @Operation(summary = "Insere SocioPatrimonio", description = "Insere um novo objeto SocioPatrimonio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid SocioPatrimonioInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid SocioPatrimonioDTO dto) throws URISyntaxException {
         SocioPatrimonio entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class SocioPatrimonioResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza SocioPatrimonio", description = "Atualiza o objeto SocioPatrimonio")
-    public Response update(@PathParam("id") final UUID id, final @Valid SocioPatrimonioUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid SocioPatrimonioDTO dto) {
         SocioPatrimonio obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

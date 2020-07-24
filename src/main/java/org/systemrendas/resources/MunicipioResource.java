@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Municipio;
-import org.systemrendas.dto.municipio.MunicipioInsertDTO;
-import org.systemrendas.dto.municipio.MunicipioUpdateDTO;
+import org.systemrendas.dto.municipio.MunicipioDTO;
 import org.systemrendas.services.MunicipioService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class MunicipioResource {
 
     @POST
     @Operation(summary = "Insere Municipio", description = "Insere um novo objeto Municipio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MunicipioInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MunicipioDTO dto) throws URISyntaxException {
         Municipio entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class MunicipioResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Municipio", description = "Atualiza o objeto Municipio")
-    public Response update(@PathParam("id") final UUID id, final @Valid MunicipioUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid MunicipioDTO dto) {
         Municipio obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

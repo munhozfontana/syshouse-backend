@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Recebimento;
-import org.systemrendas.dto.recebimento.RecebimentoInsertDTO;
-import org.systemrendas.dto.recebimento.RecebimentoUpdateDTO;
+import org.systemrendas.dto.recebimento.RecebimentoDTO;
 import org.systemrendas.services.RecebimentoService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class RecebimentoResource {
 
     @POST
     @Operation(summary = "Insere Recebimento", description = "Insere um novo objeto Recebimento e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid RecebimentoInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid RecebimentoDTO dto) throws URISyntaxException {
         Recebimento entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class RecebimentoResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Recebimento", description = "Atualiza o objeto Recebimento")
-    public Response update(@PathParam("id") final UUID id, final @Valid RecebimentoUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid RecebimentoDTO dto) {
         Recebimento obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

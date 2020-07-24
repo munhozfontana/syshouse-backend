@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.SocioPatrimonio;
-import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioInsertDTO;
-import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioUpdateDTO;
+import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioDTO;
 import org.systemrendas.repositories.SocioPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -33,8 +33,8 @@ public class SocioPatrimonioService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + SocioPatrimonioService.class.getName()));
     }
 
-    public SocioPatrimonio findById(final UUID id) {
-        return find(id);
+    public SocioPatrimonioDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<SocioPatrimonio> findAllPage(Integer page, Integer size) {
@@ -68,23 +68,24 @@ public class SocioPatrimonioService {
         }
     }
 
-    public List<SocioPatrimonio> listAll() {
-        return repo.listAll();
+    public List<SocioPatrimonioDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public SocioPatrimonio fromDTO(final SocioPatrimonioInsertDTO objDto) {
+    private SocioPatrimonioDTO toDTO(SocioPatrimonio entidade) {
+        SocioPatrimonioDTO newObj = new SocioPatrimonioDTO();
+        newObj.setId(entidade.getId());
+        newObj.setPorcentagem(entidade.getPorcentagem());
+        newObj.setProprietario(entidade.getProprietario());
+        newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        return newObj;
+    }
+
+    public SocioPatrimonio fromDTO(final SocioPatrimonioDTO objDto) {
         SocioPatrimonio entidade = new SocioPatrimonio();
         entidade.setPorcentagem(objDto.getPorcentagem());
         entidade.setProprietario(objDto.getProprietario());
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
-        return entidade;
-    }
-
-    public SocioPatrimonio fromDTO(SocioPatrimonioUpdateDTO objDto) {
-        SocioPatrimonio entidade = new SocioPatrimonio();
-        entidade.setPorcentagem(objDto.getPorcentagem());
-        entidade.setProprietario(objDto.getProprietario());
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         return entidade;
     }
 

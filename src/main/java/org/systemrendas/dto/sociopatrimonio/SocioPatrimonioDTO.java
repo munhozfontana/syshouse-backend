@@ -5,7 +5,8 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-public class SocioPatrimonioUpdateDTO {
+public class SocioPatrimonioDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     private UUID socioId;
@@ -54,4 +55,11 @@ public class SocioPatrimonioUpdateDTO {
         this.proprietario = proprietario;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Localizacao;
-import org.systemrendas.dto.localizacao.LocalizacaoInsertDTO;
-import org.systemrendas.dto.localizacao.LocalizacaoUpdateDTO;
+import org.systemrendas.dto.localizacao.LocalizacaoDTO;
 import org.systemrendas.repositories.LocalizacaoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -27,14 +27,14 @@ public class LocalizacaoService {
     @Inject
     MunicipioService municipioService;
 
-    private Localizacao find(final UUID id) {
+    public Localizacao find(final UUID id) {
         final Optional<Localizacao> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + LocalizacaoService.class.getName()));
     }
 
-    public Localizacao findById(final UUID id) {
-        return find(id);
+    public LocalizacaoDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Localizacao> findAllPage(Integer page, Integer size) {
@@ -68,11 +68,24 @@ public class LocalizacaoService {
         }
     }
 
-    public List<Localizacao> listAll() {
-        return repo.listAll();
+    public List<LocalizacaoDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Localizacao fromDTO(final LocalizacaoInsertDTO objDto) {
+    private LocalizacaoDTO toDTO(Localizacao entidade) {
+        LocalizacaoDTO newObj = new LocalizacaoDTO();
+        newObj.setId(entidade.getId());
+        newObj.setBairro(entidade.getBairro());
+        newObj.setCep(entidade.getCep());
+        newObj.setComplemento(entidade.getComplemento());
+        newObj.setEndereco(entidade.getEndereco());
+        newObj.setLatitude(entidade.getLatitude());
+        newObj.setLongitude(entidade.getLongitude());
+        newObj.setMunicipioId(entidade.getMunicipio().getId());
+        return newObj;
+    }
+
+    public Localizacao fromDTO(final LocalizacaoDTO objDto) {
         Localizacao entidade = new Localizacao();
         entidade.setBairro(objDto.getBairro());
         entidade.setCep(objDto.getCep());
@@ -80,19 +93,7 @@ public class LocalizacaoService {
         entidade.setEndereco(objDto.getEndereco());
         entidade.setLatitude(objDto.getLatitude());
         entidade.setLongitude(objDto.getLongitude());
-        entidade.setMunicipio(municipioService.findById(objDto.getMunicipioId()));
-        return entidade;
-    }
-
-    public Localizacao fromDTO(LocalizacaoUpdateDTO objDto) {
-        Localizacao entidade = new Localizacao();
-        entidade.setBairro(objDto.getBairro());
-        entidade.setCep(objDto.getCep());
-        entidade.setComplemento(objDto.getComplemento());
-        entidade.setEndereco(objDto.getEndereco());
-        entidade.setLatitude(objDto.getLatitude());
-        entidade.setLongitude(objDto.getLongitude());
-        entidade.setMunicipio(municipioService.findById(objDto.getMunicipioId()));
+        entidade.setMunicipio(municipioService.find(objDto.getMunicipioId()));
         return entidade;
     }
 

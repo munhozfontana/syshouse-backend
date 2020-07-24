@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Pagamento;
-import org.systemrendas.dto.pagamento.PagamentoInsertDTO;
-import org.systemrendas.dto.pagamento.PagamentoUpdateDTO;
+import org.systemrendas.dto.pagamento.PagamentoDTO;
 import org.systemrendas.services.PagamentoService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class PagamentoResource {
 
     @POST
     @Operation(summary = "Insere Pagamento", description = "Insere um novo objeto Pagamento e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid PagamentoInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid PagamentoDTO dto) throws URISyntaxException {
         Pagamento entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class PagamentoResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Pagamento", description = "Atualiza o objeto Pagamento")
-    public Response update(@PathParam("id") final UUID id, final @Valid PagamentoUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid PagamentoDTO dto) {
         Pagamento obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

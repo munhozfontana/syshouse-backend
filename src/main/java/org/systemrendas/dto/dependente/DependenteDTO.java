@@ -6,7 +6,8 @@ import javax.validation.constraints.Size;
 
 import javax.validation.constraints.NotNull;
 
-public class DependenteInsertDTO {
+public class DependenteDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     private UUID pagadorId;
@@ -31,4 +32,11 @@ public class DependenteInsertDTO {
         this.nome = nome;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

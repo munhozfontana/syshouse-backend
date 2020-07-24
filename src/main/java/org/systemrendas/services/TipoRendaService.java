@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.TipoRenda;
-import org.systemrendas.dto.tiporenda.TipoRendaInsertDTO;
-import org.systemrendas.dto.tiporenda.TipoRendaUpdateDTO;
+import org.systemrendas.dto.tiporenda.TipoRendaDTO;
 import org.systemrendas.repositories.TipoRendaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -24,14 +24,14 @@ public class TipoRendaService {
     @Inject
     TipoRendaRepository repo;
 
-    private TipoRenda find(final UUID id) {
+    public TipoRenda find(final UUID id) {
         final Optional<TipoRenda> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + TipoRendaService.class.getName()));
     }
 
-    public TipoRenda findById(final UUID id) {
-        return find(id);
+    public TipoRendaDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<TipoRenda> findAllPage(Integer page, Integer size) {
@@ -65,17 +65,18 @@ public class TipoRendaService {
         }
     }
 
-    public List<TipoRenda> listAll() {
-        return repo.listAll();
+    public List<TipoRendaDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public TipoRenda fromDTO(final TipoRendaInsertDTO objDto) {
-        TipoRenda entidade = new TipoRenda();
-        entidade.setDescricao(objDto.getDescricao());
-        return entidade;
+    private TipoRendaDTO toDTO(TipoRenda entidade) {
+        TipoRendaDTO newObj = new TipoRendaDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDescricao(entidade.getDescricao());
+        return newObj;
     }
 
-    public TipoRenda fromDTO(TipoRendaUpdateDTO objDto) {
+    public TipoRenda fromDTO(final TipoRendaDTO objDto) {
         TipoRenda entidade = new TipoRenda();
         entidade.setDescricao(objDto.getDescricao());
         return entidade;

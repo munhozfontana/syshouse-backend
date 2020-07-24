@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Midia;
-import org.systemrendas.dto.midia.MidiaInsertDTO;
-import org.systemrendas.dto.midia.MidiaUpdateDTO;
+import org.systemrendas.dto.midia.MidiaDTO;
 import org.systemrendas.services.MidiaService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class MidiaResource {
 
     @POST
     @Operation(summary = "Insere Midia", description = "Insere um novo objeto Midia e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MidiaInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MidiaDTO dto) throws URISyntaxException {
         Midia entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class MidiaResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Midia", description = "Atualiza o objeto Midia")
-    public Response update(@PathParam("id") final UUID id, final @Valid MidiaUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid MidiaDTO dto) {
         Midia obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

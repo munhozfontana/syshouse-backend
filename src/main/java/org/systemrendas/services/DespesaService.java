@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Despesa;
-import org.systemrendas.dto.despesa.DespesaInsertDTO;
-import org.systemrendas.dto.despesa.DespesaUpdateDTO;
+import org.systemrendas.dto.despesa.DespesaDTO;
 import org.systemrendas.repositories.DespesaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -30,14 +30,14 @@ public class DespesaService {
     @Inject
     PatrimonioService patrimonioService;
 
-    private Despesa find(final UUID id) {
+    public Despesa find(final UUID id) {
         final Optional<Despesa> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + DespesaService.class.getName()));
     }
 
-    public Despesa findById(final UUID id) {
-        return find(id);
+    public DespesaDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Despesa> findAllPage(Integer page, Integer size) {
@@ -72,11 +72,25 @@ public class DespesaService {
         }
     }
 
-    public List<Despesa> listAll() {
-        return repo.listAll();
+    public List<DespesaDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Despesa fromDTO(final DespesaInsertDTO objDto) {
+    private DespesaDTO toDTO(Despesa entidade) {
+        DespesaDTO newObj = new DespesaDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDescricao(entidade.getDescricao());
+        newObj.setValor(entidade.getValor());
+        newObj.setVencimento(entidade.getVencimento());
+        newObj.setDataInicio(entidade.getDataInicio());
+        newObj.setDataFim(entidade.getDataFim());
+        newObj.setObs(entidade.getObs());
+        newObj.setTipoDespesaId(entidade.getTipoDespesa().getId());
+        newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        return newObj;
+    }
+
+    public Despesa fromDTO(final DespesaDTO objDto) {
         Despesa entidade = new Despesa();
         entidade.setDescricao(objDto.getDescricao());
         entidade.setValor(objDto.getValor());
@@ -84,21 +98,8 @@ public class DespesaService {
         entidade.setDataInicio(objDto.getDataInicio());
         entidade.setDataFim(objDto.getDataFim());
         entidade.setObs(objDto.getObs());
-        entidade.setTipoDespesa(tipoDespesaService.findById(objDto.getTipoDespesaId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
-        return entidade;
-    }
-
-    public Despesa fromDTO(DespesaUpdateDTO objDto) {
-        Despesa entidade = new Despesa();
-        entidade.setDescricao(objDto.getDescricao());
-        entidade.setValor(objDto.getValor());
-        entidade.setVencimento(objDto.getVencimento());
-        entidade.setDataInicio(objDto.getDataInicio());
-        entidade.setDataFim(objDto.getDataFim());
-        entidade.setObs(objDto.getObs());
-        entidade.setTipoDespesa(tipoDespesaService.findById(objDto.getTipoDespesaId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setTipoDespesa(tipoDespesaService.find(objDto.getTipoDespesaId()));
+        entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         return entidade;
     }
 

@@ -2,9 +2,12 @@ package org.systemrendas.dto.socio;
 
 import javax.validation.constraints.Size;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotNull;
 
-public class SocioInsertDTO {
+public class SocioDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
@@ -74,4 +77,11 @@ public class SocioInsertDTO {
         this.profissao = profissao;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

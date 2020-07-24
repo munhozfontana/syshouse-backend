@@ -4,7 +4,9 @@ import java.util.UUID;
 
 import javax.validation.constraints.Size;
 
-public class ContatoInsertDTO {
+public class ContatoDTO {
+
+    private UUID id;
 
     @Size(message = "Valor não deve ser acima de 11 caracters", max = 11)
     private String fone;
@@ -60,6 +62,14 @@ public class ContatoInsertDTO {
 
     public void setSocioId(UUID socioId) {
         this.socioId = socioId;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
 }

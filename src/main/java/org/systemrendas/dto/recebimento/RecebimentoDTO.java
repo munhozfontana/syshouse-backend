@@ -1,4 +1,4 @@
-package org.systemrendas.dto.pagamento;
+package org.systemrendas.dto.recebimento;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -8,27 +8,28 @@ import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class PagamentoUpdateDTO {
+public class RecebimentoDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
-    private UUID despesaId;
+    private UUID rendaId;
 
     @NotNull(message = "Não e permitido valor nulo")
     private BigDecimal valor;
 
     @NotNull(message = "Não e permitido valor nulo")
     @JsonbDateFormat(value = "dd/MM/yyyy")
-    private LocalDate dataPagamento;
+    private LocalDate dataRecebimento;
 
     @Size(message = "Valor não deve ser acima de 500 caracters", max = 500)
     private String obs;
 
-    public UUID getDespesaId() {
-        return this.despesaId;
+    public UUID getRendaId() {
+        return this.rendaId;
     }
 
-    public void setDespesaId(UUID despesaId) {
-        this.despesaId = despesaId;
+    public void setRendaId(UUID rendaId) {
+        this.rendaId = rendaId;
     }
 
     public BigDecimal getValor() {
@@ -39,12 +40,12 @@ public class PagamentoUpdateDTO {
         this.valor = valor;
     }
 
-    public LocalDate getDataPagamento() {
-        return this.dataPagamento;
+    public LocalDate getDataRecebimento() {
+        return this.dataRecebimento;
     }
 
-    public void setDataPagamento(LocalDate dataPagamento) {
-        this.dataPagamento = dataPagamento;
+    public void setDataRecebimento(LocalDate dataRecebimento) {
+        this.dataRecebimento = dataRecebimento;
     }
 
     public String getObs() {
@@ -55,4 +56,11 @@ public class PagamentoUpdateDTO {
         this.obs = obs;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

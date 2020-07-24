@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Municipio;
-import org.systemrendas.dto.municipio.MunicipioInsertDTO;
-import org.systemrendas.dto.municipio.MunicipioUpdateDTO;
+import org.systemrendas.dto.municipio.MunicipioDTO;
 import org.systemrendas.repositories.MunicipioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -24,14 +24,14 @@ public class MunicipioService {
     @Inject
     MunicipioRepository repo;
 
-    private Municipio find(final UUID id) {
+    public Municipio find(final UUID id) {
         final Optional<Municipio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + MunicipioService.class.getName()));
     }
 
-    public Municipio findById(final UUID id) {
-        return find(id);
+    public MunicipioDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Municipio> findAllPage(Integer page, Integer size) {
@@ -65,21 +65,22 @@ public class MunicipioService {
         }
     }
 
-    public List<Municipio> listAll() {
-        return repo.listAll();
+    public List<MunicipioDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Municipio fromDTO(final MunicipioInsertDTO objDto) {
-        Municipio municipio = new Municipio();
-        municipio.setIbge(objDto.getIbge());
-        municipio.setNome(objDto.getNome());
-        municipio.setPais(objDto.getNome());
-        municipio.setPopulacao(objDto.getPopulacao());
-        municipio.setUf(objDto.getUf());
-        return municipio;
+    private MunicipioDTO toDTO(Municipio entidade) {
+        MunicipioDTO newObj = new MunicipioDTO();
+        newObj.setId(entidade.getId());
+        newObj.setIbge(entidade.getIbge());
+        newObj.setNome(entidade.getNome());
+        newObj.setPais(entidade.getNome());
+        newObj.setPopulacao(entidade.getPopulacao());
+        newObj.setUf(entidade.getUf());
+        return newObj;
     }
 
-    public Municipio fromDTO(MunicipioUpdateDTO objDto) {
+    public Municipio fromDTO(final MunicipioDTO objDto) {
         Municipio municipio = new Municipio();
         municipio.setIbge(objDto.getIbge());
         municipio.setNome(objDto.getNome());

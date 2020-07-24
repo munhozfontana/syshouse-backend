@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Midia;
-import org.systemrendas.dto.midia.MidiaInsertDTO;
-import org.systemrendas.dto.midia.MidiaUpdateDTO;
+import org.systemrendas.dto.midia.MidiaDTO;
 import org.systemrendas.repositories.MidiaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -33,8 +33,8 @@ public class MidiaService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + MidiaService.class.getName()));
     }
 
-    public Midia findById(final UUID id) {
-        return find(id);
+    public MidiaDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Midia> findAllPage(Integer page, Integer size) {
@@ -69,26 +69,27 @@ public class MidiaService {
         }
     }
 
-    public List<Midia> listAll() {
-        return repo.listAll();
+    public List<MidiaDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Midia fromDTO(final MidiaInsertDTO objDto) {
+    private MidiaDTO toDTO(Midia entidade) {
+        MidiaDTO newObj = new MidiaDTO();
+        newObj.setId(entidade.getId());
+        newObj.setNome(entidade.getNome());
+        newObj.setCaminho(entidade.getCaminho());
+        newObj.setObs(entidade.getObs());
+        newObj.setTipo(entidade.getTipo());
+        newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        return newObj;
+    }
+
+    public Midia fromDTO(final MidiaDTO objDto) {
         Midia entidade = new Midia();
         entidade.setCaminho(objDto.getCaminho());
         entidade.setNome(objDto.getNome());
         entidade.setObs(objDto.getObs());
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
-        entidade.setTipo(objDto.getTipo());
-        return entidade;
-    }
-
-    public Midia fromDTO(final MidiaUpdateDTO objDto) {
-        Midia entidade = new Midia();
-        entidade.setCaminho(objDto.getCaminho());
-        entidade.setNome(objDto.getNome());
-        entidade.setObs(objDto.getObs());
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         entidade.setTipo(objDto.getTipo());
         return entidade;
     }

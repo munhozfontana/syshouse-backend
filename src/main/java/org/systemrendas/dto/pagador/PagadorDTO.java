@@ -1,12 +1,14 @@
 package org.systemrendas.dto.pagador;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class PagadorInsertDTO {
+public class PagadorDTO {
+    private UUID id;
 
     @NotNull(message = "Não e permitido valor nulo")
     @Size(message = "Valor não deve ser acima de 100 caracters", max = 100)
@@ -108,4 +110,11 @@ public class PagadorInsertDTO {
         this.endereco = endereco;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

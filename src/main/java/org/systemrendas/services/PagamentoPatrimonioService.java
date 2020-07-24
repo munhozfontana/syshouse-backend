@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.PagamentoPatrimonio;
-import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioInsertDTO;
-import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioUpdateDTO;
+import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioDTO;
 import org.systemrendas.repositories.PagamentoPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -36,8 +36,8 @@ public class PagamentoPatrimonioService {
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + PagamentoPatrimonioService.class.getName()));
     }
 
-    public PagamentoPatrimonio findById(final UUID id) {
-        return find(id);
+    public PagamentoPatrimonioDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<PagamentoPatrimonio> findAllPage(Integer page, Integer size) {
@@ -71,22 +71,23 @@ public class PagamentoPatrimonioService {
         }
     }
 
-    public List<PagamentoPatrimonio> listAll() {
-        return repo.listAll();
+    public List<PagamentoPatrimonioDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public PagamentoPatrimonio fromDTO(final PagamentoPatrimonioInsertDTO objDto) {
-        PagamentoPatrimonio entidade = new PagamentoPatrimonio();
-        entidade.setPagamento(pagamentoService.findById(objDto.getPagamentoId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
-        entidade.setValorCalculado(objDto.getValorCalculado());
-        return entidade;
+    private PagamentoPatrimonioDTO toDTO(PagamentoPatrimonio entidade) {
+        PagamentoPatrimonioDTO newObj = new PagamentoPatrimonioDTO();
+        newObj.setId(entidade.getId());
+        newObj.setPagamentoId(entidade.getPagamento().getId());
+        newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        newObj.setValorCalculado(entidade.getValorCalculado());
+        return newObj;
     }
 
-    public PagamentoPatrimonio fromDTO(PagamentoPatrimonioUpdateDTO objDto) {
+    public PagamentoPatrimonio fromDTO(final PagamentoPatrimonioDTO objDto) {
         PagamentoPatrimonio entidade = new PagamentoPatrimonio();
-        entidade.setPagamento(pagamentoService.findById(objDto.getPagamentoId()));
-        entidade.setPatrimonio(patrimonioService.findById(objDto.getPatrimonioId()));
+        entidade.setPagamento(pagamentoService.find(objDto.getPagamentoId()));
+        entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         entidade.setValorCalculado(objDto.getValorCalculado());
         return entidade;
     }

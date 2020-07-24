@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Contato;
-import org.systemrendas.dto.contato.ContatoInsertDTO;
-import org.systemrendas.dto.contato.ContatoUpdateDTO;
+import org.systemrendas.dto.contato.ContatoDTO;
 import org.systemrendas.services.ContatoService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class ContatoResource {
 
     @POST
     @Operation(summary = "Insere Contato", description = "Insere um novo objeto Contato e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid ContatoInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid ContatoDTO dto) throws URISyntaxException {
         Contato entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class ContatoResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Contato", description = "Atualiza o objeto Contato")
-    public Response update(@PathParam("id") final UUID id, final @Valid ContatoUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid ContatoDTO dto) {
         Contato obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

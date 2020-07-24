@@ -24,8 +24,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Patrimonio;
-import org.systemrendas.dto.patrimonio.PatrimonioInsertDTO;
-import org.systemrendas.dto.patrimonio.PatrimonioUpdateDTO;
+import org.systemrendas.dto.patrimonio.PatrimonioDTO;
 import org.systemrendas.services.PatrimonioService;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -74,7 +73,7 @@ public class PatrimonioResource {
 
     @POST
     @Operation(summary = "Insere Patrimonio", description = "Insere um novo objeto Patrimonio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid PatrimonioInsertDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid PatrimonioDTO dto) throws URISyntaxException {
         Patrimonio entidade = null;
 
         try {
@@ -90,7 +89,7 @@ public class PatrimonioResource {
     @PUT
     @Path("{id}")
     @Operation(summary = "Atualiza Patrimonio", description = "Atualiza o objeto Patrimonio")
-    public Response update(@PathParam("id") final UUID id, final @Valid PatrimonioUpdateDTO dto) {
+    public Response update(@PathParam("id") final UUID id, final @Valid PatrimonioDTO dto) {
         Patrimonio obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);

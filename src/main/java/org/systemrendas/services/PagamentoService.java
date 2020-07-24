@@ -3,6 +3,7 @@ package org.systemrendas.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -11,8 +12,7 @@ import javax.transaction.Transactional;
 import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Pagamento;
-import org.systemrendas.dto.pagamento.PagamentoInsertDTO;
-import org.systemrendas.dto.pagamento.PagamentoUpdateDTO;
+import org.systemrendas.dto.pagamento.PagamentoDTO;
 import org.systemrendas.repositories.PagamentoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -27,14 +27,14 @@ public class PagamentoService {
     @Inject
     DespesaService despesaService;
 
-    private Pagamento find(final UUID id) {
+    public Pagamento find(final UUID id) {
         final Optional<Pagamento> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + PagamentoService.class.getName()));
     }
 
-    public Pagamento findById(final UUID id) {
-        return find(id);
+    public PagamentoDTO findById(final UUID id) {
+        return toDTO(find(id));
     }
 
     public PanacheQuery<Pagamento> findAllPage(Integer page, Integer size) {
@@ -68,23 +68,23 @@ public class PagamentoService {
         }
     }
 
-    public List<Pagamento> listAll() {
-        return repo.listAll();
+    public List<PagamentoDTO> listAll() {
+        return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    public Pagamento fromDTO(final PagamentoInsertDTO objDto) {
-        Pagamento entidade = new Pagamento();
-        entidade.setDataPagamento(objDto.getDataPagamento());
-        entidade.setDespesa(despesaService.findById(objDto.getDespesaId()));
-        entidade.setObs(objDto.getObs());
-        entidade.setValor(objDto.getValor());
-        return entidade;
+    private PagamentoDTO toDTO(Pagamento entidade) {
+        PagamentoDTO newObj = new PagamentoDTO();
+        newObj.setId(entidade.getId());
+        newObj.setDespesaId(entidade.getDespesa().getId());
+        newObj.setObs(entidade.getObs());
+        newObj.setValor(entidade.getValor());
+        return newObj;
     }
 
-    public Pagamento fromDTO(PagamentoUpdateDTO objDto) {
+    public Pagamento fromDTO(final PagamentoDTO objDto) {
         Pagamento entidade = new Pagamento();
         entidade.setDataPagamento(objDto.getDataPagamento());
-        entidade.setDespesa(despesaService.findById(objDto.getDespesaId()));
+        entidade.setDespesa(despesaService.find(objDto.getDespesaId()));
         entidade.setObs(objDto.getObs());
         entidade.setValor(objDto.getValor());
         return entidade;
