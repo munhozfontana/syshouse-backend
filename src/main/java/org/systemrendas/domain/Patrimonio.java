@@ -54,7 +54,7 @@ public class Patrimonio {
     private TipoPatrimonio tipoPatrimonio;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "localizacao_id")
+    @JoinColumn(unique = true)
     private Localizacao localizacao;
 
     public Patrimonio() {
