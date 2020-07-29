@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Midia;
 import org.systemrendas.dto.midia.MidiaDTO;
+import org.systemrendas.dto.midia.MidiaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.MidiaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class MidiaService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Midia> findAllPage(Integer page, Integer size) {
+    public Pagination<MidiaDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Midia> listPanache = repo.listAllPage(pegeable);
+        List<MidiaDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -84,7 +88,7 @@ public class MidiaService {
         return newObj;
     }
 
-    public Midia fromDTO(final MidiaDTO objDto) {
+    public Midia fromDTO(final MidiaNewDTO objDto) {
         Midia entidade = new Midia();
         entidade.setCaminho(objDto.getCaminho());
         entidade.setNome(objDto.getNome());

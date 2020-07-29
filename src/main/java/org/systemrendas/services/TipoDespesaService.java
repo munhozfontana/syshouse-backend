@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.TipoDespesa;
 import org.systemrendas.dto.tipodespesa.TipoDespesaDTO;
+import org.systemrendas.dto.tipodespesa.TipoDespesaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.TipoDespesaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -34,9 +36,11 @@ public class TipoDespesaService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<TipoDespesa> findAllPage(Integer page, Integer size) {
+    public Pagination<TipoDespesaDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<TipoDespesa> listPanache = repo.listAllPage(pegeable);
+        List<TipoDespesaDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -76,7 +80,7 @@ public class TipoDespesaService {
         return newObj;
     }
 
-    public TipoDespesa fromDTO(final TipoDespesaDTO objDto) {
+    public TipoDespesa fromDTO(final TipoDespesaNewDTO objDto) {
         TipoDespesa entidade = new TipoDespesa();
         entidade.setDescricao(objDto.getDescricao());
         return entidade;

@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Renda;
 import org.systemrendas.dto.renda.RendaDTO;
+import org.systemrendas.dto.renda.RendaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.RendaService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("renda")
 @Produces(MediaType.APPLICATION_JSON)
@@ -66,14 +66,14 @@ public class RendaResource {
     @Path("page")
     @Operation(summary = "Lista de Renda pagináveis", description = "É retornado uma lista de objetos Renda com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Renda> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<RendaDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Renda", description = "Insere um novo objeto Renda e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid RendaDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid RendaNewDTO dto) throws URISyntaxException {
         Renda entidade = null;
 
         try {

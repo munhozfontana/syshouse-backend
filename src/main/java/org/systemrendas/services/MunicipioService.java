@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Municipio;
 import org.systemrendas.dto.municipio.MunicipioDTO;
+import org.systemrendas.dto.municipio.MunicipioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.MunicipioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -34,9 +36,11 @@ public class MunicipioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Municipio> findAllPage(Integer page, Integer size) {
+    public Pagination<MunicipioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Municipio> listPanache = repo.listAllPage(pegeable);
+        List<MunicipioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -80,7 +84,7 @@ public class MunicipioService {
         return newObj;
     }
 
-    public Municipio fromDTO(final MunicipioDTO objDto) {
+    public Municipio fromDTO(final MunicipioNewDTO objDto) {
         Municipio municipio = new Municipio();
         municipio.setIbge(objDto.getIbge());
         municipio.setNome(objDto.getNome());

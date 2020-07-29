@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Socio;
 import org.systemrendas.dto.socio.SocioDTO;
+import org.systemrendas.dto.socio.SocioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.SocioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -34,9 +36,11 @@ public class SocioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Socio> findAllPage(Integer page, Integer size) {
+    public Pagination<SocioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Socio> listPanache = repo.listAllPage(pegeable);
+        List<SocioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -82,7 +86,7 @@ public class SocioService {
         return newObj;
     }
 
-    public Socio fromDTO(final SocioDTO objDto) {
+    public Socio fromDTO(final SocioNewDTO objDto) {
         Socio entidade = new Socio();
         entidade.setCpf(objDto.getCpf());
         entidade.setEstadoCivil(objDto.getEstadoCivil());

@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Movimentacao;
 import org.systemrendas.dto.movimentacao.MovimentacaoDTO;
+import org.systemrendas.dto.movimentacao.MovimentacaoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.MovimentacaoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class MovimentacaoService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Movimentacao> findAllPage(Integer page, Integer size) {
+    public Pagination<MovimentacaoDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Movimentacao> listPanache = repo.listAllPage(pegeable);
+        List<MovimentacaoDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -83,7 +87,7 @@ public class MovimentacaoService {
         return newObj;
     }
 
-    public Movimentacao fromDTO(final MovimentacaoDTO objDto) {
+    public Movimentacao fromDTO(final MovimentacaoNewDTO objDto) {
         Movimentacao entidade = new Movimentacao();
         entidade.setData(objDto.getData());
         entidade.setObs(objDto.getObs());

@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Renda;
 import org.systemrendas.dto.renda.RendaDTO;
+import org.systemrendas.dto.renda.RendaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.RendaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -43,9 +45,11 @@ public class RendaService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Renda> findAllPage(Integer page, Integer size) {
+    public Pagination<RendaDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Renda> listPanache = repo.listAllPage(pegeable);
+        List<RendaDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -94,7 +98,7 @@ public class RendaService {
         return newObj;
     }
 
-    public Renda fromDTO(final RendaDTO objDto) {
+    public Renda fromDTO(final RendaNewDTO objDto) {
         Renda entidade = new Renda();
         entidade.setDataFim(objDto.getDataFim());
         entidade.setDataInicio(objDto.getDataInicio());

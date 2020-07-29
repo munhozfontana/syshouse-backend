@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Contato;
 import org.systemrendas.dto.contato.ContatoDTO;
+import org.systemrendas.dto.contato.ContatoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.ContatoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -40,10 +42,11 @@ public class ContatoService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Contato> findAllPage(Integer page, Integer size) {
+    public Pagination<ContatoDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Contato> listPanache = repo.listAllPage(pegeable);
+        List<ContatoDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -88,7 +91,7 @@ public class ContatoService {
         return newObj;
     }
 
-    public Contato fromDTO(final ContatoDTO objDto) {
+    public Contato fromDTO(final ContatoNewDTO objDto) {
         Contato entidade = new Contato();
         entidade.setFone(objDto.getFone());
         entidade.setWhatsapp(objDto.getWhatsapp());

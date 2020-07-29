@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Dependente;
 import org.systemrendas.dto.dependente.DependenteDTO;
+import org.systemrendas.dto.dependente.DependenteNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.DependenteService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("dependente")
 @Tag(name = "Dependente")
@@ -66,14 +66,14 @@ public class DependenteResource {
     @Path("page")
     @Operation(summary = "Lista de Dependente pagináveis", description = "É retornado uma lista de objetos Dependente com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Dependente> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<DependenteDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Dependente", description = "Insere um novo objeto Dependente e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid DependenteDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid DependenteNewDTO dto) throws URISyntaxException {
         Dependente entidade = null;
 
         try {

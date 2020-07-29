@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.SocioPatrimonio;
 import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioDTO;
+import org.systemrendas.dto.sociopatrimonio.SocioPatrimonioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.SocioPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class SocioPatrimonioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<SocioPatrimonio> findAllPage(Integer page, Integer size) {
+    public Pagination<SocioPatrimonioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<SocioPatrimonio> listPanache = repo.listAllPage(pegeable);
+        List<SocioPatrimonioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -81,7 +85,7 @@ public class SocioPatrimonioService {
         return newObj;
     }
 
-    public SocioPatrimonio fromDTO(final SocioPatrimonioDTO objDto) {
+    public SocioPatrimonio fromDTO(final SocioPatrimonioNewDTO objDto) {
         SocioPatrimonio entidade = new SocioPatrimonio();
         entidade.setPorcentagem(objDto.getPorcentagem());
         entidade.setProprietario(objDto.getProprietario());

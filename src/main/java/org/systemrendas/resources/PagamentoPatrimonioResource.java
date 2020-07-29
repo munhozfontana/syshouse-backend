@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.PagamentoPatrimonio;
 import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioDTO;
+import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.PagamentoPatrimonioService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("pagamentopatrimonio")
 @Tag(name = "Pagamento do Patrimonio")
@@ -66,14 +66,14 @@ public class PagamentoPatrimonioResource {
     @Path("page")
     @Operation(summary = "Lista de PagamentoPatrimonio pagináveis", description = "É retornado uma lista de objetos PagamentoPatrimonio com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<PagamentoPatrimonio> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<PagamentoPatrimonioDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere PagamentoPatrimonio", description = "Insere um novo objeto PagamentoPatrimonio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid PagamentoPatrimonioDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid PagamentoPatrimonioNewDTO dto) throws URISyntaxException {
         PagamentoPatrimonio entidade = null;
 
         try {

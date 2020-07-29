@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Pagamento;
 import org.systemrendas.dto.pagamento.PagamentoDTO;
+import org.systemrendas.dto.pagamento.PagamentoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.PagamentoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class PagamentoService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Pagamento> findAllPage(Integer page, Integer size) {
+    public Pagination<PagamentoDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Pagamento> listPanache = repo.listAllPage(pegeable);
+        List<PagamentoDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -81,7 +85,7 @@ public class PagamentoService {
         return newObj;
     }
 
-    public Pagamento fromDTO(final PagamentoDTO objDto) {
+    public Pagamento fromDTO(final PagamentoNewDTO objDto) {
         Pagamento entidade = new Pagamento();
         entidade.setDataPagamento(objDto.getDataPagamento());
         entidade.setDespesa(despesaService.find(objDto.getDespesaId()));

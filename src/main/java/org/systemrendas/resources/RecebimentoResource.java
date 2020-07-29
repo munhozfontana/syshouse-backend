@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Recebimento;
 import org.systemrendas.dto.recebimento.RecebimentoDTO;
+import org.systemrendas.dto.recebimento.RecebimentoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.RecebimentoService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("recebimento")
 @Produces(MediaType.APPLICATION_JSON)
@@ -66,14 +66,14 @@ public class RecebimentoResource {
     @Path("page")
     @Operation(summary = "Lista de Recebimento pagináveis", description = "É retornado uma lista de objetos Recebimento com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Recebimento> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<RecebimentoDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Recebimento", description = "Insere um novo objeto Recebimento e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid RecebimentoDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid RecebimentoNewDTO dto) throws URISyntaxException {
         Recebimento entidade = null;
 
         try {

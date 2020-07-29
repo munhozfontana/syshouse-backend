@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Movimentacao;
 import org.systemrendas.dto.movimentacao.MovimentacaoDTO;
+import org.systemrendas.dto.movimentacao.MovimentacaoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.MovimentacaoService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("movimentacao")
 @Tag(name = "Movimentacao")
@@ -66,14 +66,14 @@ public class MovimentacaoResource {
     @Path("page")
     @Operation(summary = "Lista de Movimentacao pagináveis", description = "É retornado uma lista de objetos Movimentacao com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Movimentacao> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<MovimentacaoDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Movimentacao", description = "Insere um novo objeto Movimentacao e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MovimentacaoDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MovimentacaoNewDTO dto) throws URISyntaxException {
         Movimentacao entidade = null;
 
         try {

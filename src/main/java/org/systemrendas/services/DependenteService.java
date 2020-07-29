@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Dependente;
 import org.systemrendas.dto.dependente.DependenteDTO;
+import org.systemrendas.dto.dependente.DependenteNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.DependenteRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class DependenteService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Dependente> findAllPage(Integer page, Integer size) {
+    public Pagination<DependenteDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Dependente> listPanache = repo.listAllPage(pegeable);
+        List<DependenteDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -80,7 +84,7 @@ public class DependenteService {
         return newObj;
     }
 
-    public Dependente fromDTO(final DependenteDTO objDto) {
+    public Dependente fromDTO(final DependenteNewDTO objDto) {
         Dependente entidade = new Dependente();
         entidade.setNome(objDto.getNome());
         entidade.setPagador(pagadorService.find(objDto.getPagadorId()));

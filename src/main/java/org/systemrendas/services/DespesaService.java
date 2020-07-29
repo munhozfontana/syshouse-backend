@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Despesa;
 import org.systemrendas.dto.despesa.DespesaDTO;
+import org.systemrendas.dto.despesa.DespesaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.DespesaRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -40,9 +42,11 @@ public class DespesaService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Despesa> findAllPage(Integer page, Integer size) {
+    public Pagination<DespesaDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Despesa> listPanache = repo.listAllPage(pegeable);
+        List<DespesaDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -90,7 +94,7 @@ public class DespesaService {
         return newObj;
     }
 
-    public Despesa fromDTO(final DespesaDTO objDto) {
+    public Despesa fromDTO(final DespesaNewDTO objDto) {
         Despesa entidade = new Despesa();
         entidade.setDescricao(objDto.getDescricao());
         entidade.setValor(objDto.getValor());

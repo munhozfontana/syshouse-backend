@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Patrimonio;
 import org.systemrendas.dto.patrimonio.PatrimonioDTO;
+import org.systemrendas.dto.patrimonio.PatrimonioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.PatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class PatrimonioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Patrimonio> findAllPage(Integer page, Integer size) {
+    public Pagination<PatrimonioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Patrimonio> listPanache = repo.listAllPage(pegeable);
+        List<PatrimonioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -82,7 +86,7 @@ public class PatrimonioService {
         return newObj;
     }
 
-    public Patrimonio fromDTO(final PatrimonioDTO objDto) {
+    public Patrimonio fromDTO(final PatrimonioNewDTO objDto) {
         Patrimonio entidade = new Patrimonio();
         entidade.setDataFim(objDto.getDataFim());
         entidade.setDataInicio(objDto.getDataInicio());

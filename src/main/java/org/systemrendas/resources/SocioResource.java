@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Socio;
 import org.systemrendas.dto.socio.SocioDTO;
+import org.systemrendas.dto.socio.SocioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.SocioService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("socio")
 @Produces(MediaType.APPLICATION_JSON)
@@ -66,14 +66,14 @@ public class SocioResource {
     @Path("page")
     @Operation(summary = "Lista de Socio pagináveis", description = "É retornado uma lista de objetos Socio com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Socio> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<SocioDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Socio", description = "Insere um novo objeto Socio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid SocioDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid SocioNewDTO dto) throws URISyntaxException {
         Socio entidade = null;
 
         try {

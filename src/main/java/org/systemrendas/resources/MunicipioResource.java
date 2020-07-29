@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Municipio;
 import org.systemrendas.dto.municipio.MunicipioDTO;
+import org.systemrendas.dto.municipio.MunicipioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.MunicipioService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("municipio")
 @Tag(name = "Municipio")
@@ -66,14 +66,14 @@ public class MunicipioResource {
     @Path("page")
     @Operation(summary = "Lista de Municipio pagináveis", description = "É retornado uma lista de objetos Municipio com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Municipio> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<MunicipioDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Municipio", description = "Insere um novo objeto Municipio e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MunicipioDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MunicipioNewDTO dto) throws URISyntaxException {
         Municipio entidade = null;
 
         try {

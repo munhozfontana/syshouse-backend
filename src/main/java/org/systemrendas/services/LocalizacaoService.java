@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Localizacao;
 import org.systemrendas.dto.localizacao.LocalizacaoDTO;
+import org.systemrendas.dto.localizacao.LocalizacaoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.LocalizacaoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class LocalizacaoService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Localizacao> findAllPage(Integer page, Integer size) {
+    public Pagination<LocalizacaoDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Localizacao> listPanache = repo.listAllPage(pegeable);
+        List<LocalizacaoDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -85,7 +89,7 @@ public class LocalizacaoService {
         return newObj;
     }
 
-    public Localizacao fromDTO(final LocalizacaoDTO objDto) {
+    public Localizacao fromDTO(final LocalizacaoNewDTO objDto) {
         Localizacao entidade = new Localizacao();
         entidade.setBairro(objDto.getBairro());
         entidade.setCep(objDto.getCep());

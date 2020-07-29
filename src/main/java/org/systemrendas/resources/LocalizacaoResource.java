@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Localizacao;
 import org.systemrendas.dto.localizacao.LocalizacaoDTO;
+import org.systemrendas.dto.localizacao.LocalizacaoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.LocalizacaoService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("localizacao")
 @Tag(name = "Localizacao")
@@ -66,14 +66,14 @@ public class LocalizacaoResource {
     @Path("page")
     @Operation(summary = "Lista de Localizacao pagináveis", description = "É retornado uma lista de objetos Localizacao com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Localizacao> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<LocalizacaoDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Localizacao", description = "Insere um novo objeto Localizacao e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid LocalizacaoDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid LocalizacaoNewDTO dto) throws URISyntaxException {
         Localizacao entidade = null;
 
         try {

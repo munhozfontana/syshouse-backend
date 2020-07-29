@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Pagador;
 import org.systemrendas.dto.pagador.PagadorDTO;
+import org.systemrendas.dto.pagador.PagadorNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.PagadorRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -34,9 +36,11 @@ public class PagadorService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Pagador> findAllPage(Integer page, Integer size) {
+    public Pagination<PagadorDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Pagador> listPanache = repo.listAllPage(pegeable);
+        List<PagadorDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -85,7 +89,7 @@ public class PagadorService {
         return newObj;
     }
 
-    public Pagador fromDTO(final PagadorDTO objDto) {
+    public Pagador fromDTO(final PagadorNewDTO objDto) {
         Pagador pagador = new Pagador();
         pagador.setCnpj(objDto.getCnpj());
         pagador.setCpf(objDto.getCpf());

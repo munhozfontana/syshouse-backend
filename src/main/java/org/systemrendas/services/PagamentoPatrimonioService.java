@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.PagamentoPatrimonio;
 import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioDTO;
+import org.systemrendas.dto.pagamentopatrimonio.PagamentoPatrimonioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.PagamentoPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -40,9 +42,11 @@ public class PagamentoPatrimonioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<PagamentoPatrimonio> findAllPage(Integer page, Integer size) {
+    public Pagination<PagamentoPatrimonioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<PagamentoPatrimonio> listPanache = repo.listAllPage(pegeable);
+        List<PagamentoPatrimonioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -84,7 +88,7 @@ public class PagamentoPatrimonioService {
         return newObj;
     }
 
-    public PagamentoPatrimonio fromDTO(final PagamentoPatrimonioDTO objDto) {
+    public PagamentoPatrimonio fromDTO(final PagamentoPatrimonioNewDTO objDto) {
         PagamentoPatrimonio entidade = new PagamentoPatrimonio();
         entidade.setPagamento(pagamentoService.find(objDto.getPagamentoId()));
         entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));

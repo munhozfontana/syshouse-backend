@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.RecebimentoPatrimonio;
 import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioDTO;
+import org.systemrendas.dto.recebimentopatrimonio.RecebimentoPatrimonioNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.RecebimentoPatrimonioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -40,9 +42,11 @@ public class RecebimentoPatrimonioService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<RecebimentoPatrimonio> findAllPage(Integer page, Integer size) {
+    public Pagination<RecebimentoPatrimonioDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<RecebimentoPatrimonio> listPanache = repo.listAllPage(pegeable);
+        List<RecebimentoPatrimonioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -85,7 +89,7 @@ public class RecebimentoPatrimonioService {
         return newObj;
     }
 
-    public RecebimentoPatrimonio fromDTO(final RecebimentoPatrimonioDTO objDto) {
+    public RecebimentoPatrimonio fromDTO(final RecebimentoPatrimonioNewDTO objDto) {
         RecebimentoPatrimonio entidade = new RecebimentoPatrimonio();
         entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
         entidade.setRecebimento(recebimentoService.find(objDto.getRecebimentoId()));

@@ -25,9 +25,9 @@ import org.hibernate.ObjectNotFoundException;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import org.systemrendas.domain.Midia;
 import org.systemrendas.dto.midia.MidiaDTO;
+import org.systemrendas.dto.midia.MidiaNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.services.MidiaService;
-
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 @Path("midia")
 @Tag(name = "Midia")
@@ -66,14 +66,14 @@ public class MidiaResource {
     @Path("page")
     @Operation(summary = "Lista de Midia pagináveis", description = "É retornado uma lista de objetos Midia com paginação")
     public Response listAllPage(@QueryParam Integer page, @QueryParam Integer size) {
-        PanacheQuery<Midia> pages = service.findAllPage(page, size);
-        return Response.ok(pages.list()).header("pages", pages.pageCount()).header("totalElements", pages.count())
-                .build();
+        Pagination<MidiaDTO> pages = service.findAllPage(page, size);
+        return Response.ok(pages.getList()).header("page", pages.getPage()).header("size", pages.getSize())
+                .header("countByPage", pages.getCount()).build();
     }
 
     @POST
     @Operation(summary = "Insere Midia", description = "Insere um novo objeto Midia e retornado URI para localizar o objeto")
-    public Response insert(final @RequestBody @Valid MidiaDTO dto) throws URISyntaxException {
+    public Response insert(final @RequestBody @Valid MidiaNewDTO dto) throws URISyntaxException {
         Midia entidade = null;
 
         try {

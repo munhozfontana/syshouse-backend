@@ -13,6 +13,8 @@ import org.hibernate.ObjectDeletedException;
 import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Recebimento;
 import org.systemrendas.dto.recebimento.RecebimentoDTO;
+import org.systemrendas.dto.recebimento.RecebimentoNewDTO;
+import org.systemrendas.dto.utils.Pagination;
 import org.systemrendas.repositories.RecebimentoRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -37,9 +39,11 @@ public class RecebimentoService {
         return toDTO(find(id));
     }
 
-    public PanacheQuery<Recebimento> findAllPage(Integer page, Integer size) {
+    public Pagination<RecebimentoDTO> findAllPage(Integer page, Integer size) {
         Page pegeable = Page.of(page, size);
-        return repo.listAllPage(pegeable);
+        PanacheQuery<Recebimento> listPanache = repo.listAllPage(pegeable);
+        List<RecebimentoDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
+        return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
     }
 
     @Transactional
@@ -82,7 +86,7 @@ public class RecebimentoService {
         return newObj;
     }
 
-    public Recebimento fromDTO(final RecebimentoDTO objDto) {
+    public Recebimento fromDTO(final RecebimentoNewDTO objDto) {
         Recebimento entidade = new Recebimento();
         entidade.setDataRecebimento(objDto.getDataRecebimento());
         entidade.setObs(objDto.getObs());
