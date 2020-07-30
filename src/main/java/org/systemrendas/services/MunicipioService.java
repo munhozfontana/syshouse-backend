@@ -73,7 +73,7 @@ public class MunicipioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private MunicipioDTO toDTO(Municipio entidade) {
+    public MunicipioDTO toDTO(Municipio entidade) {
         MunicipioDTO newObj = new MunicipioDTO();
         newObj.setId(entidade.getId());
         newObj.setIbge(entidade.getIbge());

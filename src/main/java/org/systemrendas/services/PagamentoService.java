@@ -76,8 +76,9 @@ public class PagamentoService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private PagamentoDTO toDTO(Pagamento entidade) {
+    public PagamentoDTO toDTO(Pagamento entidade) {
         PagamentoDTO newObj = new PagamentoDTO();
+        newObj.setDataPagamento(entidade.getDataPagamento());
         newObj.setId(entidade.getId());
         newObj.setDespesaId(entidade.getDespesa().getId());
         newObj.setObs(entidade.getObs());

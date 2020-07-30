@@ -76,7 +76,7 @@ public class SocioPatrimonioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private SocioPatrimonioDTO toDTO(SocioPatrimonio entidade) {
+    public SocioPatrimonioDTO toDTO(SocioPatrimonio entidade) {
         SocioPatrimonioDTO newObj = new SocioPatrimonioDTO();
         newObj.setId(entidade.getId());
         newObj.setPorcentagem(entidade.getPorcentagem());

@@ -83,7 +83,7 @@ public class RendaService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private RendaDTO toDTO(Renda entidade) {
+    public RendaDTO toDTO(Renda entidade) {
         RendaDTO newObj = new RendaDTO();
         newObj.setId(entidade.getId());
         newObj.setDataFim(entidade.getDataFim());

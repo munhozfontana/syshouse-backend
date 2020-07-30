@@ -27,7 +27,10 @@ public class PatrimonioService {
     PatrimonioRepository repo;
 
     @Inject
-    private LocalizacaoService localizacaoService;
+    LocalizacaoService localizacaoService;
+
+    @Inject
+    TipoPatrimonioService tipoPatrimonioService;
 
     public Patrimonio find(final UUID id) {
         final Optional<Patrimonio> obj = repo.findByIdOptional(id);
@@ -76,13 +79,15 @@ public class PatrimonioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private PatrimonioDTO toDTO(Patrimonio entidade) {
+    public PatrimonioDTO toDTO(Patrimonio entidade) {
         PatrimonioDTO newObj = new PatrimonioDTO();
         newObj.setId(entidade.getId());
         newObj.setDataFim(entidade.getDataFim());
         newObj.setDataInicio(entidade.getDataInicio());
         newObj.setNome(entidade.getNome());
         newObj.setLocalizacaoId(entidade.getLocalizacao().getId());
+        newObj.setTipoPatrimonioId(entidade.getTipoPatrimonio().getId());
+        newObj.setValor(entidade.getValor());
         return newObj;
     }
 
@@ -92,6 +97,8 @@ public class PatrimonioService {
         entidade.setDataInicio(objDto.getDataInicio());
         entidade.setNome(objDto.getNome());
         entidade.setLocalizacao(localizacaoService.find(objDto.getLocalizacaoId()));
+        entidade.setTipoPatrimonio(tipoPatrimonioService.find(objDto.getTipoPatrimonioId()));
+        entidade.setValor(objDto.getValor());
         return entidade;
     }
 
@@ -99,7 +106,9 @@ public class PatrimonioService {
         newObj.setDataFim(obj.getDataFim());
         newObj.setDataInicio(obj.getDataInicio());
         newObj.setNome(obj.getNome());
-        newObj.setLocalizacao(obj.getLocalizacao());
+        newObj.setLocalizacao(localizacaoService.find(obj.getLocalizacao().getId()));
+        newObj.setTipoPatrimonio(tipoPatrimonioService.find(obj.getTipoPatrimonio().getId()));
+        newObj.setValor(obj.getValor());
     }
 
 }

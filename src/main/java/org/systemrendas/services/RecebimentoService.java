@@ -76,7 +76,7 @@ public class RecebimentoService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private RecebimentoDTO toDTO(Recebimento entidade) {
+    public RecebimentoDTO toDTO(Recebimento entidade) {
         RecebimentoDTO newObj = new RecebimentoDTO();
         newObj.setId(entidade.getId());
         newObj.setDataRecebimento(entidade.getDataRecebimento());

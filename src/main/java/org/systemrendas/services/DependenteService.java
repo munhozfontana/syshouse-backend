@@ -76,7 +76,7 @@ public class DependenteService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private DependenteDTO toDTO(Dependente entidade) {
+    public DependenteDTO toDTO(Dependente entidade) {
         DependenteDTO newObj = new DependenteDTO();
         newObj.setId(entidade.getId());
         newObj.setNome(entidade.getNome());

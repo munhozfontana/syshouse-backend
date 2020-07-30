@@ -93,7 +93,7 @@ public class TipoRendaResource {
         TipoRenda obj = service.fromDTO(dto);
         obj.setId(id);
         service.update(obj);
-        return Response.ok(obj).build();
+        return Response.ok(service.toDTO(obj)).build();
     }
 
     @DELETE

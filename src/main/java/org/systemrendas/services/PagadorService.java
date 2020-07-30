@@ -74,7 +74,7 @@ public class PagadorService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private PagadorDTO toDTO(Pagador entidade) {
+    public PagadorDTO toDTO(Pagador entidade) {
         PagadorDTO newObj = new PagadorDTO();
         newObj.setId(entidade.getId());
         newObj.setCnpj(entidade.getCnpj());
@@ -113,7 +113,6 @@ public class PagadorService {
         newObj.setNome(obj.getNome());
         newObj.setProfissao(obj.getProfissao());
         newObj.setRg(obj.getRg());
-        new Pagador();
     }
 
 }

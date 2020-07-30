@@ -76,7 +76,7 @@ public class LocalizacaoService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private LocalizacaoDTO toDTO(Localizacao entidade) {
+    public LocalizacaoDTO toDTO(Localizacao entidade) {
         LocalizacaoDTO newObj = new LocalizacaoDTO();
         newObj.setId(entidade.getId());
         newObj.setBairro(entidade.getBairro());

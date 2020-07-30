@@ -74,7 +74,7 @@ public class SocioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private SocioDTO toDTO(Socio entidade) {
+    public SocioDTO toDTO(Socio entidade) {
         SocioDTO newObj = new SocioDTO();
         newObj.setId(entidade.getId());
         newObj.setCpf(entidade.getCpf());

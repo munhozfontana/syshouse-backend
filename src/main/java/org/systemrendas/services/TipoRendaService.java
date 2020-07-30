@@ -73,7 +73,7 @@ public class TipoRendaService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private TipoRendaDTO toDTO(TipoRenda entidade) {
+    public TipoRendaDTO toDTO(TipoRenda entidade) {
         TipoRendaDTO newObj = new TipoRendaDTO();
         newObj.setId(entidade.getId());
         newObj.setDescricao(entidade.getDescricao());

@@ -76,7 +76,7 @@ public class MovimentacaoService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private MovimentacaoDTO toDTO(Movimentacao entidade) {
+    public MovimentacaoDTO toDTO(Movimentacao entidade) {
         MovimentacaoDTO newObj = new MovimentacaoDTO();
         newObj.setId(entidade.getId());
         newObj.setData(entidade.getData());

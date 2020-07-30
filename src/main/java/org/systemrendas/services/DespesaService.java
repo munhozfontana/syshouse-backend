@@ -80,7 +80,7 @@ public class DespesaService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private DespesaDTO toDTO(Despesa entidade) {
+    public DespesaDTO toDTO(Despesa entidade) {
         DespesaDTO newObj = new DespesaDTO();
         newObj.setId(entidade.getId());
         newObj.setDescricao(entidade.getDescricao());

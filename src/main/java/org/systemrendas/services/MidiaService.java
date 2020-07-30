@@ -77,7 +77,7 @@ public class MidiaService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private MidiaDTO toDTO(Midia entidade) {
+    public MidiaDTO toDTO(Midia entidade) {
         MidiaDTO newObj = new MidiaDTO();
         newObj.setId(entidade.getId());
         newObj.setNome(entidade.getNome());

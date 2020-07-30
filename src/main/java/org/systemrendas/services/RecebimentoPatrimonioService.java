@@ -80,7 +80,7 @@ public class RecebimentoPatrimonioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private RecebimentoPatrimonioDTO toDTO(RecebimentoPatrimonio entidade) {
+    public RecebimentoPatrimonioDTO toDTO(RecebimentoPatrimonio entidade) {
         RecebimentoPatrimonioDTO newObj = new RecebimentoPatrimonioDTO();
         newObj.setId(entidade.getId());
         newObj.setPatrimonioId(entidade.getPatrimonio().getId());

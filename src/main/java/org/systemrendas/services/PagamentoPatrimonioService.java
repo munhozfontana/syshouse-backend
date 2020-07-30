@@ -79,7 +79,7 @@ public class PagamentoPatrimonioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private PagamentoPatrimonioDTO toDTO(PagamentoPatrimonio entidade) {
+    public PagamentoPatrimonioDTO toDTO(PagamentoPatrimonio entidade) {
         PagamentoPatrimonioDTO newObj = new PagamentoPatrimonioDTO();
         newObj.setId(entidade.getId());
         newObj.setPagamentoId(entidade.getPagamento().getId());

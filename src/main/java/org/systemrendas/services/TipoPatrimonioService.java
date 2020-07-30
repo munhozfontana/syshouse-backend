@@ -27,7 +27,7 @@ public class TipoPatrimonioService {
     @Inject
     TipoPatrimonioRepository repo;
 
-    private TipoPatrimonio find(final UUID id) {
+    public TipoPatrimonio find(final UUID id) {
         final Optional<TipoPatrimonio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + TipoPatrimonioService.class.getName()));
@@ -74,7 +74,7 @@ public class TipoPatrimonioService {
         return repo.listAll().stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    private TipoPatrimonioDTO toDTO(TipoPatrimonio entidade) {
+    public TipoPatrimonioDTO toDTO(TipoPatrimonio entidade) {
         TipoPatrimonioDTO newObj = new TipoPatrimonioDTO();
         newObj.setId(entidade.getId());
         newObj.setDescricao(entidade.getDescricao());
