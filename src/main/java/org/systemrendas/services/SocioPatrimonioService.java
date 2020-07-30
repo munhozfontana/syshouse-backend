@@ -29,6 +29,9 @@ public class SocioPatrimonioService {
     @Inject
     PatrimonioService patrimonioService;
 
+    @Inject
+    SocioService socioService;
+
     private SocioPatrimonio find(final UUID id) {
         final Optional<SocioPatrimonio> obj = repo.findByIdOptional(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(null,
@@ -82,6 +85,7 @@ public class SocioPatrimonioService {
         newObj.setPorcentagem(entidade.getPorcentagem());
         newObj.setProprietario(entidade.getProprietario());
         newObj.setPatrimonioId(entidade.getPatrimonio().getId());
+        newObj.setSocioId(entidade.getSocio().getId());
         return newObj;
     }
 
@@ -90,6 +94,7 @@ public class SocioPatrimonioService {
         entidade.setPorcentagem(objDto.getPorcentagem());
         entidade.setProprietario(objDto.getProprietario());
         entidade.setPatrimonio(patrimonioService.find(objDto.getPatrimonioId()));
+        entidade.setSocio(socioService.find(objDto.getSocioId()));
         return entidade;
     }
 
@@ -97,6 +102,7 @@ public class SocioPatrimonioService {
         newObj.setPorcentagem(obj.getPorcentagem());
         newObj.setProprietario(obj.getProprietario());
         newObj.setPatrimonio(obj.getPatrimonio());
+        newObj.setSocio(obj.getSocio());
     }
 
 }

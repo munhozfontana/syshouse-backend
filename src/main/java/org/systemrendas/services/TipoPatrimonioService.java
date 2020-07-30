@@ -84,7 +84,6 @@ public class TipoPatrimonioService {
     public TipoPatrimonio fromDTO(final TipoPatrimonioNewDTO objDto) {
         TipoPatrimonio entidade = new TipoPatrimonio();
         entidade.setDescricao(objDto.getDescricao());
-        entidade.createdAt(new Date());
         return entidade;
     }
 
