@@ -83,7 +83,8 @@ public class MidiaResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("midia/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("midia/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

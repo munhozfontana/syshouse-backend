@@ -83,7 +83,8 @@ public class RecebimentoPatrimonioResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("recebimentopatrimonio/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("recebimentopatrimonio/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

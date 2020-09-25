@@ -83,7 +83,8 @@ public class RendaResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("renda/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("renda/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

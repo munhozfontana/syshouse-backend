@@ -83,7 +83,8 @@ public class MovimentacaoResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("movimentacao/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("movimentacao/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

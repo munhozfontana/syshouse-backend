@@ -83,7 +83,8 @@ public class PagamentoResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("pagamento/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("pagamento/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

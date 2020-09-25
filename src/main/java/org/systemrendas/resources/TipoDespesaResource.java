@@ -83,7 +83,8 @@ public class TipoDespesaResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("tipodespesa/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("tipodespesa/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

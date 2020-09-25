@@ -83,7 +83,8 @@ public class TipoPatrimonioResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("tipopatrimonio/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("tipopatrimonio/" + id.toString())).entity(entidade).build();
     }
 
     @PUT

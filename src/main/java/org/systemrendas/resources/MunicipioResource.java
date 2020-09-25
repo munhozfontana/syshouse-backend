@@ -83,7 +83,8 @@ public class MunicipioResource {
         }
 
         UUID id = service.insert(entidade);
-        return Response.created(new URI("municipio/" + id.toString())).build();
+        entidade.setId(id);
+        return Response.created(new URI("municipio/" + id.toString())).entity(entidade).build();
     }
 
     @PUT
