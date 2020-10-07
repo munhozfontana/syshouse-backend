@@ -52,6 +52,19 @@ public class SocioResource {
     }
 
     @GET
+    @Path("relationships/{id}")
+    @Operation(summary = "relacionamentos de Socio pelo ID", description = "Atravez do ID da entidade Socio é retornado a quantidade de relacionamentos do mesmo")
+    public Response findRelationships(@PathParam("id") final UUID id) {
+        try {
+            return Response.ok(service.findRelationships(id)).build();
+        } catch (ObjectNotFoundException e) {
+            return Response.status(Status.NOT_FOUND.getStatusCode(), e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.serverError().build();
+        }
+    }
+
+    @GET
     @Operation(summary = "Lista de Socio", description = "É retornado uma lista de objetos Socio")
     public Response listAll() {
         try {

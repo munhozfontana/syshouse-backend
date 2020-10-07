@@ -14,7 +14,10 @@ import org.hibernate.ObjectNotFoundException;
 import org.systemrendas.domain.Socio;
 import org.systemrendas.dto.socio.SocioDTO;
 import org.systemrendas.dto.socio.SocioNewDTO;
+import org.systemrendas.dto.socio.SocioRelationshipsCountDTO;
 import org.systemrendas.dto.utils.Pagination;
+import org.systemrendas.repositories.ContatoRepository;
+import org.systemrendas.repositories.SocioPatrimonioRepository;
 import org.systemrendas.repositories.SocioRepository;
 
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
@@ -25,6 +28,12 @@ public class SocioService {
 
     @Inject
     SocioRepository repo;
+
+    @Inject
+    ContatoRepository contatoRepository;
+
+    @Inject
+    SocioPatrimonioRepository socioPatrimonioRepository;
 
     public Socio find(final UUID id) {
         final Optional<Socio> obj = repo.findByIdOptional(id);
@@ -41,6 +50,12 @@ public class SocioService {
         PanacheQuery<Socio> listPanache = repo.listAllPage(pegeable);
         List<SocioDTO> list = listPanache.list().stream().map(this::toDTO).collect(Collectors.toList());
         return new Pagination<>(list, listPanache.page().index, listPanache.page().size, listPanache.count());
+    }
+
+    public SocioRelationshipsCountDTO findRelationships(UUID iUuidSocio) {
+        long countContato = contatoRepository.count("socio_id", iUuidSocio);
+        long countsocioPatrimonio = socioPatrimonioRepository.count("socio_id", iUuidSocio);
+        return new SocioRelationshipsCountDTO(countContato, countsocioPatrimonio);
     }
 
     @Transactional

@@ -90,6 +90,13 @@ public class SocioResourceTest {
 
     @Test
     @Order(6)
+    public void testRelationships() {
+        requisicao().pathParam("id", idSocio).when().get(PATH_SOCIO + "/relationships" + "/{id}").then()
+                .statusCode(Response.Status.OK.getStatusCode()).body("contatoCount", CoreMatchers.equalTo(0));
+    }
+
+    @Test
+    @Order(6)
     public void testDelete() {
         requisicao().pathParam("id", idSocio).when().delete(PATH_SOCIO + "/{id}").then()
                 .statusCode(Response.Status.NO_CONTENT.getStatusCode());
